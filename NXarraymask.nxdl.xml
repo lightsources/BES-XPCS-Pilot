@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="nxdlformat.xsl" ?>
+<!--
+# NeXus - Neutron and X-ray Common Data Format
+# 
+# Copyright (C) 2008-2020 NeXus International Advisory Committee (NIAC)
+# 
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 3 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+# For further information, see http://www.nexusformat.org
+-->
+<definition xmlns="http://definition.nexusformat.org/nxdl/3.1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://definition.nexusformat.org/nxdl/3.1 ../nxdl.xsd"
+	name="NXarraymask"
+	category="contributed"
+	type="group"
+	extends="NXobject"
+	>
+	<!-- this is intended to become a base class -->
+
+	<symbols>
+		<doc>These symbols will be used below to coordinate dimensions with the same lengths.</doc>
+		<symbol name="n_masks"><doc>number of masks to be described</doc></symbol>
+		<symbol name="n1"><doc>length of first index of mask array</doc></symbol>
+		<symbol name="n2"><doc>length of second index of mask array</doc></symbol>
+	</symbols>
+
+	<doc>
+		Mask or region of interest referencing some portion of a NXData described by a mask array.
+	</doc>
+	<field name="usage">
+		<doc>
+			How this mask is used. Choices are limited to the following.
+
+			* ``Unionable`` :  logical OR
+			* ``Intersectable`` :  logical AND
+			* ``Selective`` : Selects a region of interest.
+			  No binary logic should be applied.
+		</doc>
+		<enumeration>
+			<item value="Unionable" />
+			<item value="Intersectable" />
+			<item value="Selective" />
+		</enumeration>
+	</field>
+	<field name="mask" type="NX_INT" units="NX_DIMENSIONLESS">
+		<doc>
+			The mask array.
+
+			This is a collection of 2D masks, each a labeled array, 
+			with each value representing a unique component. 
+
+			A value of ``0`` (zero) represents inaction. 
+			In the context of a mask, this means the pixel is 
+			included (not masked).  
+			
+			A non-zero value represents action (mask the pixel).
+			
+			Each unique non-zero value represents a separate region of interest.
+		</doc>
+		<dimensions rank="3">
+			<dim index="1" value="n_masks"/>
+			<dim index="2" value="n1"/>
+			<dim index="3" value="n2"/>
+		</dimensions>
+	</field>
+	<link name="data_link" target="/NXentry/NXdata">
+		<doc>
+			NeXus link to the data to which this mask is relevant.
+		</doc>
+	</link>
+	<group name="annotation" type="NXnote">
+		<doc>
+			A description of the mask.
+		</doc>
+	</group>
+</definition>
