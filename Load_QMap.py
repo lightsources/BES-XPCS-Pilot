@@ -103,9 +103,10 @@ def main():
     nexus_file = os.path.join(fn_dir, NEXUSFILE)
     timestamp = datetime.datetime.now().isoformat(sep=" ", timespec="seconds")
     logger.info(f'write NeXus file: {NEXUSFILE}')
+
+    ###### make the file ######
     with h5py.File(nexus_file, "w") as nx:
-        # point to the default data to be plotted
-        nx.attrs['default']          = 'entry'
+        ###### optional header metadata ######
         # give the HDF5 root some more attributes
         nx.attrs['file_name']        = nexus_file
         nx.attrs['file_time']        = timestamp
@@ -114,31 +115,44 @@ def main():
         nx.attrs['HDF5_Version']     = h5py.version.hdf5_version
         nx.attrs['h5py_version']     = h5py.version.version
 
-        # create the NXentry group
+        ###### create the NXentry group ######
+        nx.attrs['default'] = 'entry' # point to this group for default plot
         nxentry = nx.create_group('entry')
         nxentry.attrs['NX_class'] = 'NXentry'
-        nxentry.attrs['default'] = 'data'
         nxentry.create_dataset('title', data=DATAFILE)     # TODO: better choice?
 
-        # create the NXentry group
+        ###### create the NXdata group ######
+        nxentry.attrs['default'] = 'data'   # point to this group for default plot
         nxdata = nxentry.create_group('data')
         nxdata.attrs['NX_class'] = 'NXdata'
-        nxdata.attrs['signal'] = 'image'      # Y axis of default plot
 
-        # signal data
-        ds = nxdata.create_dataset('image', data=[0,1,2,3,4,5,6,7], compression='gzip', compression_opts=9) # FIXME: use actual image data
-        ds.attrs['units'] = 'scale'
-        ds.attrs['long_name'] = 'FIXME: XPCS image data'    # suggested Y axis plot label
-        ds.attrs['target'] = ds.name    # for the NeXus link
+        ###### signal data ######
+        nxdata.attrs['signal'] = 'image'      # local name of signal data
+        signal = nxdata.create_dataset(
+          'image', 
+          data=[0,1,2,3,4,5,6,7],  # FIXME: use actual image data
+          compression='gzip', 
+          compression_opts=9)
+        signal.attrs['units'] = 'scale'
+        signal.attrs['long_name'] = 'FIXME: XPCS image data'    # suggested Y axis plot label
 
+        ###### define the mask(s) in NXarraymask group ######
         nxmask = nxdata.create_group('mask')
         nxmask.attrs['NX_class'] = 'NXarraymask'
         nxmask.create_dataset('usage', data="Intersectable")   # TODO: check this
-        nxmask.create_dataset('mask', data=mask, compression='gzip', compression_opts=5)
-        nxmask["data_link"] = nx[ds.name]
+        nxmask.create_dataset(
+          'mask', 
+          data=mask, 
+          compression='gzip', 
+          compression_opts=5)   # compresses about 1000x!
+        nxmask["data_link"] = nx[signal.name]   # make the hard link
+        signal.attrs['target'] = signal.name        # required by NeXus
 
+        ###### mask-related annotations in NXnote group ######
         nxnote = nxmask.create_group('annotation')
         nxnote.attrs['NX_class'] = 'NXnote'
+        # writing generic metadata here for demonstration only
+        # TODO: move this md to other places in the NeXus structure
         for k, v in md.items():
             nxnote.create_dataset(k, data=v)
 
