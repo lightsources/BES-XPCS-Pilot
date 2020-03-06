@@ -76,4 +76,39 @@ two ways:
 
 Way 1 is for non-overlapping ROIs, while way 2 allows for the 
 possibility that a pixel may be included in more than one ROI.
+
+
+mask
+
+1	1	4	4
+1	0	0	4
+2	0	0	3
+2	2	3	3
+
+
+Four ROIs
+
+26	29	-	-
+72	-	-	-
+-	-	-	-
+-	-	-	-
+
+
+-	-	-	-
+-	-	-	-
+212	-	-	-
+102	222	-	-
+
+
+-	-	-	-
+-	-	-	-
+-	-	-	49
+-	-	27	77
+
+
+-	-	212	24
+-	-	-	104
+-	-	-	-
+-	-	-	-
+
 ```
