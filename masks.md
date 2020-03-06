@@ -37,8 +37,9 @@ Alternatively, a mask may be described by procedure
 (such as *divide this rectangle into four
 equal-size regions*).
 
-To illustrate, we first create an image array (this one is a 4x4 array
-of random numbers between 0 and 255):
+To illustrate, we first create an image array 
+(this array has shape (4,4) and is filled with
+random numbers between 0 and 255):
 
 ```
 26	29	212	24
