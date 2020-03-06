@@ -1,0 +1,86 @@
+
+!!! WARNING: this program is not ready for distribution.
+
+/mnt/host_c_drive/Users/Pete/Documents/projects/xpcs-nexus-8idi/NeXus_file.hdf : NeXus data file
+  @HDF5_Version = 1.10.4
+  @creator = /mnt/host_c_drive/Users/Pete/Desktop/2020-03-04 XPCS NeXus/Load_QMap.py
+  @default = entry
+  @file_name = /mnt/host_c_drive/Users/Pete/Desktop/2020-03-04 XPCS NeXus/NeXus_file.hdf
+  @file_time = 2020-03-05 00:37:15
+  @h5py_version = 2.10.0
+  @instrument = APS XPCS at 8-ID-I
+  entry:NXentry
+    @NX_class = NXentry
+    @default = data
+    title:NX_CHAR = B009_Aerogel_1mm_025C_att1_Lq0_001_0001-10000.hdf
+    data:NXdata
+      @NX_class = NXdata
+      @signal = image
+      image:NX_INT64[8] = [0, 1, 2, '...', 7]
+        @long_name = FIXME: XPCS image data
+        @target = /entry/data/image
+        @units = scale
+      mask:NXarraymask
+        @NX_class = NXarraymask
+        data_link --> /entry/data/image
+        mask:NX_FLOAT64[27,516,1556] = __array
+          __array = [
+              [
+                  [0.0, 0.0, 0.0, '...', 0.0]
+                  [0.0, 0.0, 0.0, '...', 0.0]
+                  [0.0, 0.0, 0.0, '...', 0.0]
+                  ...
+                  [0.0, 0.0, 0.0, '...', 0.0]
+                ]
+              [
+                  [0.0, 0.0, 0.0, '...', 0.0]
+                  [0.0, 0.0, 0.0, '...', 0.0]
+                  [0.0, 0.0, 0.0, '...', 0.0]
+                  ...
+                  [0.0, 0.0, 0.0, '...', 0.0]
+                ]
+              [
+                  [0.0, 0.0, 0.0, '...', 0.0]
+                  [0.0, 0.0, 0.0, '...', 0.0]
+                  [0.0, 0.0, 0.0, '...', 0.0]
+                  ...
+                  [0.0, 0.0, 0.0, '...', 0.0]
+                ]
+              ...
+              [
+                  [0.0, 0.0, 0.0, '...', 0.0]
+                  [0.0, 0.0, 0.0, '...', 0.0]
+                  [0.0, 0.0, 0.0, '...', 0.0]
+                  ...
+                  [0.0, 0.0, 0.0, '...', 0.0]
+                ]
+            ]
+        usage:NX_CHAR = Intersectable
+        annotation:NXnote
+          @NX_class = NXnote
+          adu_per_photon:NX_FLOAT64 = 1.0
+          data_folder:NX_CHAR = B009_Aerogel_1mm_025C_att1_Lq0_001/
+          datafilename:NX_CHAR = B009_Aerogel_1mm_025C_att1_Lq0_001_00001-10000.imm
+          distance:NX_FLOAT64 = 3930.0
+          end_time:NX_CHAR = Tue Feb 18 15:30:45 2020
+          exposure_period:NX_FLOAT64 = 0.0005
+          exposure_time:NX_FLOAT64 = 0.0005
+          file_name:NX_CHAR = B009_Aerogel_1mm_025C_att1_Lq0_001_0001-10000.hdf
+          gain:NX_UINT32 = 1
+          geometry:NX_CHAR = TRANSMISSION
+          manufacturer:NX_CHAR = LAMBDA
+          parent_folder:NX_CHAR = russell202002
+          root_folder:NX_CHAR = /data/2020-1/russell202002/
+          sigma:NX_FLOAT64 = 0.0
+          specfile:NX_CHAR = russell20200218
+          start_time:NX_CHAR = Tue Feb 18 15:30:30 2020
+          x_binning:NX_UINT32 = 1
+          x_dimension:NX_UINT32 = 1556
+          x_pixel_size:NX_FLOAT64 = 0.055
+          xpcs-Version:NX_CHAR = 1.0
+          xpcs-analysis_type:NX_CHAR = Multitau
+          xpcs-input_file_local:NX_CHAR = B009_Aerogel_1mm_025C_att1_Lq0_001_00001-10000.imm
+          xpcs-normalization_method:NX_CHAR = TRANSMITTED
+          y_binning:NX_UINT32 = 1
+          y_dimension:NX_UINT32 = 516
+          y_pixel_size:NX_FLOAT64 = 0.055
