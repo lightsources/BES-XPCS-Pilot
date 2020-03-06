@@ -56,7 +56,8 @@ values (where a zero means keep this pixel and a one
 means discard this pixel).  The boolean mask array is 
 the same shape as the image array.
 
-Mask *out* (remove) the pixels in the upper left quadrant:
+Mask *out* (remove) the pixels in the upper left quadrant (assign 1 to the masked pixels, 
+0 to the others, same shape as `image`):
 
 ```
 1	1	0	0
@@ -91,7 +92,9 @@ each bit has a certain meaning (pixel is: dead, noisy,
 over responding, no sensor, ...).  Since this is a 
 bit mask, multiple meanings may be added together.
 
-As an example, let's define a `pixel_mask` that excludes the corner pixels with bit 0 (as if there is no sensor), a noisy pixel with 4, and one dead pixel with bit 1.
+As an example, let's define a `pixel_mask` that excludes the corner pixels with bit 0 (as if there is no sensor), a noisy pixel with bit 4, and one dead pixel with bit 1.
+
+*Note: bit n has a value of 2^n. Add up all these to get the value of the mask pixel.*
 
 ```
 1	0	0	1
