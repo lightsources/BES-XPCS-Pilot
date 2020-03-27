@@ -80,13 +80,20 @@ def compute_mask(dqmap):
     """
     build the masks
     """
-    mask = np.zeros([np.max(dqmap), dqmap.shape[0], dqmap.shape[1]])
+    number_of_masks = dqmap.max()
+    if dqmap.min() == 0:
+        number_of_masks += 1
 
-    for ii in np.arange(np.max(dqmap)):
-        logger.debug('defining mask %d', ii)
-        mask[ii, :, :] = np.where(dqmap == ii, 1, 0)
+    # encode these strings for HDF
+    mask_names = [
+        f"mask_{ii}".encode() 
+        for ii in range(number_of_masks)
+    ]
 
-    return mask
+    # dqmap is already in the format of a Selective mask
+    mask = np.array(dqmap)
+
+    return mask, mask_names
 
 
 def plot_qmap(dqmap, mask):
@@ -107,13 +114,14 @@ def plot_qmap(dqmap, mask):
     ###### plot the masks to PDF file ######
     logger.info('plot mask to file: tmp.pdf')
     fig, ax = plt.subplots(1, 1, figsize=(15, 10))
-    im = ax.imshow(mask[10, :, :], cmap='gray', interpolation='none')
+    mask_10 = np.where(mask == 10, 1, 0)
+    im = ax.imshow(mask_10, cmap='gray', interpolation='none')
     fig.colorbar(im, ax=ax)
     plt.rc('font', size=20)
     plt.savefig('tmp.pdf', dpi=100, format='pdf', facecolor='w', edgecolor='w', transparent=False)
 
 
-def write_nexus_file(dqmap, mask, md):
+def write_nexus_file(mask, mask_names, md):
     """
     write the NeXus data file
     """
@@ -156,7 +164,9 @@ def write_nexus_file(dqmap, mask, md):
         ###### define the mask(s) in NXarraymask group ######
         nxmask = nxdata.create_group('mask')
         nxmask.attrs['NX_class'] = 'NXarraymask'
-        nxmask.create_dataset('usage', data="Intersectable")   # TODO: check this
+        nxmask.create_dataset('usage', data="Selective")   # TODO: check this
+        # mask_names is not in the NXDL, that's OK
+        nxmask.create_dataset('mask_names', data=mask_names)
         nxmask.create_dataset(
             'mask',
             data=mask,
@@ -182,9 +192,9 @@ def main():
     full_filename = os.path.join(fn_dir, DATAFILE)
 
     dqmap, md = read_qmap_file(full_filename)
-    mask = compute_mask(dqmap)
+    mask, mask_names = compute_mask(dqmap)
     plot_qmap(dqmap, mask)
-    write_nexus_file(dqmap, mask, md)
+    write_nexus_file(mask, mask_names, md)
 
 
 if __name__ == "__main__":

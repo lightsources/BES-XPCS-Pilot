@@ -78,38 +78,50 @@
 			NeXus link to the data to which this mask is relevant.
 		</doc>
 	</link>
-	<group name="parameters" type="NXparameters">
+	<field name="usage">
 		<doc>
-			The set of parameters relevant to a mask procedure.
-
-			Specifications for individual types are::
-
-
-				RectROI:NXparameterizedmask
-					parameters:NXparameters
-						type = “Rectangular”
-						x_min: NX_INT
-						y_min: NX_INT
-						x_max: NX_INT
-						y_max: NX_INT
-
-				...
-
-
-			Type of procedural definition. May be one of:
-
-			* Reciprocal_Space_q
-			* Miller Indices
-			* Rectangular
-			* Circular
-			* Annular
-			* Annular_Arc
-			* Polygon
-			* Range
-			* (...?)
-
+			Type of procedural definition. 
 		</doc>
-	</group>
+		<enumeration>
+			<item value="Reciprocal_Space_q" />
+			<item value="Miller Indices" />
+			<item value="Rectangular" />
+			<item value="Circular" />
+			<item value="Annular" />
+			<item value="Annular_Arc" />
+			<item value="Polygon" />
+			<item value="Range" />
+			<!-- other ?-->
+		</enumeration>
+	</field>
+	<field name="x_min" type="NX_INT">
+		<doc>
+			Index of first pixel along x () axis.
+
+			Used with ``type="Rectangular"`` mask.
+		</doc>
+	</field>
+	<field name="x_max" type="NX_INT">
+		<doc>
+			Index of last pixel along x () axis.
+
+			Used with ``type="Rectangular"`` mask.
+		</doc>
+	</field>
+	<field name="y_min" type="NX_INT">
+		<doc>
+			Index of first pixel along y () axis.
+
+			Used with ``type="Rectangular"`` mask.
+		</doc>
+	</field>
+	<field name="y_max" type="NX_INT">
+		<doc>
+			Index of last pixel along y () axis.
+
+			Used with ``type="Rectangular"`` mask.
+		</doc>
+	</field>
 	<group name="annotation" type="NXnote">
 		<doc>
 			A description of the mask.
