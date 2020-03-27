@@ -1,4 +1,0 @@
-
-This is a test for git push to branch 'QZ'
-
-[Laissez les Bon Temps Rouler!](https://en.wikipedia.org/wiki/Laissez_les_bons_temps_rouler)
