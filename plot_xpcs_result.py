@@ -11,31 +11,7 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 import numpy as np
 
-
-def read_results(full_filename):
-    """
-    Read HDF file, return results
-    """
-    with h5py.File(full_filename, 'r') as f:
-        Iq = f.get('/exchange/partition-mean-total')[()]
-        ql_sta = np.squeeze(f.get('/xpcs/sqlist')[()])
-        ql_dyn = np.squeeze(f.get('/xpcs/dqlist')[()])
-        t0 = np.squeeze(f.get('/measurement/instrument/detector/exposure_period')[()])
-        t_el = t0*np.squeeze(f.get('/exchange/tau')[()])
-        g2 = f.get('/exchange/norm-0-g2')[()]
-        g2_err = f.get('/exchange/norm-0-stderr')[()]
-        Int_2D = f.get('/exchange/pixelSum')[()]
-
-        return dict(
-            Iq=Iq,
-            ql_sta=ql_sta,
-            ql_dyn=ql_dyn,
-            t0=t0,
-            t_el=t_el,
-            g2=g2,
-            g2_err=g2_err,
-            Int_2D=Int_2D,
-        )
+import loaders
 
 
 def plot_g2(xpcs):
@@ -124,7 +100,7 @@ def main():
         os.path.dirname(__file__),
         f'B009_Aerogel_1mm_025C_att1_Lq0_001_0001-10000.hdf'
     )
-    xpcs = read_results(full_filename)
+    xpcs = loaders.read_xpcs_results(full_filename)
 
     plt.rc('font', size=20)
     plot_g2(xpcs)
