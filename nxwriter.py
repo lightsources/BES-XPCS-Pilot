@@ -19,7 +19,7 @@ import h5py
 import numpy as np
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+# logger.setLevel(logging.DEBUG)
 
 A_KEV = 12.3984244  # voltage * wavelength product
 NX_EXTENSION = ".nxs"   # .nxs is known by PyMCA, .nx is not (use generic filter then)
@@ -159,7 +159,7 @@ def store_saxs_1d(h5parent, xpcs, md, *args):
     Here we write the minimum required.
     """
     group = h5parent.create_group('SAXS_1D')
-    group.attrs['NX_class'] = 'NXcanSAS'  # TODO: or NXsubentry
+    group.attrs['NX_class'] = 'NXsubentry'
     group.attrs['canSAS_class'] = 'SASentry'
     group.create_dataset('definition', data="NXcanSAS")
 
@@ -199,7 +199,7 @@ def store_saxs_2d(h5parent, xpcs, md, mask, *args):
     Here we write the minimum required.
     """
     group = h5parent.create_group('SAXS_2D')
-    group.attrs['NX_class'] = 'NXcanSAS'  # TODO: or NXsubentry
+    group.attrs['NX_class'] = 'NXsubentry'
     group.attrs['canSAS_class'] = 'SASentry'
     group.create_dataset('definition', data="NXcanSAS")
 
@@ -242,14 +242,14 @@ def store_xpcs(h5parent, xpcs, md, mask, mask_names):
     """
     write the XPCS data
 
-    see: definition not created yet
+    see: XPCS definition not created yet
     """
     group = h5parent.create_group('XPCS')
-    group.attrs['NX_class'] = 'NXsubentry'  # TODO: or NXsubentry
-    group.create_dataset('definition', data="NXxpcs")   # TODO: name of new structure?
+    group.attrs['NX_class'] = 'NXsubentry'  # no XPCS-specific NXDL yet
 
-    group["run"] = group["/entry/title"]   # use the entry group's title
-    group.create_dataset('title', data="XPCS results")
+    group["title"] = group["/entry/title"]   # use the entry group's title
+    # TODO: group.create_dataset('definition', data="NXxpcs")
+    group.create_dataset('experiment_description', data="XPCS results")
 
     ###### create the NXdata group ######
     nxdata = group.create_group('data')
@@ -257,23 +257,45 @@ def store_xpcs(h5parent, xpcs, md, mask, mask_names):
     nxdata.attrs['target'] = nxdata.name    # for NeXus link
     group.attrs["default"] = "data"    # for NeXus default plot
     
-    ###### signal data ######
-    nxdata.attrs['signal'] = 'image'      # local name of signal data
-    # I believe a 3D array should suffice. The three dimensions are Q, phi and delay time.
     for k, v in xpcs.items():
         logger.debug("%s, shape=%s, dtype=%s", k, str(v.shape), str(v.dtype))
+
+    ###### signal data ######
+    # QZ: I believe a 3D array should suffice.
+    #   The three dimensions are Q, phi and delay time.
+    # PJ: we don't have phi now, show how to write for 2D array
+    nxdata.attrs['signal'] = 'g2'      # local name of signal data
+    nxdata.attrs['axes'] = 't_el:ql_dyn'
     signal = nxdata.create_dataset(
-        'image',
-        data=list(range(8)),  # FIXME: use actual image data
+        'g2',
+        data=xpcs["g2"],
         compression='gzip',
         compression_opts=9)
     signal.attrs['units'] = 'scale'
-    signal.attrs['long_name'] = 'FIXME: XPCS image data'    # suggested Y axis plot label
+    signal.attrs['long_name'] = 'XPCS g2(t, Q)'    # suggested Y axis plot label
+    ds = nxdata.create_dataset(
+        'g2_errors',
+        data=xpcs["g2_err"],
+        compression='gzip',
+        compression_opts=9)
+    ds.attrs['units'] = 'scale'
+    ds = nxdata.create_dataset(
+        't_el',
+        data=xpcs["t_el"],
+        compression='gzip',
+        compression_opts=9)
+    ds.attrs['units'] = 's'
+    ds = nxdata.create_dataset(
+        'ql_dyn',
+        data=xpcs["ql_dyn"],
+        compression='gzip',
+        compression_opts=9)
+    ds.attrs['units'] = '1/angstrom'
 
     ###### define the mask(s) in NXarraymask group ######
     nxmask = nxdata.create_group('mask')
     nxmask.attrs['NX_class'] = 'NXarraymask'
-    nxmask.create_dataset('usage', data="Selective")   # TODO: check this
+    nxmask.create_dataset('usage', data="Selective")
     # mask_names is not in the NXDL, that's OK
     nxmask.create_dataset('mask_names', data=mask_names)
     nxmask.create_dataset(
