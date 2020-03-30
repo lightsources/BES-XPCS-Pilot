@@ -12,88 +12,13 @@ import h5py
 import matplotlib.pyplot as plt
 import numpy as np
 
+import loaders
+
 DATAFILE = 'B009_Aerogel_1mm_025C_att1_Lq0_001_0001-10000.hdf'
 NEXUSFILE = 'NeXus_file.hdf'
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-
-def read_qmap_file(full_filename):
-    """
-    reads the QMap file, returns `dqmap` and `md` dictionary
-    """
-
-    def get_key(key):
-        v = result[key][()]
-        if isinstance(v, bytes):
-            # convert b'string' to 'string'
-            v = v.decode()
-        return v
-
-    md = {}
-    with h5py.File(full_filename, 'r') as result:
-        dqmap = np.squeeze(result.get('/xpcs/dqmap')[()])
-        md["file_name"] = DATAFILE
-        md["start_time"] = get_key("/measurement/instrument/source_begin/datetime")
-        md["end_time"] = get_key("/measurement/instrument/source_end/datetime")
-        for key in """
-                data_folder
-                datafilename
-                parent_folder
-                root_folder
-                specfile
-                """.split():
-            md[key] = get_key(f"/measurement/instrument/acquisition/{key}")
-        for key in """
-                manufacturer
-                geometry
-                """.split():
-            md[key] = get_key(f"/measurement/instrument/detector/{key}")
-        for key in """
-                adu_per_photon
-                distance
-                exposure_time
-                exposure_period
-                gain
-                sigma
-                x_binning
-                x_dimension
-                x_pixel_size
-                y_binning
-                y_dimension
-                y_pixel_size""".split():
-            # these are from number arrays of length 1
-            md[key] = result[f"/measurement/instrument/detector/{key}"][()][0]
-        for key in """
-                Version
-                analysis_type
-                input_file_local
-                normalization_method
-                """.split():
-            md[f"xpcs-{key}"] = get_key(f"/xpcs/{key}")
-
-    return dqmap, md
-
-
-def compute_mask(dqmap):
-    """
-    build the masks
-    """
-    number_of_masks = dqmap.max()
-    if dqmap.min() == 0:
-        number_of_masks += 1
-
-    # encode these strings for HDF
-    mask_names = [
-        f"mask_{ii}".encode() 
-        for ii in range(number_of_masks)
-    ]
-
-    # dqmap is already in the format of a Selective mask
-    mask = np.array(dqmap)
-
-    return mask, mask_names
 
 
 def plot_qmap(dqmap, mask):
@@ -123,7 +48,7 @@ def plot_qmap(dqmap, mask):
 
 def write_nexus_file(mask, mask_names, md):
     """
-    write the NeXus data file
+    demonstration: write a NeXus data file
     """
     fn_dir = os.path.dirname(__file__)
     nexus_file = os.path.join(fn_dir, NEXUSFILE)
@@ -191,8 +116,9 @@ def main():
     fn_dir = os.path.dirname(__file__)
     full_filename = os.path.join(fn_dir, DATAFILE)
 
-    dqmap, md = read_qmap_file(full_filename)
-    mask, mask_names = compute_mask(dqmap)
+    dqmap = loaders.read_qmap(full_filename)
+    md = loaders.read_metadata(full_filename)
+    mask, mask_names = loaders.compute_mask(dqmap)
     plot_qmap(dqmap, mask)
     write_nexus_file(mask, mask_names, md)
 
