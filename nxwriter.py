@@ -78,8 +78,9 @@ def create_instrument_group(h5parent, md):
     nxsource.attrs['canSAS_class'] = 'SASsource'
     nxsource.attrs['target'] = nxsource.name
     nxsource.create_dataset('name', data="Advanced Photon Source")
-    nxsource.create_dataset('type', data="Synchrotron X-ray Source")
     nxsource.create_dataset('probe', data="x-ray")
+    ds = nxsource.create_dataset('type', data="Synchrotron X-ray Source")
+    ds.attrs["target"] = ds.name              # for NeXus link
 
     def to_iso(timestring):
         """
@@ -97,18 +98,33 @@ def create_instrument_group(h5parent, md):
 
     ds = nxsource.create_dataset('current_start', data=md["current_start"])
     ds.attrs['units'] = 'mA'
+    ds.attrs['target'] = ds.name
     ds = nxsource.create_dataset('current_end', data=md["current_end"])
     ds.attrs['units'] = 'mA'
+    ds.attrs['target'] = ds.name
     nxsource["current"] = nxsource["current_start"]
-    nxsource["current"].attrs["target"] = nxsource["current_start"].name
 
     # energy & wavelength are stored here
     nxmono = nxinstrument.create_group('monochromator')
     nxmono.attrs['NX_class'] = 'NXmonochromator'
     ds = nxmono.create_dataset('energy', data=md["energy"])
     ds.attrs['units'] = 'keV'
+    ds.attrs["target"] = ds.name              # for NeXus link
     ds = nxmono.create_dataset('wavelength', data=A_KEV/md["energy"])
     ds.attrs['units'] = 'angstrom'
+    ds.attrs["target"] = ds.name              # for NeXus link
+
+    # NXcanSAS _requires_ a dataset called "radiation" in its NXsource
+    # that takes the same values as "type _or_ "probe" in NXsource.
+    # Here, we link radiation -> type
+    nxsource["radiation"] = nxsource["type"]  # NeXus link to canSAS synonym
+
+    # NXcanSAS says "incident_wavelength" is optional in the NXsource group
+    # Here, we link to where wavelength has been given elsewhere
+    # When we give an absolute HDF5 address, 
+    # we can use any group as the parent
+    wavelength = nxsource["/entry/instrument/monochromator/wavelength"]
+    nxsource["incident_wavelength"] = wavelength
 
     return nxinstrument
 
