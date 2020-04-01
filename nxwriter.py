@@ -261,10 +261,10 @@ def store_xpcs(h5parent, xpcs, md, mask, mask_names):
     see: XPCS definition not created yet
     """
     group = h5parent.create_group('XPCS')
-    group.attrs['NX_class'] = 'NXsubentry'  # no XPCS-specific NXDL yet
+    group.attrs['NX_class'] = 'NXprocess'  # no XPCS-specific NXDL yet
+    # see: https://manual.nexusformat.org/classes/base_classes/NXprocess.html
 
     group["title"] = group["/entry/title"]   # use the entry group's title
-    # TODO: group.create_dataset('definition', data="NXxpcs")
     group.create_dataset('experiment_description', data="XPCS results")
 
     ###### create the NXdata group ######
