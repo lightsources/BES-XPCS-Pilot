@@ -33,15 +33,15 @@ def q_based_mask_names(q_array):
     return list(map(formatter, q_array))
 
 
-def main():
+def process_data_file(data_file, nx_file=None):
     """
     read the QMap file, make plots, write the NeXus file
     """
-    data_file = loaders.DATAFILE
-    nx_file = os.path.splitext(data_file)[0] + nxwriter.NX_EXTENSION
-    if data_file == nx_file:
+    if data_file.endswith(nxwriter.NX_EXTENSION):
         raise ValueError(
-            f"Data file must not end with '{nxwriter.NX_EXTENSION}''")
+            f"Data file must not end with '{nxwriter.NX_EXTENSION}'")
+
+    nx_file = nx_file or os.path.splitext(data_file)[0] + nxwriter.NX_EXTENSION
 
     path = os.path.dirname(__file__)
     logger.debug("data file path: %s", path)
@@ -70,4 +70,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    process_data_file(loaders.DATAFILE)
