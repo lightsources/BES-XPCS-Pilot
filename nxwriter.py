@@ -254,7 +254,7 @@ def store_saxs_2d(h5parent, xpcs, md, mask, *args):
     return group
 
 
-def store_xpcs(h5parent, xpcs, md, mask, mask_names):
+def store_xpcs(h5parent, xpcs, md, mask, rois):
     """
     write the XPCS data
 
@@ -309,7 +309,10 @@ def store_xpcs(h5parent, xpcs, md, mask, mask_names):
     ds.attrs['units'] = '1/angstrom'
 
     ###### define the mask(s) in NXarraymask group ######
-    nxmask = nxdata.create_group('mask')
+    masks = nxdata.create_group('masks')
+    masks.attrs['NX_class'] = 'NXnote'  # TODO: what class is this?
+
+    nxmask = masks.create_group('mask')
     nxmask.attrs['NX_class'] = 'NXarraymask'
     nxmask.create_dataset('usage', data="Selective")
     # mask_names is not in the NXDL, that's OK
@@ -319,6 +322,18 @@ def store_xpcs(h5parent, xpcs, md, mask, mask_names):
         data=mask,
         compression='gzip',
         compression_opts=5)   # compresses about 1000x!
+
+    rois = nxdata.create_group('rois')
+    rois.attrs['NX_class'] = 'NXnote'  # TODO: what class is this?
+
+    for roi in rois:
+        roi_group = rois.create_group('roi_1')
+        roi_group.attrs['NX_class'] = 'NXparameterizedmask'
+        roi_group.attrs['data_link'] = ''  # TODO: get nexus path to raw data
+        roi_group.attrs['usage'] = 'selective'
+        roi_group.attrs.update(roi)
+        roi_group.attrs['annotation'] = f"A {roi.pop('type')} roi with parameters: {str(roi)}"
+
     nxmask["data_link"] = nxmask[signal.name]   # NeXus hard link
     signal.attrs['target'] = signal.name    # required by NeXus
 
@@ -341,7 +356,7 @@ def write_metadata(parent, md):
     return nxnote
 
 
-def write_nx_file(nx_file, xpcs, qmap, mask, mask_names, md):
+def write_nx_file(nx_file, xpcs, qmap, mask, mask_names, rois, md):
     """
     write the NeXus data file
     """
@@ -357,7 +372,7 @@ def write_nx_file(nx_file, xpcs, qmap, mask, mask_names, md):
 
         nxsaxs1d = store_saxs_1d(nxentry, xpcs, md)
         nxsaxs2d = store_saxs_2d(nxentry, xpcs, md, mask)
-        nxxpcs = store_xpcs(nxentry, xpcs, md, mask, mask_names)
+        nxxpcs = store_xpcs(nxentry, xpcs, md, mask, mask_names, rois)
 
         # use XPCS/data as the default /entry/data for default plot
         nxentry["data"] = nxxpcs["data"]    # HDF5 hard link
