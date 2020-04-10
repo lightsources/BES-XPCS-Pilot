@@ -33,6 +33,32 @@ def q_based_mask_names(q_array):
     return list(map(formatter, q_array))
 
 
+def q_ranges_from_roi_array(q_array: np.ndarray) -> List[Tuple[float]]:
+    """
+    Takes a labeled roi array composed of many q-ring rois and extracts each roi's range.
+
+    Parameters
+    ----------
+    q_array : np.ndarray
+        A labeled roi array composed of many q-ring rois
+
+    Returns
+    -------
+    List[Tuple[float]]
+        The range of each ring roi.
+
+    """
+
+    unique_levels = np.unique(q_array)
+    return list(zip(unique_levels, unique_levels[1:]))
+
+
+def q_ring_roi(q_min, q_max):
+    return {"type": "q Ring ROI",
+            "q_min": q_min,
+            "q_max": q_max}
+
+
 def process_data_file(data_file, nx_file=None):
     """
     read the QMap file, make plots, write the NeXus file
@@ -60,13 +86,20 @@ def process_data_file(data_file, nx_file=None):
     logger.debug("XPCS data keys: %s", str(xpcs.keys()))
 
     mask, mask_names = loaders.compute_mask(qmap)
+
     # replace the generic names with Q-based names
     mask_names = q_based_mask_names(xpcs["ql_dyn"])
+
+    # build procedural roi's
+    # TODO: its only a bit silly to have to regenerate the q-ring-rois' procedural form, when they are constructed
+    #       procedurally, but it illustrates the NeXus structure. Consider changing this upstream later.
+    rois = map(lambda q_range: q_ring_roi(*q_range), q_ranges_from_roi_array(xpcs["ql_dyn"]))
+
     logger.debug(
         "mask names: %s", 
         str([s.decode() for s in mask_names]))
 
-    nxwriter.write_nx_file(nx_file, xpcs, qmap, mask, mask_names, md)
+    nxwriter.write_nx_file(nx_file, xpcs, qmap, mask, mask_names, rois, md)
 
 
 if __name__ == "__main__":
