@@ -254,7 +254,7 @@ def store_saxs_2d(h5parent, xpcs, md, mask, *args):
     return group
 
 
-def store_xpcs(h5parent, xpcs, md, mask, rois):
+def store_xpcs(h5parent, xpcs, md, mask, mask_names, rois):
     """
     write the XPCS data
 
