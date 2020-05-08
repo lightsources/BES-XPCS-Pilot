@@ -327,7 +327,7 @@ def store_xpcs(h5parent, xpcs, md, mask, mask_names, rois):
     rois.attrs['NX_class'] = 'NXnote'  # TODO: what class is this?
 
     for i, roi in enumerate(rois):
-        roi_group = rois.create_group(f'roi_{i}')
+        roi_group = rois.create_group(f'roi_{i+1}')
         roi_group.attrs['NX_class'] = 'NXparameterizedmask'
         roi_group.attrs['data_link'] = ''  # TODO: get nexus path to raw data
         roi_group.attrs['usage'] = 'selective'
