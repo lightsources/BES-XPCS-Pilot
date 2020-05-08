@@ -8,7 +8,9 @@ import logging
 import os
 
 import loaders
+import numpy as np
 import nxwriter
+from typing import Tuple, List
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
