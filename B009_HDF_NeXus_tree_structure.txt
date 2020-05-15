@@ -1,0 +1,160 @@
+
+!!! WARNING: this program is not ready for distribution.
+
+/home/prjemian/Documents/projects/xpcs-nexus-8idi/B009_Aerogel_1mm_025C_att1_Lq0_001_0001-10000.nxs : NeXus data file
+  entry:NXentry
+    data --> /entry/XPCS/data
+    title:NX_CHAR = B009_Aerogel_1mm_025C_att1_Lq0_001_00001-10000
+    SAXS_1D:NXsubentry
+      definition:NX_CHAR = NXcanSAS
+      instrument --> /entry/instrument
+      run --> /entry/title
+      sample --> /entry/sample
+      title:NX_CHAR = static 1D SAXS from XPCS data
+      data:NXdata
+        I:NX_FLOAT32[270] = [0.27429348, 0.34260944, 0.2445109, '...', 0.0057929275]
+        Q:NX_FLOAT64[270] = [0.0018367827869951725, 0.0018664192175492644, 0.0018906521145254374, '...', 0.06341172009706497]
+    SAXS_2D:NXsubentry
+      definition:NX_CHAR = NXcanSAS
+      instrument --> /entry/instrument
+      run --> /entry/title
+      sample --> /entry/sample
+      title:NX_CHAR = static 2D SAXS from XPCS data
+      data:NXdata
+        I:NX_FLOAT32[516,1556] = __array
+          __array = [
+              [0.0029529633, 0.0049402798, 0.006318577, '...', 0.0109847365]
+              [0.0043127504, 0.004439526, 0.005501271, '...', 0.004218236]
+              [0.008683259, 0.0066289976, 0.003876593, '...', 0.0056484076]
+              ...
+              [0.004690421, 0.0072740484, 0.0053803907, '...', 0.0039639533]
+            ]
+        mask:NX_INT64[516,1556] = __array
+          __array = [
+              [0, 0, 0, '...', 0]
+              [0, 0, 0, '...', 0]
+              [0, 0, 0, '...', 0]
+              ...
+              [0, 0, 0, '...', 0]
+            ]
+    XPCS:NXprocess
+      experiment_description:NX_CHAR = XPCS results
+      instrument --> /entry/instrument
+      sample --> /entry/sample
+      title --> /entry/title
+      data:NXdata
+        g2:NX_FLOAT32[48,27] = __array
+          __array = [
+              [1.0819204, 1.0800616, 1.0820546, '...', 1.0760294]
+              [1.0755104, 1.0831147, 1.0806627, '...', 1.0731463]
+              [1.0644063, 1.0821588, 1.0806998, '...', 1.0635216]
+              ...
+              [1.069988, 1.0826677, 1.0794952, '...', 1.0696733]
+            ]
+        g2_errors:NX_FLOAT32[48,27] = __array
+          __array = [
+              [0.0036693711, 0.002375674, 0.002061778, '...', 0.0054792156]
+              [0.0033555639, 0.0024808045, 0.0019240681, '...', 0.0055243066]
+              [0.0032981753, 0.0023929547, 0.0019457062, '...', 0.0055639185]
+              ...
+              [0.0, 0.0, 0.0, '...', 0.0002336111]
+            ]
+        ql_dyn:NX_FLOAT64[27] = [0.001999157015234232, 0.0022572078742086887, 0.0025530229322612286, '...', 0.058966439217329025]
+        t_el:NX_FLOAT32[48] = [0.0005, 0.001, 0.0015, '...', 4.096]
+        masks:NXnote
+          mask:NXarraymask
+            data_link --> /entry/XPCS/data/g2
+            mask:NX_UINT32[516,1556] = __array
+              __array = [
+                  [27, 27, 27, '...', 27]
+                  [27, 27, 27, '...', 27]
+                  [27, 27, 27, '...', 27]
+                  ...
+                  [27, 27, 27, '...', 27]
+                ]
+            mask_names:NX_CHAR[9] = Q=0.002
+            usage:NX_CHAR = Selective
+        rois:NXnote
+    instrument:NXinstrument
+      name:NX_CHAR = APS 8-ID-I XPCS
+      monochromator:NXmonochromator
+        energy:NX_FLOAT64 = 10.97
+        wavelength:NX_FLOAT64 = 1.1302118869644484
+      source:NXsource
+        current --> /entry/instrument/source/current_start
+        current_end:NX_FLOAT64 = 102.42381752160932
+        current_start:NX_FLOAT64 = 102.48305036160932
+        end_time:NX_CHAR = 2020-02-18T15:30:45
+        incident_wavelength --> /entry/instrument/monochromator/wavelength
+        name:NX_CHAR = Advanced Photon Source
+        probe:NX_CHAR = x-ray
+        radiation --> /entry/instrument/source/type
+        start_time:NX_CHAR = 2020-02-18T15:30:30
+        type:NX_CHAR = Synchrotron X-ray Source
+    metadata:NXnote
+      adu_per_photon:NX_FLOAT64 = 1.0
+      current_end:NX_FLOAT64 = 102.42381752160932
+      current_start:NX_FLOAT64 = 102.48305036160932
+      data_folder:NX_CHAR = B009_Aerogel_1mm_025C_att1_Lq0_001/
+      datafilename:NX_CHAR = B009_Aerogel_1mm_025C_att1_Lq0_001_00001-10000.imm
+      distance:NX_FLOAT64 = 3930.0
+      end_time:NX_CHAR = Tue Feb 18 15:30:45 2020
+      energy:NX_FLOAT64 = 10.97
+      exposure_period:NX_FLOAT64 = 0.0005
+      exposure_time:NX_FLOAT64 = 0.0005
+      file_name:NX_CHAR = B009_Aerogel_1mm_025C_att1_Lq0_001_0001-10000.hdf
+      gain:NX_UINT32 = 1
+      geometry:NX_CHAR = TRANSMISSION
+      manufacturer:NX_CHAR = LAMBDA
+      parent_folder:NX_CHAR = russell202002
+      root_folder:NX_CHAR = /data/2020-1/russell202002/
+      sample_orientation:NX_FLOAT64[1,3] = __array
+        __array = [
+            [0.0, 0.0, 0.0]
+          ]
+      sample_temperature_A:NX_FLOAT64 = 23.863000869750977
+      sample_temperature_A_set:NX_FLOAT64 = 25.0
+      sample_temperature_B:NX_FLOAT64 = 23.863000869750977
+      sample_temperature_B_set:NX_FLOAT64 = 25.0
+      sample_thickness:NX_FLOAT64 = 1.0
+      sample_translation:NX_FLOAT64[1,3] = __array
+        __array = [
+            [0.09999999999999998, 0.0, 0.0]
+          ]
+      sample_translation_table:NX_FLOAT64[1,3] = __array
+        __array = [
+            [0.0, 12.048664, -14.000230000000002]
+          ]
+      sigma:NX_FLOAT64 = 0.0
+      specfile:NX_CHAR = russell20200218
+      start_time:NX_CHAR = Tue Feb 18 15:30:30 2020
+      x_binning:NX_UINT32 = 1
+      x_dimension:NX_UINT32 = 1556
+      x_pixel_size:NX_FLOAT64 = 0.055
+      xpcs_Version:NX_CHAR = 1.0
+      xpcs_analysis_type:NX_CHAR = Multitau
+      xpcs_input_file_local:NX_CHAR = B009_Aerogel_1mm_025C_att1_Lq0_001_00001-10000.imm
+      xpcs_normalization_method:NX_CHAR = TRANSMITTED
+      y_binning:NX_UINT32 = 1
+      y_dimension:NX_UINT32 = 516
+      y_pixel_size:NX_FLOAT64 = 0.055
+    sample:NXsample
+      name --> /entry/title
+      orientation:NX_FLOAT64[1,3] = __array
+        __array = [
+            [0.0, 0.0, 0.0]
+          ]
+      temperature --> /entry/sample/temperature_A_set
+      temperature_A:NX_FLOAT64 = 23.863000869750977
+      temperature_A_set:NX_FLOAT64 = 25.0
+      temperature_B:NX_FLOAT64 = 23.863000869750977
+      temperature_B_set:NX_FLOAT64 = 25.0
+      thickness:NX_FLOAT64 = 1.0
+      translation:NX_FLOAT64[1,3] = __array
+        __array = [
+            [0.09999999999999998, 0.0, 0.0]
+          ]
+      translation_table:NX_FLOAT64[1,3] = __array
+        __array = [
+            [0.0, 12.048664, -14.000230000000002]
+          ]
