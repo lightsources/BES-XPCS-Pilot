@@ -90,14 +90,14 @@ def create_instrument_group(h5parent, md):
         """
         formats = [
             "%a %b %d %H:%M:%S %Y",     # Tue Feb 18 15:30:30 2020
-            "%a %d %b %Y %I:%M:%S %p",     # Tue 18 Feb 2020 03:30:30 PM
+            "%a %d %b %Y %I:%M:%S %p",  # Tue 18 Feb 2020 03:30:30 PM
         ]
         for source_format in formats:
             try:
                 dt = datetime.datetime.strptime(timestring, source_format)
                 return dt.isoformat()
             except ValueError:
-                continue
+                continue    # keep trying
         raise ValueError(f"could not parse date/time string: {timestring}")
 
     nxsource.create_dataset('start_time', data=to_iso(md["start_time"]))
