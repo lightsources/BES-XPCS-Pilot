@@ -341,7 +341,7 @@ def store_xpcs(h5parent, xpcs, md, mask, mask_names, rois):
         roi_group.attrs['annotation'] = (
             f"A {roi.pop('type')} roi" 
             f" with parameters: {str(roi)}")
-        # roi_group['data_link'] = ''  # TODO: HDF5/NeXus link to raw data group or field
+        # roi_group['data_link'] = h5parent["/address/to/raw/data"]  # TODO: HDF5/NeXus link to raw data group or field
 
     nxmask["data_link"] = nxmask[signal.name]   # NeXus hard link
     signal.attrs['target'] = signal.name    # required by NeXus
