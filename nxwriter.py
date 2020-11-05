@@ -336,12 +336,12 @@ def store_xpcs(h5parent, xpcs, md, mask, mask_names, rois):
     for i, roi in enumerate(rois):
         roi_group = rois.create_group(f'roi_{i+1}')
         roi_group.attrs['NX_class'] = 'NXparameterizedmask'
-        roi_group.attrs['data_link'] = ''  # TODO: get nexus path to raw data
         roi_group.attrs['usage'] = 'selective'
         roi_group.attrs.update(roi)
         roi_group.attrs['annotation'] = (
             f"A {roi.pop('type')} roi" 
             f" with parameters: {str(roi)}")
+        # roi_group['data_link'] = ''  # TODO: HDF5/NeXus link to raw data group or field
 
     nxmask["data_link"] = nxmask[signal.name]   # NeXus hard link
     signal.attrs['target'] = signal.name    # required by NeXus
