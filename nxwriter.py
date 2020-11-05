@@ -288,7 +288,7 @@ def store_xpcs(h5parent, xpcs, md, mask, mask_names, rois):
     #   The three dimensions are Q, phi and delay time.
     # PJ: we don't have phi now, show how to write for 2D array
     nxdata.attrs['signal'] = 'g2'      # local name of signal data
-    nxdata.attrs['axes'] = 't_el:ql_dyn'
+    nxdata.attrs['axes'] = ["t_el", "ql_dyn"]
     signal = nxdata.create_dataset(
         'g2',
         data=xpcs["g2"],
