@@ -15,7 +15,7 @@ def write_nx_file(nx_file, data, masks, xpcs, q, q_ind,
         nxentry = create_entry_group(nx, data)
 
         # instrument group
-        create_instrument_group(nxentry, data, masks)
+        create_instrument_group(nxentry, data)
 
         # sample group
         create_sample_group(nxentry, data)
@@ -35,7 +35,7 @@ def write_nx_file(nx_file, data, masks, xpcs, q, q_ind,
 
 def write_file_header(h5parent):
     timestamp = datetime.datetime.now().isoformat(sep=' ', timespec='seconds')
-    h5parent.attrs['default'] = 'entry'  # TODO: Need this?
+    h5parent.attrs['default'] = 'entry'
     h5parent.attrs['file_name'] = h5parent.filename
     h5parent.attrs['file_time'] = timestamp
     h5parent.attrs['instrument'] = 'CHX XPCS'
@@ -73,7 +73,7 @@ def create_entry_group(h5parent, data):
     return nxentry
 
 
-def create_instrument_group(h5parent, data, masks):
+def create_instrument_group(h5parent, data):
     nxinstrument = h5parent.create_group('instrument')
     nxinstrument.attrs['NX_class'] = 'NXinstrument'
     nxinstrument.attrs['canSAS_class'] = 'SASinstrument'
@@ -229,6 +229,8 @@ def create_SAXS_2D_group(h5parent, xpcs, masks):
     nxdata.attrs['mask'] = 'mask'
 
     # TODO: which mask here?
+    # roi_mask = dqmap
+    # mask = more of a pixel_mask that looks like it goes with avg_img
     # saxs_mask = np.where(masks['roi_mask'] > 0, 0, 1)
     saxs_mask = np.where(masks['mask'] > 0, 0, 1)
     ds = nxdata.create_dataset(
@@ -297,10 +299,12 @@ def create_XPCS_group(h5parent, xpcs, masks, q, q_ind, use_q_ind):
     group['sample'] = group['/entry/sample']
 
     # mask group
-    create_mask_group(group['instrument'], masks, q, q_ind, use_q_ind)
+    # create_mask_group(group['instrument'], masks, q, q_ind, use_q_ind)
+    create_mask_group(nxdata, masks, q, q_ind, use_q_ind)
 
     # roi group
-    create_roi_group(group['instrument'], q_ind)
+    # create_roi_group(group['instrument'], q_ind)
+    create_roi_group(nxdata, q_ind)
 
     return group
 
