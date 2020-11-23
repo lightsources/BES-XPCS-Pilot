@@ -139,7 +139,7 @@ def read_xpcs_results(full_filename):
         ql_sta = np.squeeze(f.get('/xpcs/sqlist')[()])
         ql_dyn = np.squeeze(f.get('/xpcs/dqlist')[()])
         t0 = np.squeeze(f.get('/measurement/instrument/detector/exposure_period')[()])
-        t_el = t0*np.squeeze(f.get('/exchange/tau')[()])
+        tau = t0*np.squeeze(f.get('/exchange/tau')[()])
         g2 = f.get('/exchange/norm-0-g2')[()]
         g2_err = f.get('/exchange/norm-0-stderr')[()]
         Int_2D = f.get('/exchange/pixelSum')[()]
@@ -150,7 +150,7 @@ def read_xpcs_results(full_filename):
             ql_sta=ql_sta,
             ql_dyn=ql_dyn,
             t0=t0,
-            t_el=t_el,
+            tau=tau,
             g2=g2,
             g2_err=g2_err,
             Int_2D=Int_2D,

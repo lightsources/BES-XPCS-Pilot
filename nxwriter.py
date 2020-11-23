@@ -313,8 +313,8 @@ def store_xpcs(h5parent, xpcs, md, mask, mask_names, rois):
         compression_opts=9)
     ds.attrs['units'] = 'scale'
     ds = nxdata.create_dataset(
-        't_el',
-        data=xpcs["t_el"],
+        'tau',
+        data=xpcs["tau"],
         compression='gzip',
         compression_opts=9)
     ds.attrs['units'] = 's'
