@@ -198,14 +198,23 @@ def store_saxs_1d(h5parent, xpcs, md, *args):
     nxdata.attrs['Q_indices'] = [0,]
 
     ds = nxdata.create_dataset(
-        'I', data=xpcs["Iq"][0],
+        'I',
+        data=xpcs["Iq"][0],
         compression='gzip', compression_opts=9)
     ds.attrs["units"] = "arbitrary"
     ds.attrs["units_details"] = "Photon/Pixel/Frame"    # non-standard attribute!
     ds = nxdata.create_dataset(
-        'Q', data=xpcs["ql_sta"],
+        'Q',
+        data=xpcs["ql_sta"],
         compression='gzip', compression_opts=9)
     ds.attrs["units"] = "1/angstrom"
+    ds = nxdata.create_dataset(
+        'I_partial',
+        data=xpcs["I_partial"],
+        compression='gzip', compression_opts=9)
+    ds.attrs["units"] = "arbitrary"
+    ds.attrs["units_details"] = "Photon/Pixel/Frame"    # non-standard attribute!
+
 
     group["instrument"] = group["/entry/instrument"]
     group["sample"] = group["/entry/sample"]
@@ -238,7 +247,8 @@ def store_saxs_2d(h5parent, xpcs, md, mask, *args):
     # nxdata.attrs['Q_indices'] = [0,]
 
     ds = nxdata.create_dataset(
-        'I', data=xpcs["Int_2D"],
+        'I',
+        data=xpcs["Int_2D"],
         compression='gzip', compression_opts=9)
     ds.attrs["units"] = "arbitrary"
     ds.attrs["units_details"] = "Photon/Pixel/Frame"    # non-standard attribute!
@@ -314,6 +324,33 @@ def store_xpcs(h5parent, xpcs, md, mask, mask_names, rois):
         compression='gzip',
         compression_opts=9)
     ds.attrs['units'] = '1/angstrom'
+
+    ###### store twotime ######
+    # nxtwotime = nxdata.create_group('twotime')
+    # nxtwotime.attrs['NX_class'] = 'NXdata'
+    #
+    # ds = nxtwotime.create_dataset(
+    #     'g2_twotime',
+    #     data=xpcs['twotime/g2_twotime'],
+    #     compression='gzip',
+    #     compression_opts=9)
+    # #TODO add units
+    # ds.attrs['units'] = 'tba'
+    # ds = nxtwotime.create_dataset(
+    #     'g2_partials_twotime',
+    #     data=xpcs['twotime/g2_partials_twotime'],
+    #     compression='gzip',
+    #     compression_opts=9)
+    # #TODO add units
+    # ds.attrs['units'] = 'tba'
+    # ds = nxtwotime.create_dataset(
+    #     #TODO better naming
+    #     'C_0000X',
+    #     data=xpcs['twotime/C_0000X'],
+    #     compression='gzip',
+    #     compression_opts=9)
+    # #TODO add units
+    # ds.attrs['units'] = 'tba'
 
     ###### define the mask(s) in NXarraymask group ######
     masks = nxdata.create_group('masks')

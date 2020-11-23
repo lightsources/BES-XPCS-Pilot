@@ -135,6 +135,7 @@ def read_xpcs_results(full_filename):
     """
     with h5py.File(full_filename, 'r') as f:
         Iq = f.get('/exchange/partition-mean-total')[()]
+        I_partial = f.get('/exchange/partition-mean-partial')[()]
         ql_sta = np.squeeze(f.get('/xpcs/sqlist')[()])
         ql_dyn = np.squeeze(f.get('/xpcs/dqlist')[()])
         t0 = np.squeeze(f.get('/measurement/instrument/detector/exposure_period')[()])
@@ -145,6 +146,7 @@ def read_xpcs_results(full_filename):
 
         return dict(
             Iq=Iq,
+            I_partial=I_partial,
             ql_sta=ql_sta,
             ql_dyn=ql_dyn,
             t0=t0,
