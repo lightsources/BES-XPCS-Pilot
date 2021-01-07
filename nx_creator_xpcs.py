@@ -58,8 +58,11 @@ class NX_Creator:
         h5parent.attrs["default"] = group.name.split("/")[-1]
 
         self.create_instrument_group(group, md=md, count_entry=count_entry)
-        self.create_data_group(group, "data", md=md)
-        self.create_process_group(group, "process_1", md=md)
+        self.create_xpcs_group(group, md=md, count_entry=count_entry)
+        self.create_saxs_1d_group(group, md=md, count_entry=count_entry)
+        self.create_saxs_2d_group(group, md=md, count_entry=count_entry)
+
+
 
         return group
     
@@ -83,15 +86,29 @@ class NX_Creator:
         for n in range(md["translation"][f"entry_{count_entry}"].shape[1]):
             self.create_positioner_group(group, f"positioner_{n+1}", count_entry=count_entry, count_positioner=n, md=md)
 
+    # see class explanations for XPCS/SAXS specific entries in Data Solutions Pilot Meeting Notes
     def create_xpcs_group(self, h5parent, md=None, *args, **kwargs):
-        ...
+        group, md = self.__init_group__(h5parent, "XPCS", "NXsubentry", md)
 
     def create_saxs_1d_group(self, h5parent, md=None, *args, **kwargs):
-        ...
+        group, md = self.__init_group__(h5parent, "SAXS_1D", "NXsubentry", md)
+        #TODO load actual md dict to add the data
+        #FIXME create small "create_dataset" hepler function for adding data in 1 line
+        ds = group.create_dataset("I", data=md["SAXS_1D"]["I"])
+        ds.attrs["units"] = "counts"
+        ds.attrs["target"] = ds.name
+
+        ds = group.create_dataset("I_partial", data=md["SAXS_1D"]["partial"])
+        ds.attrs["units"] = "counts"
+        ds.attrs["target"] = ds.name
+
 
     def create_saxs_2d_group(self, h5parent, md=None, *args, **kwargs):
+        group, md = self.__init_group__(h5parent, "SAXS_2D", "NXsubentry", md)
 
-        ...
+        ds = group.create_dataset("I", data=md["SAXS_2D"]["I"])
+        ds.attrs["units"] = "counts"
+        ds.attrs["target"] = ds.name
 
 
 
