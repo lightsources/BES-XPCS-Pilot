@@ -318,6 +318,13 @@ def store_xpcs(h5parent, xpcs, md, mask, mask_names, rois):
         compression='gzip',
         compression_opts=9)
     ds.attrs['units'] = 's'
+    #TODO add twotime for each g2ROI
+    ds = nxdata.create_dataset(
+        'twotime',
+        data=xpcs['twotime'],
+        compression='gzip',
+        compression_opts=9)
+    ds.attrs['units'] = 'tba'
     ds = nxdata.create_dataset(
         'ql_dyn',
         data=xpcs["ql_dyn"],
