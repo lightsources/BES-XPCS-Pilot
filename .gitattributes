@@ -1,3 +1,10 @@
 *.hdf filter=lfs diff=lfs merge=lfs -text
 *.nx filter=lfs diff=lfs merge=lfs -text
 *.nxs filter=lfs diff=lfs merge=lfs -text
+testdata/A009_Silica100nm_00001_0001-0100.nxs filter=lfs diff=lfs merge=lfs -text
+testdata/E047_Silica_50kHz_Test_att2_Rq0_00001_0001-100000.hdf filter=lfs diff=lfs merge=lfs -text
+testdata/E047_Silica_50kHz_Test_att2_Rq0_00001_0001-100000.nxs filter=lfs diff=lfs merge=lfs -text
+testdata/Y068_Silica_D100_att0_Rq0_00006_0001-100000.hdf filter=lfs diff=lfs merge=lfs -text
+testdata/Y068_Silica_D100_att0_Rq0_00006_0001-100000.nxs filter=lfs diff=lfs merge=lfs -text
+testdata/old filter=lfs diff=lfs merge=lfs -text
+testdata/A009_Silica100nm_00001_0001-0100.hdf filter=lfs diff=lfs merge=lfs -text
