@@ -12,19 +12,25 @@ logger = logging.getLogger(__name__)
 A_KEV = 12.3984244  # voltage * wavelength product
 NX_EXTENSION = ".nxs"   # .nxs is known by PyMCA, .nx is not (use generic filter then)
 
+NX_APP_DEF_NAME = "NXxpcs"  # name of NeXus Application Definition
+# TODO: not defined in NeXus at this time
+# Need to create & propose this new Application Definition to NIAC
+
+
 class NX_Creator:
     """
 
     Write a NeXus file from the XPCS data
-    
+
     These files contain several sets of results, including:
-    
+
     * 1-D SAXS
     * 2-D SAXS
     * XPCS
     * and may include other analyses
 
     """
+
     def __init_group__(self, h5parent, nm, NX_class, md=None):
         """Common steps to initialize a NeXus HDF5 group."""
         if md is None:
@@ -40,14 +46,18 @@ class NX_Creator:
 
         see: https://manual.nexusformat.org/classes/base_classes/NXentry.html
         """
-        group, md = self.__init_group__(h5parent, f"entry_{count_entry}", "NXentry", md)
+        group, md = self.__init_group__(
+            h5parent, f"entry_{count_entry}", "NXentry", md
+        )
         #print('group', group, 'md', md)
 
-        group.create_dataset("definition", data="NXcxi_ptycho")
+        group.create_dataset("definition", data=NX_APP_DEF_NAME)
 
         experiment_description = md.get("experiment_description")
         if experiment_description is not None:
-            group.create_dataset("experiment_description", data=experiment_description)
+            group.create_dataset(
+                "experiment_description", data=experiment_description
+            )
 
         title = md.get("title", "")
         ds = group.create_dataset("title", data=title)
@@ -62,10 +72,8 @@ class NX_Creator:
         self.create_saxs_1d_group(group, md=md, count_entry=count_entry)
         self.create_saxs_2d_group(group, md=md, count_entry=count_entry)
 
-
-
         return group
-    
+
     def create_instrument_group(self, h5parent, md=None, count_entry=None):
         """Write the NXinstrument group."""
         # TODO: will need to get and add data
@@ -102,15 +110,9 @@ class NX_Creator:
         ds.attrs["units"] = "counts"
         ds.attrs["target"] = ds.name
 
-
     def create_saxs_2d_group(self, h5parent, md=None, *args, **kwargs):
         group, md = self.__init_group__(h5parent, "SAXS_2D", "NXsubentry", md)
 
         ds = group.create_dataset("I", data=md["SAXS_2D"]["I"])
         ds.attrs["units"] = "counts"
         ds.attrs["target"] = ds.name
-
-
-
-
-
