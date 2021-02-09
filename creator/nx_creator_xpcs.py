@@ -46,70 +46,6 @@ class NXCreator:
         group.attrs["NX_class"] = NX_class
         return group, md
 
-    
-    def _create_instrument_group(self, h5parent, md=None, count_entry=None):
-        """Write the NXinstrument group."""
-
-        if "instrument" not in md:
-            return
-        
-        # TODO: will need to get and add data
-        group, md = self._init_group(
-            h5parent, "instrument", "NXinstrument", md
-        )
-
-        name_field = md["instrument"]["name"]
-        ds = group.create_dataset("name", data=name_field)
-        ds.attrs["target"] = ds.name  # we'll re-use this
-        logger.debug("instrument: %s", name_field)
-
-        # self._create_beam_group(group, "beam", md=md, count_entry=count_entry)
-        # self._create_detector_group(
-        #     group, "detector_1", md=md, count_entry=count_entry
-        # )
-        # TODO allow to add different detector group data
-        # self.create_detector_group(group, "detector_2", md=md)
-        # self._create_monitor_group(group, "monitor", md=md)
-
-    def _create_xpcs_group(self, h5parent, md=None, *args, **kwargs):
-        """
-        see Data Solutions Pilot Meeting Notes
-        """
-        group, md = self._init_group(h5parent, "XPCS", "NXsubentry", md)
-
-    def _create_saxs_1d_group(self, h5parent, md=None, *args, **kwargs):
-        """
-        see Data Solutions Pilot Meeting Notes
-        """
-        if "SAXS_1D" not in md:
-            return
-        group, md = self._init_group(h5parent, "SAXS_1D", "NXsubentry", md)
-        # TODO load actual md dict to add the data
-        # FIXME create small "create_dataset" helper function
-        # for adding data in 1 line
-        ds = group.create_dataset("I", data=md["SAXS_1D"]["I"])
-        ds.attrs["units"] = "counts"
-        ds.attrs["target"] = ds.name
-
-        ds = group.create_dataset("I_partial", data=md["SAXS_1D"]["partial"])
-        ds.attrs["units"] = "counts"
-        ds.attrs["target"] = ds.name
-
-    def _create_saxs_2d_group(self, h5parent, md=None, *args, **kwargs):
-        if "SAXS_2D" not in md:
-            return
-        group, md = self._init_group(h5parent, "SAXS_2D", "NXsubentry", md)
-
-        ds = group.create_dataset("I", data=md["SAXS_2D"]["I"])
-        ds.attrs["units"] = "counts"
-        ds.attrs["target"] = ds.name
-
-
-class XPCSCreator(NXCreator):
-
-    def __init__(self, h5root):
-        super().__init__(h5root)
-    
     def create_entry_group(self, md=None, count_entry=None):
         """
         all information about the measurement
@@ -143,9 +79,64 @@ class XPCSCreator(NXCreator):
         # NeXus structure: point to this group for default plot
         self._h5root.attrs["default"] = group.name.split("/")[-1]
 
-        self._create_instrument_group(group, md=md)
-        self._create_xpcs_group(group, md=md)
-        self._create_saxs_1d_group(group, md=md)
-        self._create_saxs_2d_group(group, md=md)
-
         return group
+
+    def create_instrument_group(self, h5parent, md=None, count_entry=None):
+        """Write the NXinstrument group."""
+
+        if "instrument" not in md:
+            return
+        
+        # TODO: will need to get and add data
+        group, md = self._init_group(
+            h5parent, "instrument", "NXinstrument", md
+        )
+
+        name_field = md["instrument"]["name"]
+        ds = group.create_dataset("name", data=name_field)
+        ds.attrs["target"] = ds.name  # we'll re-use this
+        logger.debug("instrument: %s", name_field)
+
+        # self._create_beam_group(group, "beam", md=md, count_entry=count_entry)
+        # self._create_detector_group(
+        #     group, "detector_1", md=md, count_entry=count_entry
+        # )
+        # TODO allow to add different detector group data
+        # self.create_detector_group(group, "detector_2", md=md)
+        # self._create_monitor_group(group, "monitor", md=md)
+
+    def create_xpcs_group(self, h5parent, md=None, *args, **kwargs):
+        """
+        see Data Solutions Pilot Meeting Notes
+        """
+        group, md = self._init_group(h5parent, "XPCS", "NXsubentry", md)
+
+    def create_saxs_1d_group(self, h5parent, md=None, *args, **kwargs):
+        """
+        see Data Solutions Pilot Meeting Notes
+        """
+        if "SAXS_1D" not in md:
+            return
+        group, md = self._init_group(h5parent, "SAXS_1D", "NXsubentry", md)
+        # TODO load actual md dict to add the data
+        # FIXME create small "create_dataset" helper function
+        # for adding data in 1 line
+        ds = group.create_dataset("I", data=md["SAXS_1D"]["I"])
+        ds.attrs["units"] = "counts"
+        ds.attrs["target"] = ds.name
+
+        ds = group.create_dataset("I_partial", data=md["SAXS_1D"]["partial"])
+        ds.attrs["units"] = "counts"
+        ds.attrs["target"] = ds.name
+
+    def create_saxs_2d_group(self, h5parent, md=None, *args, **kwargs):
+        if "SAXS_2D" not in md:
+            return
+        group, md = self._init_group(h5parent, "SAXS_2D", "NXsubentry", md)
+
+        ds = group.create_dataset("I", data=md["SAXS_2D"]["I"])
+        ds.attrs["units"] = "counts"
+        ds.attrs["target"] = ds.name
+
+    
+
