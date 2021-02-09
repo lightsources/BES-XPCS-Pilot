@@ -3,6 +3,7 @@
 # import datetime
 # import h5py
 import logging
+
 # import numpy as np
 # import os
 
@@ -10,7 +11,9 @@ logger = logging.getLogger(__name__)
 # logger.setLevel(logging.DEBUG)
 
 A_KEV = 12.3984244  # voltage * wavelength product
-NX_EXTENSION = ".nxs"  # .nxs is known by PyMCA, .nx is not (use generic filter then)
+NX_EXTENSION = (
+    ".nxs"  # .nxs is known by PyMCA, .nx is not (use generic filter then)
+)
 
 NX_APP_DEF_NAME = "NXxpcs"  # name of NeXus Application Definition
 # TODO: not defined in NeXus at this time
@@ -46,14 +49,18 @@ class NX_Creator:
 
         see: https://manual.nexusformat.org/classes/base_classes/NXentry.html
         """
-        group, md = self.__init_group__(h5parent, f"entry_{count_entry}", "NXentry", md)
+        group, md = self.__init_group__(
+            h5parent, f"entry_{count_entry}", "NXentry", md
+        )
         # print('group', group, 'md', md)
 
         group.create_dataset("definition", data=NX_APP_DEF_NAME)
 
         experiment_description = md.get("experiment_description")
         if experiment_description is not None:
-            group.create_dataset("experiment_description", data=experiment_description)
+            group.create_dataset(
+                "experiment_description", data=experiment_description
+            )
 
         title = md.get("title", "")
         ds = group.create_dataset("title", data=title)
@@ -73,7 +80,9 @@ class NX_Creator:
     def create_instrument_group(self, h5parent, md=None, count_entry=None):
         """Write the NXinstrument group."""
         # TODO: will need to get and add data
-        group, md = self.__init_group__(h5parent, "instrument", "NXinstrument", md)
+        group, md = self.__init_group__(
+            h5parent, "instrument", "NXinstrument", md
+        )
 
         name_field = md.get("instrument", "")[f"entry_{count_entry}"]
         ds = group.create_dataset("name", data=name_field)
@@ -81,23 +90,35 @@ class NX_Creator:
         logger.debug("instrument: %s", name_field)
 
         self.create_beam_group(group, "beam", md=md, count_entry=count_entry)
-        self.create_detector_group(group, "detector_1", md=md, count_entry=count_entry)
+        self.create_detector_group(
+            group, "detector_1", md=md, count_entry=count_entry
+        )
         # TODO allow to add different detector group data
         # self.create_detector_group(group, "detector_2", md=md)
         self.create_monitor_group(group, "monitor", md=md)
         for n in range(md["translation"][f"entry_{count_entry}"].shape[1]):
             self.create_positioner_group(
-                group, f"positioner_{n+1}", count_entry=count_entry, count_positioner=n, md=md
+                group,
+                f"positioner_{n+1}",
+                count_entry=count_entry,
+                count_positioner=n,
+                md=md,
             )
 
-    # see class explanations for XPCS/SAXS specific entries in Data Solutions Pilot Meeting Notes
     def create_xpcs_group(self, h5parent, md=None, *args, **kwargs):
+        """
+        see Data Solutions Pilot Meeting Notes
+        """
         group, md = self.__init_group__(h5parent, "XPCS", "NXsubentry", md)
 
     def create_saxs_1d_group(self, h5parent, md=None, *args, **kwargs):
+        """
+        see Data Solutions Pilot Meeting Notes
+        """
         group, md = self.__init_group__(h5parent, "SAXS_1D", "NXsubentry", md)
         # TODO load actual md dict to add the data
-        # FIXME create small "create_dataset" hepler function for adding data in 1 line
+        # FIXME create small "create_dataset" helper function
+        # for adding data in 1 line
         ds = group.create_dataset("I", data=md["SAXS_1D"]["I"])
         ds.attrs["units"] = "counts"
         ds.attrs["target"] = ds.name
