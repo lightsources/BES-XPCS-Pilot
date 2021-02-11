@@ -10,7 +10,7 @@ Additional NeXus definitions (such as to describe the image masks unique to this
 technique) may be developed as well.
 
 The first major goal is to import results computed by tools outside of the Bluesky
-framework for use by the [Xi-cam](https://github.com/ronpandolfi/Xi-cam) visualization software.
+framework for use by the [Xi-cam](https://github.com/xi-cam) visualization software.
 
 * [Weekly Meetings, Friday](https://bluejeans.com/445481193)
 * [Meeting Minutes](https://docs.google.com/document/d/1QjD0EjBOqSDz29kWswrV5hc8Ho3nxylWEJ7204RwYAo/edit)
