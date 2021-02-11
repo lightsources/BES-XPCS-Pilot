@@ -37,6 +37,8 @@
   </symbols>
   <doc>
     X-ray Photon Correlation Spectroscopy data (results).
+
+    see: https://docs.google.com/spreadsheets/d/1sZrhLlzER9nuEWmPSLbWcfsgH_0DlBI9QrGRBQdKRQg/edit#gid=0
   </doc>
   <group type="NXentry" name="entry">
     <field name="definition">
@@ -45,20 +47,49 @@
         <item value="NXxpcs"/>
       </enumeration>
     </field>
+
+    <field name="entry_identifier">
+      <doc>
+        Unique identifier for the experiment.
+      </doc>
+    </field>
+    <field name="entry_identifier_uuid" minOccurs="0" maxOccurs="1">
+      <doc>
+        (optional) UUID identifier for the experiment.
+      </doc>
+    </field>
+    <field name="scan_number" type="NX_INT">
+      <doc>
+        Scan number (must be an integer).
+        
+        NOTE: Link to collection_identifier.
+      </doc>
+    </field>
+    <field name="start_time" type="NX_NUMBER" units="NX_DATE_TIME">
+      <doc>
+        Starting time of experiment, such as "2021-02-11 11:22:33.445566Z".
+      </doc>
+    </field>
+    <field name="end_time" type="NX_NUMBER" units="NX_DATE_TIME">
+      <doc>
+        Ending time of experiment, such as "2021-02-11 11:23:45Z".
+      </doc>
+    </field>
+
     <group type="NXprocess" name="XPCS">
       <!-- TODO: -->
       <group type="NXdata" name="data">
         <!-- TODO: -->
-        <field name="frame_sum" type="NX_NUMBER">
+        <field name="frame_sum" type="NX_NUMBER" units="NX_ANY">
+          <doc>average intensity v. time</doc>
+        </field>
+        <field name="g2" type="NX_NUMBER" units="NX_ANY">
           <doc>TODO:</doc>
         </field>
-        <field name="g2" type="NX_NUMBER">
+        <field name="g2_stderr" type="NX_NUMBER" units="NX_ANY">
           <doc>TODO:</doc>
         </field>
-        <field name="g2_stderr" type="NX_NUMBER">
-          <doc>TODO:</doc>
-        </field>
-        <field name="tau" type="NX_INT">
+        <field name="tau" type="NX_INT" units="NX_ANY">
           <doc>
           delay time, multitau
 
@@ -68,34 +99,118 @@
       </group>
       <group type="NXdata" name="twotime">
         <!-- TODO: -->
-        <field name="C2" type="NX_NUMBER">
+        <field name="C2" type="NX_NUMBER" units="NX_ANY">
           <doc>two-time correlation</doc>
         </field>
-        <field name="g2_twotime" type="NX_NUMBER">
+        <field name="g2_twotime" type="NX_NUMBER" units="NX_ANY">
           <doc>g2full, sum across the diagonals of C2</doc>
         </field>
-        <field name="g2_partials_twotime" type="NX_NUMBER">
+        <field name="g2_partials_twotime" type="NX_NUMBER" units="NX_ANY">
           <doc>g2 by subset of frames</doc>
         </field>
       </group>
     </group>
+
     <group type="NXcanSAS" name="SAXS_1D">
-      <!-- TODO: -->
+      <!--
+        https://manual.nexusformat.org/classes/applications/NXcanSAS.html
+      -->
+      <doc>Additions to the NXcanSAS definition.</doc>
       <group type="NXdata" name="data">
-        <!-- TODO: -->
+        <field name="I_partial" type="NX_NUMBER">
+          <doc>
+            I(Q) for stability plot.
+            
+            Q: Should units match I?
+          </doc>
+        </field>
       </group>
     </group>
+
     <group type="NXcanSAS" name="SAXS_2D">
-      <!-- TODO: -->
-      <group type="NXdata" name="data">
-        <!-- TODO: -->
+      <!--
+        https://manual.nexusformat.org/classes/applications/NXcanSAS.html
+      -->
+      <doc>Additions to the NXcanSAS definition.</doc>
+        <!-- TODO: any?-->
+    </group>
+
+    <group type="NXinstrument" name="instrument">
+      <doc>XPCS Metadata</doc>
+      <group type="NXmonochromator" name="monochromator">
+      <!-- TODO: verify with fields defined in base class -->
+        <field name="energy" type="NX_FLOAT" units="NX_ENERGY">
+          <doc>Incident beam line energy (either keV or eV).</doc>
+        </field>
+      </group>
+      <group type="NXdetector" name="detector">
+      <!-- TODO: verify with fields defined in base class -->
+        <field name="description">
+          <doc>Detector name.</doc>
+        </field>
+        <field name="distance" type="NX_NUMBER" units="NX_LENGTH">
+          <doc>Distance between sample and detector.</doc>
+        </field>
+        <field name="count_time" type="NX_NUMBER" units="NX_TIME">
+          <doc>Exposure time of frames, s</doc>
+        </field>
+        <field name="frame_time" type="NX_NUMBER" units="NX_TIME">
+          <doc>
+            Exposure period (time between frame starts) of frames, s
+          </doc>
+        </field>
+        <field name="beam_center_x" type="NX_NUMBER" units="NX_LENGTH">
+          <doc>
+            Position of beam center, x axis, in detector's coordinates.
+          </doc>
+        </field>
+        <field name="beam_center_y" type="NX_NUMBER" units="NX_LENGTH">
+          <doc>
+            Position of beam center, y axis, in detector's coordinates.
+          </doc>
+        </field>
+        <field name="x_pixel_size" type="NX_NUMBER" units="NX_LENGTH">
+          <doc>
+            Length of pixel in x direction.
+          </doc>
+        </field>
+        <field name="y_pixel_size" type="NX_NUMBER" units="NX_LENGTH">
+          <doc>
+            Length of pixel in y direction.
+          </doc>
+        </field>
       </group>
     </group>
+
     <group type="NXsample" name="sample">
-      <!-- TODO: -->
+      <field name="temperature_set" type="NX_NUMBER" units="NX_TEMPERATURE">
+        <doc>
+          Sample temperature setpoint, (C or K).
+        </doc>
+      </field>
+      <field name="temperature" type="NX_NUMBER" units="NX_TEMPERATURE">
+        <doc>
+          Sample temperature actual, (C or K).
+        </doc>
+      </field>
+      <group type="NXpositioner" name="position_x" />
+      <group type="NXpositioner" name="position_y" />
+      <group type="NXpositioner" name="position_z" />
     </group>
-    <group type="NXdata" name="default_view">
-        <!-- TODO: here, define links to real datasets -->
+
+    <group type="NXarraymask" name="mask">
+        <!-- TODO: -->
     </group>
+
+    <group type="NXdata" name="data">
+        <!-- TODO: here, link to datasets -->
+        <doc>Describes the default view.  Link to datasets as needed.</doc>
+    </group>
+
+    <group type="NXnote" minOccurs="0" maxOccurs="unbounded" />
+    <!--
+      suggested name pattern: note_1, note_2, note_3, ...
+      Pick the next in this sequence.
+     -->
   </group>
 </definition>
