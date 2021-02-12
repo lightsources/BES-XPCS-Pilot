@@ -52,7 +52,7 @@ class NXCreator:
         else:
             #TODO how will count_entry be defined when connecting to the loader?
             entry_name = f"entry_{count_entry}"
-        group = self._init_group(self._h5root, entry_name, "NXentry", md)
+        group = self._init_group(self._h5root, entry_name, "NXentry")
         md = self._init_md(md)
 
         group.create_dataset("definition", data=NX_APP_DEF_NAME)
@@ -77,7 +77,7 @@ class NXCreator:
         """
         use this to create datasets in different (sub-)groups
         """
-        ds = h5parent.create_dataset(name, data=self.md[md_path])
+        ds = h5parent.create_dataset(name, data=md_path)
         for k, v in kwargs.items():
             ds.attrs[k] = v
         ds.attrs["target"] = ds.name
@@ -96,9 +96,9 @@ class NXCreator:
         # create datagroup and add datasets
         data_group = self._init_group(xpcs_group, "data", "NXdata")
         #FIXME add correct data path and units based on loader structure
-        self._create_dataset(data_group, "g2", "md_path", units="au")
-        self._create_dataset(data_group, "g2_stderr", "md_path", units="au")
-        self._create_dataset(data_group, "tau", "md_path", units="au")
+        self._create_dataset(data_group, "g2", md["data"]["g2"], units="au")
+        self._create_dataset(data_group, "g2_stderr",  md["data"]["g2_stderr"], units="au")
+        self._create_dataset(data_group, "tau",  md["data"]["tau"], units="au")
 
         # add twotime group and dataset
         twotime_group = self._init_group(xpcs_group, "twotime", "NXdata")
