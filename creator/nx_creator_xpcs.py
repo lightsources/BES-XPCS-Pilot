@@ -111,6 +111,7 @@ class NXCreator:
         self._create_dataset(twotime_group, "C_0000X", "md_path", units="au")
 
         #create instrument group and mask group, add datasets
+        #TODO do we really want an instrument group here or direktly adding mask as a subentry?
         instrument_group = self._init_group(xpcs_group, "twotime", "NXdata")
         mask_group = self._init_group(instrument_group, "twotime", "NXdata")
         self._create_dataset(mask_group, "mask", "md_path", units="au")
