@@ -71,20 +71,6 @@ class NXCreator:
 
         return group
 
-    def create_xpcs_data_group(self, h5parent, md=None, count_entry=None):
-        group, md = self._init_group(h5parent, "data", "NXsubentry", md)
-
-        ds = group.create_dataset("g2", data=md["XPCS"]["g2"])
-        ds.attrs["units"] = "a.u."
-        ds.attrs["target"] = ds.name
-
-        ds = group.create_dataset("g2_stderr", data=md["XPCS"]["g2_stderr"])
-        ds.attrs["units"] = "a.u."
-        ds.attrs["target"] = ds.name
-
-        ds = group.create_dataset("tau", data=md["XPCS"]["tau"])
-        ds.attrs["units"] = "a.u."
-        ds.attrs["target"] = ds.name
 
     def _create_dataset(self, h5parent, name, md_path, **kwargs):
         """
@@ -93,7 +79,6 @@ class NXCreator:
         ds = h5parent.create_dataset(name, data=self.md[md_path])
         for k, v in kwargs.items():
             ds.attrs[k] = v
-        # ds.attrs["units"] = **kwargs.items()  # FIXME allow for other units
         ds.attrs["target"] = ds.name
         return ds
 
@@ -103,6 +88,7 @@ class NXCreator:
         """
         md = self._init_md(md)
         xpcs_group = self._init_group(h5parent, "XPCS", "NXprocess")
+        # TODO check if plottable data is assigned correctly
         #this defines the preferred plot data
         xpcs_group.attrs["default"] = "data"
 
@@ -116,10 +102,8 @@ class NXCreator:
 
         self._create_dataset(twotime_group, "g2_partials_twotime", "md_path", units="au")
         self._create_dataset(twotime_group, "g2_twotime", "md_path", units="au")
-
         #TODO: work out how to name this and iterate through the datasets
         # will it be n datasets or an n dimensional array
-        # 
         # for n in number_of_entries_from_dict:
         #     add _create_dataset
         self._create_dataset(twotime_group, "C_0000X", "md_path", units="au")
@@ -131,46 +115,38 @@ class NXCreator:
         """
         if "SAXS_1D" not in md:
             return
-        group, md = self._init_group(h5parent, "SAXS_1D", "NXsubentry", md)
-        # TODO load actual md dict to add the data
-        # FIXME create small "create_dataset" helper function
-        # for adding data in 1 line
-        ds = group.create_dataset("I", data=md["SAXS_1D"]["I"])
-        ds.attrs["units"] = "counts"
-        ds.attrs["target"] = ds.name
+        md = self._init_md(md)
+        saxs_1d_group = self._init_group(h5parent, "SAXS_1D", "NXprocess")
+        data_group = self._init_group(saxs_1d_group, "data", "NXdata")
 
-        ds = group.create_dataset("I_partial", data=md["SAXS_1D"]["partial"])
-        ds.attrs["units"] = "counts"
-        ds.attrs["target"] = ds.name
+        self._create_dataset(data_group, "I", "md_path", units="au")
+        self._create_dataset(data_group, "I_partial", "md_path", units="au")
+
 
     def create_saxs_2d_group(self, h5parent, md=None, *args, **kwargs):
         if "SAXS_2D" not in md:
             return
-        group, md = self._init_group(h5parent, "SAXS_2D", "NXsubentry", md)
+        md = self._init_md(md)
+        saxs_2d_group = self._init_group(h5parent, "SAXS_2D", "NXprocess")
+        data_group = self._init_group(saxs_2d_group, "data", "NXdata")
 
-        ds = group.create_dataset("I", data=md["SAXS_2D"]["I"])
-        ds.attrs["units"] = "counts"
-        ds.attrs["target"] = ds.name
-
-
+        self._create_dataset(data_group, "I", "md_path", units="au")
 
 
     def create_instrument_group(self, h5parent, md=None, count_entry=None):
         """Write the NXinstrument group."""
-
         if "instrument" not in md:
             return
+        md = self._init_md(md)
+        instrument_group = self._init_group(h5parent, "instrument", "NXinstrument")
+        detector_group = self._init_group(instrument_group, "detector", "NXdetector")
+        mono_group = self._init_group(instrument_group, "monochromator", "NXmonochromator")
 
-        # TODO: will need to get and add data
-        group, md = self._init_group(
-            h5parent, "instrument", "NXinstrument", md
-        )
+        self._create_dataset(detector_group, "count_time", "md_path", units="au")
+        self._create_dataset(detector_group, "frame_time", "md_path", units="au")
+        self._create_dataset(detector_group, "description", "md_path", units="au")
+        self._create_dataset(detector_group, "distance", "md_path", units="au")
+        self._create_dataset(detector_group, "x_pixel_size", "md_path", units="au")
+        self._create_dataset(detector_group, "y_pixel_size", "md_path", units="au")
 
-        name_field = md["instrument"]["name"]
-        ds = group.create_dataset("name", data=name_field)
-        ds.attrs["target"] = ds.name  # we'll re-use this
-        logger.debug("instrument: %s", name_field)
-
-        # TODO allow to add different detector group data
-        # self.create_detector_group(group, "detector_2", md=md)
-        # self._create_monitor_group(group, "monitor", md=md)
+        self._create_dataset(mono_group, "energy", "md_path", units="au")
