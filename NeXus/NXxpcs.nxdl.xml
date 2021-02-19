@@ -198,7 +198,12 @@
 
       -->
       <doc>Additions to the NXcanSAS definition.</doc>
-        <!-- TODO: any?-->
+      <!-- TODO: any?-->
+      <!-- defined in NXcanSAS -->
+      <group type="NXdata" name="data">
+        <field name="I" type="NX_NUMBER" />
+        <field name="Q" type="NX_NUMBER" units="NX_PER_LENGTH" />
+      </group>
     </group>
 
     <group type="NXinstrument" name="instrument">
