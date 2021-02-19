@@ -2,9 +2,9 @@
 <?xml-stylesheet type="text/xsl" href="nxdlformat.xsl" ?>
 <!--
 # NeXus - Neutron and X-ray Common Data Format
-# 
+#
 # Copyright (C) 2008-2021 NeXus International Advisory Committee (NIAC)
-# 
+#
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
 # License as published by the Free Software Foundation; either
@@ -55,13 +55,13 @@
     </field>
     <field name="entry_identifier_uuid" minOccurs="0" maxOccurs="1">
       <doc>
-        (optional) UUID identifier for the experiment.
+        (optional) UUID identifier for this entry.
       </doc>
     </field>
     <field name="scan_number" type="NX_INT">
       <doc>
         Scan number (must be an integer).
-        
+
         NOTE: Link to collection_identifier.
       </doc>
     </field>
@@ -114,22 +114,88 @@
     <group type="NXcanSAS" name="SAXS_1D">
       <!--
         https://manual.nexusformat.org/classes/applications/NXcanSAS.html
+
+        TODO: Should this be type="NXsubentry" with definition field of NXcanSAS?
+
+        Structure from our initial example file:
+
+            SAXS_1D:NXsubentry
+              @NX_class = NXsubentry
+              @canSAS_class = SASentry
+              @default = data
+              definition:NX_CHAR = NXcanSAS
+              instrument -> /entry/instrument
+              run -> /entry/title
+              sample -> /entry/sample
+              title:NX_CHAR = static 1D SAXS from XPCS data
+              data:NXdata
+                @I_axes = Q
+                @NX_class = NXdata
+                @Q_indices = 0
+                @canSAS_class = SASdata
+                @signal = I
+                I:NX_FLOAT32[270] = [0.27429348, 0.34260944, 0.2445109, '...', 0.0057929275]
+                  @units = arbitrary
+                  @units_details = Photon/Pixel/Frame
+                Q:NX_FLOAT64[270] = [0.0018368, 0.00186642, 0.001891, '...', 0.063412]
+                  @units = 1/angstrom ->
+
       -->
       <doc>Additions to the NXcanSAS definition.</doc>
       <group type="NXdata" name="data">
         <field name="I_partial" type="NX_NUMBER">
           <doc>
             I(Q) for stability plot.
-            
+
             Q: Should units match I?
           </doc>
         </field>
+        <!-- defined in NXcanSAS -->
+        <field name="I" type="NX_NUMBER" />
+        <field name="Q" type="NX_NUMBER" units="NX_PER_LENGTH" />
       </group>
     </group>
 
     <group type="NXcanSAS" name="SAXS_2D">
       <!--
         https://manual.nexusformat.org/classes/applications/NXcanSAS.html
+
+        TODO: Should this be type="NXsubentry" with definition field of NXcanSAS?
+
+          SAXS_2D:NXsubentry
+            @NX_class = NXsubentry
+            @canSAS_class = SASentry
+            @default = data
+            definition:NX_CHAR = NXcanSAS
+            instrument -> /entry/instrument
+            run -> /entry/title
+            sample -> /entry/sample
+            title:NX_CHAR = static 2D SAXS from XPCS data
+            data:NXdata
+              @NX_class = NXdata
+              @canSAS_class = SASdata
+              @mask = mask
+              @signal = I
+              I:NX_FLOAT32[516,1556] = __array
+                __array = [
+                    [0.0029529633, 0.0049402798, 0.006318577, '...', 0.0109847365]
+                    [0.0043127504, 0.004439526, 0.005501271, '...', 0.004218236]
+                    [0.008683259, 0.0066289976, 0.003876593, '...', 0.0056484076]
+                    ...
+                    [0.004690421, 0.0072740484, 0.0053803907, '...', 0.0039639533]
+                  ]
+                @units = arbitrary
+                @units_details = Photon/Pixel/Frame
+              mask:NX_INT64[516,1556] = __array
+                __array = [
+                    [0, 0, 0, '...', 0]
+                    [0, 0, 0, '...', 0]
+                    [0, 0, 0, '...', 0]
+                    ...
+                    [0, 0, 0, '...', 0]
+                  ]
+                @units = boolean
+
       -->
       <doc>Additions to the NXcanSAS definition.</doc>
         <!-- TODO: any?-->
@@ -180,6 +246,39 @@
           </doc>
         </field>
       </group>
+
+      <group type="NXnote" name="masks" minOccurs="0" maxOccurs="1">
+          <doc>
+              Data masks could be defined using either NXarraymask
+              or NXparameterizedmask.
+
+              Suggested name pattern: mask_1, mask_2, mask_3, ...
+              Pick the next number in this sequence.
+
+              In the example file from 2020, masks are presented
+              in a "masks:NXnote" subgroup (from now on, use the
+              name pattern suggested above)::
+
+                  masks:NXnote
+                    @NX_class = NXnote
+                    mask:NXarraymask
+                      @NX_class = NXarraymask
+                      data_link -> /entry/XPCS/data/g2
+                      mask:NX_UINT32[516,1556] = __array
+                        __array = [
+                            [27, 27, 27, '...', 27]
+                            [27, 27, 27, '...', 27]
+                            [27, 27, 27, '...', 27]
+                            ...
+                            [27, 27, 27, '...', 27]
+                          ]
+                      mask_names:NX_CHAR[9] = Q=0.002
+                      usage:NX_CHAR = Selective
+
+          </doc>
+          <group type="NXarraymask" minOccurs="0" maxOccurs="unbounded" />
+          <group type="NXparameterizedmask" minOccurs="0" maxOccurs="unbounded" />
+      </group>
     </group>
 
     <group type="NXsample" name="sample">
@@ -198,19 +297,35 @@
       <group type="NXpositioner" name="position_z" />
     </group>
 
-    <group type="NXarraymask" name="mask">
-        <!-- TODO: -->
-    </group>
-
     <group type="NXdata" name="data">
         <!-- TODO: here, link to datasets -->
         <doc>Describes the default view.  Link to datasets as needed.</doc>
     </group>
 
-    <group type="NXnote" minOccurs="0" maxOccurs="unbounded" />
-    <!--
-      suggested name pattern: note_1, note_2, note_3, ...
-      Pick the next in this sequence.
-     -->
+    <group type="NXnote" name="ROI" minOccurs="0" maxOccurs="unbounded">
+        <doc>
+          Region(s) of interest.
+
+          NAME: The NeXus convention is to use all upper case
+          to indicate the name (here ``ROI``) is left to the file 
+          writer.  In our case, follow the suggested name
+          pattern and sequence: roi_1, roi_2, roi_3, ...
+          Start with ``roi_1`` if the first one, otherwise
+          pick the next number in this sequence.
+        </doc>
+    </group>
+
+    <group type="NXnote" name="NOTE" minOccurs="0" maxOccurs="unbounded">
+        <doc>
+          Any other notes.
+
+          NAME: The NeXus convention is to use all upper case
+          to indicate the name (here ``NOTE``) is left to the file 
+          writer.  In our case, follow the suggested name
+          pattern and sequence: note_1, note_2, note_3, ...
+          Start with ``note_1`` if the first one, otherwise
+          pick the next number in this sequence.
+        </doc>
+    </group>
   </group>
 </definition>
