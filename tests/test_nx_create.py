@@ -21,29 +21,31 @@ def test_nx_xpcs(tmp_path):
         # assert file['/entry/instrument/name'][()] == "beamline"
     file.close()
 
+#TODO smart way to fill the values of a dict like this in a loader module
+#TODO add units
+xpcs_md = {"g2": "g2_value",
+           "g2_stderr": "g2_stderr_value",
+           "tau": "tau_value",
+           "g2_partials_twotime": "g2_partials_twotime_values",
+           "g2_twotime": "g2_twotime_values",
+           #TODO figure out how to access large amount of data
+           # "C": "C_shaped_array"
+           "mask": "mask_value",
+           "dqmap": "dqmap_value"
+            }
 
-xpcs_md = {"data":
-               {"g2": "g2_value",
-                "g2_stderr": "g2_stderr_value",
-                "tau": "tau_value"
-                },
-           "twotime":
-               {"g2_partials_twotime": "g2_partials_twotime_values",
-                "g2_twotime": "g2_twotime_values",
-                #TODO figure out how to access large amount of data
-                "C": "C_array"
-                },
-           # TODO check if instrument level is desired
-           "mask":
-               {"mask": "mask_value",
-                "dqmap": "dqmap_value"
-                }
-           }
 
-saxs_1d_md = {"SAXS_1D": {"name": "beamline"}}
-saxs_2d_md = {"SAXS_1D": {"name": "beamline"}}
-instrument_md = {"instrument": {"name": "beamline"}}
+saxs_1d_md = {"I": "I_value",
+              "I_partial": "I_partial_value"}
 
+saxs_2d_md = {"I": "I_values"}
+
+instrument_md = {"count_time": "count_time_value",
+                 "frame_time": "frame_time_value",
+                 #...
+                 }
+#TODO decide if we want a single dict (with sub-dicts) or multiple dicts
+# --> modify NXCreator accordingly
 md = {"title": "title",
       "experimental_description": "XPCS experiment",
       "XPCS": xpcs_md,
@@ -51,3 +53,4 @@ md = {"title": "title",
       "SAXS_2D": saxs_2d_md,
       "Instrument": instrument_md
       }
+
