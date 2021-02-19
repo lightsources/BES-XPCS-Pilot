@@ -3,7 +3,7 @@ from creator.nx_creator_xpcs import NXCreator
 
 
 def test_nx_xpcs(tmp_path):
-    with h5py.File(tmp_path / 'test2.hdf5', 'w') as file:
+    with h5py.File(tmp_path + '/test2.hdf5', 'w') as file:
         try:
             creator = NXCreator(file)
             group = creator.create_entry_group(md=md)
@@ -13,10 +13,9 @@ def test_nx_xpcs(tmp_path):
             # creator.create_saxs_2d_group(group, saxs_1d_md)
         except Exception as e:
             raise e
-        file.close()
 
     print(file.name)
-    with h5py.File(tmp_path / 'test2.hdf5', 'r') as file:
+    with h5py.File(tmp_path + '/test2.hdf5', 'r') as file:
         assert '/entry/XPCS/name' in file
         # assert file['/entry/instrument/name'][()] == "beamline"
     file.close()
@@ -51,3 +50,6 @@ md = {"title": "title",
       "SAXS_2D": saxs_2d_md,
       "Instrument": instrument_md
       }
+
+if __name__ == '__main__':
+    test_nx_xpcs('/Users/mqichu/Downloads')
