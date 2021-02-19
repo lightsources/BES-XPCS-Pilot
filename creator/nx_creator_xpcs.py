@@ -96,29 +96,26 @@ class NXCreator:
         # create datagroup and add datasets
         data_group = self._init_group(xpcs_group, "data", "NXdata")
         #FIXME add correct data path and units based on loader structure
-        self._create_dataset(data_group, "g2", md["data"]["g2"], units="au")
-        self._create_dataset(data_group, "g2_stderr",  md["data"]["g2_stderr"], units="au")
-        self._create_dataset(data_group, "tau",  md["data"]["tau"], units="au")
+        self._create_dataset(data_group, "g2", md["g2"], units="au")
+        self._create_dataset(data_group, "g2_stderr",  md["g2_stderr"], units="au")
+        self._create_dataset(data_group, "tau",  md["tau"], units="au")
 
         # add twotime group and dataset
         twotime_group = self._init_group(xpcs_group, "twotime", "NXdata")
-        self._create_dataset(twotime_group, "g2_partials_twotime", "md_path", units="au")
-        self._create_dataset(twotime_group, "g2_twotime", "md_path", units="au")
-        #TODO: work out how to name this and iterate through the datasets
-        # will it be n datasets or an n dimensional array
-        # for n in number_of_entries_from_dict:
-        #     add _create_dataset
-        self._create_dataset(twotime_group, "C_0000X", "md_path", units="au")
+        self._create_dataset(twotime_group, "g2_partials_twotime", md["g2_partials_twotime"], units="au")
+        self._create_dataset(twotime_group, "g2_twotime", md["g2_twotime"], units="au")
+        # Twotime data should be a C-shaped 3D array
+        self._create_dataset(twotime_group, "C_0000X", md["C_0000X"], units="au")
 
         #create instrument group and mask group, add datasets
         #TODO do we really want an instrument group here or direktly adding mask as a subentry?
         instrument_group = self._init_group(xpcs_group, "twotime", "NXdata")
         mask_group = self._init_group(instrument_group, "twotime", "NXdata")
-        self._create_dataset(mask_group, "mask", "md_path", units="au")
-        self._create_dataset(mask_group, "dqmap", "md_path", units="au")
-        self._create_dataset(mask_group, "dqlist", "md_path", units="au")
-        self._create_dataset(mask_group, "dphilist", "md_path", units="au")
-        self._create_dataset(mask_group, "sqmap", "md_path", units="au")
+        self._create_dataset(mask_group, "mask", md["mask"], units="au")
+        self._create_dataset(mask_group, "dqmap", md["dqmap"], units="au")
+        self._create_dataset(mask_group, "dqlist", md["dqlist"], units="au")
+        self._create_dataset(mask_group, "dphilist", md["dphilist"], units="au")
+        self._create_dataset(mask_group, "sqmap", md["sqmap"], units="au")
 
 
     def create_saxs_1d_group(self, h5parent, md=None, *args, **kwargs):
@@ -132,8 +129,8 @@ class NXCreator:
 
         # create datagroup and add datasets
         data_group = self._init_group(saxs_1d_group, "data", "NXdata")
-        self._create_dataset(data_group, "I", "md_path", units="au")
-        self._create_dataset(data_group, "I_partial", "md_path", units="au")
+        self._create_dataset(data_group, "I", md["I"], units="au")
+        self._create_dataset(data_group, "I_partial", md["I_partial"], units="au")
 
 
     def create_saxs_2d_group(self, h5parent, md=None, *args, **kwargs):
@@ -144,7 +141,7 @@ class NXCreator:
 
         # create datagroup and add datasets
         data_group = self._init_group(saxs_2d_group, "data", "NXdata")
-        self._create_dataset(data_group, "I", "md_path", units="au")
+        self._create_dataset(data_group, "I", md["I"], units="au")
 
 
     def create_instrument_group(self, h5parent, md=None, count_entry=None):
@@ -156,13 +153,13 @@ class NXCreator:
 
         # create detector group and add datasets
         detector_group = self._init_group(instrument_group, "detector", "NXdetector")
-        self._create_dataset(detector_group, "count_time", "md_path", units="au")
-        self._create_dataset(detector_group, "frame_time", "md_path", units="au")
-        self._create_dataset(detector_group, "description", "md_path", units="au")
-        self._create_dataset(detector_group, "distance", "md_path", units="au")
-        self._create_dataset(detector_group, "x_pixel_size", "md_path", units="au")
-        self._create_dataset(detector_group, "y_pixel_size", "md_path", units="au")
+        self._create_dataset(detector_group, "count_time", md["count_time"], units="au")
+        self._create_dataset(detector_group, "frame_time", md["frame_time"], units="au")
+        self._create_dataset(detector_group, "description", md["description"], units="au")
+        self._create_dataset(detector_group, "distance", md["distance"], units="au")
+        self._create_dataset(detector_group, "x_pixel_size", md["x_pixel_size"], units="au")
+        self._create_dataset(detector_group, "y_pixel_size", md["y_pixel_size"], units="au")
 
         #create monochromator group and add datasets
         mono_group = self._init_group(instrument_group, "monochromator", "NXmonochromator")
-        self._create_dataset(mono_group, "energy", "md_path", units="au")
+        self._create_dataset(mono_group, "energy", md["energy"], units="au")
