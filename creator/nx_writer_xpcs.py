@@ -11,23 +11,35 @@ class Loader():
     def __init__(self, nxcreator: NXCreator):
         self._creator = nxcreator
 
-    def go():
+    def go(self):
         # now lets do the stuff
         # first, gather top level data
         top_dict = {}
 
         self._creator.create_entry_group(top_dict)
 
-        # SAX1d
-        def generate_sax_data():
-            foo = []
-            yield foo
 
         saxs_1d_md = {"SAXS_1D": 
                         {
                             "name": "beamline",
-                            "some_data": generate_sax_data
+                            "some_data": self.generate_sax_data
                         }               
                     }
 
         self._creator.create_saxs_1d_group(saxs_1d_md)
+
+    # SAX1d
+    def generate_sax_data(self):
+        foo = []
+        yield foo
+
+    xpcs_md = {"g2": "g2_value",
+               "g2_stderr": "g2_stderr_value",
+               "tau": "tau_value",
+               "g2_partials_twotime": "g2_partials_twotime_values",
+               "g2_twotime": "g2_twotime_values",
+               #TODO figure out how to access large amount of data
+               # "C": "C_shaped_array"
+               "mask": "mask_value",
+               "dqmap": "dqmap_value"
+            }
