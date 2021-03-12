@@ -36,11 +36,6 @@ class NXCreator:
         group.attrs["NX_class"] = NX_class
         return group
 
-    def _init_md(self, md=None):
-        if md is None:
-            md = {}
-        return md
-
     def create_entry_group(self, md=None, count_entry=None):
         """
         all information about the measurement
@@ -53,7 +48,7 @@ class NXCreator:
             #TODO how will count_entry be defined when connecting to the loader?
             entry_name = f"entry_{count_entry}"
         group = self._init_group(self._h5root, nm=entry_name, NX_class="NXentry")
-        md = self._init_md(md)
+        md = md if md is not None else {}
 
         group.create_dataset("definition", data=NX_APP_DEF_NAME)
         experiment_description = md.get("experiment_description")
@@ -73,21 +68,23 @@ class NXCreator:
         return group
 
 
-    def _create_dataset(self, group, name, md_path, **kwargs):
+    def _create_dataset(self, group, name, value, **kwargs):
         """
         use this to create datasets in different (sub-)groups
         """
-        ds = group.create_dataset(name, data=md_path)
+        if value is None:
+            return
+        ds = group.create_dataset(name, data=value)
         for k, v in kwargs.items():
             ds.attrs[k] = v
         ds.attrs["target"] = ds.name
         return ds
 
-    def create_xpcs_group(self, h5parent, md=None, *args, **kwargs):
+    def create_xpcs_group(self, h5parent, md=None, **kwargs):
         """
         see Data Solutions Pilot Meeting Notes
         """
-        md = self._init_md(md)
+        md = md if md is not None else {}
         xpcs_group = self._init_group(h5parent, "XPCS", "NXprocess")
         # TODO check if plottable data is assigned correctly
         #this defines the preferred plot data
@@ -109,8 +106,8 @@ class NXCreator:
 
         #create instrument group and mask group, add datasets
         #TODO do we really want an instrument group here or direktly adding mask as a subentry?
-        instrument_group = self._init_group(xpcs_group, "twotime", "NXdata")
-        mask_group = self._init_group(instrument_group, "twotime", "NXdata")
+        instrument_group = self._init_group(xpcs_group, "instrument", "NXdata")
+        mask_group = self._init_group(instrument_group, "mask", "NXdata")
         self._create_dataset(mask_group, "mask", md["mask"], units="au")
         self._create_dataset(mask_group, "dqmap", md["dqmap"], units="au")
         self._create_dataset(mask_group, "dqlist", md["dqlist"], units="au")
@@ -124,7 +121,7 @@ class NXCreator:
         """
         if "SAXS_1D" not in md:
             return
-        md = self._init_md(md)
+        md = md if md is not None else {}
         saxs_1d_group = self._init_group(h5parent, "SAXS_1D", "NXprocess")
 
         # create datagroup and add datasets
@@ -136,7 +133,7 @@ class NXCreator:
     def create_saxs_2d_group(self, h5parent, md=None, *args, **kwargs):
         if "SAXS_2D" not in md:
             return
-        md = self._init_md(md)
+        md = md if md is not None else {}
         saxs_2d_group = self._init_group(h5parent, "SAXS_2D", "NXprocess")
 
         # create datagroup and add datasets
@@ -148,7 +145,7 @@ class NXCreator:
         """Write the NXinstrument group."""
         if "instrument" not in md:
             return
-        md = self._init_md(md)
+        md = md if md is not None else {}
         instrument_group = self._init_group(h5parent, "instrument", "NXinstrument")
 
         # create detector group and add datasets

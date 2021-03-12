@@ -78,15 +78,17 @@ md = {"title": "title",
 creator = NXCreator(output_file)
 #TODO add logic to select loader based on file suffix/user input
 #TODO catch exceptions if certain fields are not avail in file
+
 aps_loader = APSLoader(input_file=input_filename)
 md_xpcs = aps_loader.xpcs_md()
 md_saxs1d = aps_loader.saxs1d_md()
 md_saxs2d = aps_loader.saxs2d_md()
 md_instrument = aps_loader.instrument_md()
 
+
 group = creator.create_entry_group(md=md)
-creator.create_xpcs_group(group, xpcs_md)
-# creator.create_xpcs_group(group, md_xpcs)
-# creator.create_saxs_1d_group(group, md_saxs1d)
-# creator.create_saxs_2d_group(group, md_saxs2d)
+# creator.create_xpcs_group(group, xpcs_md)
+creator.create_xpcs_group(group, md_xpcs)
+creator.create_saxs_1d_group(group, md_saxs1d)
+creator.create_saxs_2d_group(group, md_saxs2d)
 # creator.create_instrument_group(group, md_instrument)
