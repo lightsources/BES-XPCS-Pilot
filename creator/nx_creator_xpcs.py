@@ -52,7 +52,7 @@ class NXCreator:
         else:
             #TODO how will count_entry be defined when connecting to the loader?
             entry_name = f"entry_{count_entry}"
-        group = self._init_group(self._h5root, entry_name, "NXentry")
+        group = self._init_group(self._h5root, nm=entry_name, NX_class="NXentry")
         md = self._init_md(md)
 
         group.create_dataset("definition", data=NX_APP_DEF_NAME)
@@ -73,11 +73,11 @@ class NXCreator:
         return group
 
 
-    def _create_dataset(self, h5parent, name, md_path, **kwargs):
+    def _create_dataset(self, group, name, md_path, **kwargs):
         """
         use this to create datasets in different (sub-)groups
         """
-        ds = h5parent.create_dataset(name, data=md_path)
+        ds = group.create_dataset(name, data=md_path)
         for k, v in kwargs.items():
             ds.attrs[k] = v
         ds.attrs["target"] = ds.name
@@ -105,7 +105,7 @@ class NXCreator:
         self._create_dataset(twotime_group, "g2_partials_twotime", md["g2_partials_twotime"], units="au")
         self._create_dataset(twotime_group, "g2_twotime", md["g2_twotime"], units="au")
         # Twotime data should be a C-shaped 3D array
-        self._create_dataset(twotime_group, "C_0000X", md["C_0000X"], units="au")
+        # self._create_dataset(twotime_group, "C_0000X", md["C_0000X"], units="au")
 
         #create instrument group and mask group, add datasets
         #TODO do we really want an instrument group here or direktly adding mask as a subentry?
