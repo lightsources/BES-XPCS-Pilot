@@ -81,6 +81,7 @@ class NXCreator:
         return ds
 
     def create_xpcs_group(self, h5parent, md=None, **kwargs):
+        #TODO move dict entries into signature
         """
         see Data Solutions Pilot Meeting Notes
         """
