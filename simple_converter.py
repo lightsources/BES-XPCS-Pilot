@@ -5,6 +5,7 @@ import sys
 
 #TODO add logging and other stuff if desired
 
+#TODO add option to pass input in prompt if not given as sys args
 def get_user_parameters():
     """configure user's command line parameters from sys.argv"""
     import argparse
@@ -43,7 +44,7 @@ def get_user_parameters():
     )
 
     parser.add_argument(
-        "loader_id",
+        "Loader_id",
         action="store",
         help="Loader ID defines Loader type",
     )
@@ -54,41 +55,50 @@ options = get_user_parameters()
 output_filename = options.NeXus_file
 output_file = h5py.File(output_filename, "w")
 input_filename = options.Input_file
+loader_id = options.Loader_id
 
-#TODO remove testing dicts
-xpcs_md = {"g2": "g2_value",
-           "g2_stderr": "g2_stderr_value",
-           "tau": "tau_value",
-           "g2_partials_twotime": "g2_partials_twotime_values",
-           "g2_twotime": "g2_twotime_values",
-           #TODO figure out how to access large amount of data
-           # "C": "C_shaped_array"
-           "mask": "mask_value",
-           "dqmap": "dqmap_value"
-            }
+#TODO add logic to select loader based on file suffix/user input
+if loader_id == "aps" or "APS":
+    loader = APSLoader(input_file=input_filename)
+elif loader_id == "csx" or "CSX":
+    pass
+    # loader = CSXLoader(input_file=input_filename)
 
-md = {"title": "title",
-      "experimental_description": "XPCS experiment",
-      "XPCS": xpcs_md,
-      # "SAXS_1D": saxs_1d_md,
-      # "SAXS_2D": saxs_2d_md,
-      # "Instrument": instrument_md
-      }
+# Get data dictionaries from selected loader
+md_xpcs = loader.xpcs_md()
+md_saxs1d = loader.saxs1d_md()
+md_saxs2d = loader.saxs2d_md()
+md_instrument = loader.instrument_md()
 
 creator = NXCreator(output_file)
-#TODO add logic to select loader based on file suffix/user input
-#TODO catch exceptions if certain fields are not avail in file
+group = creator.create_entry_group(experiment_description="XPCS experiment",
+                                   title="XPCS")
+# NOTE: get() return None if key doesn't exist, None is caught in creator methods
+creator.create_xpcs_group(group,
+                          g2=md_xpcs.get('g2'),
+                          g2_stderr=md_xpcs.get('g2_stderr'),
+                          g2_partials_twotime=md_xpcs.get('g2_partials_twotime'),
+                          g2_twotime=md_xpcs.get('g2_twotime'),
+                          twotime=md_xpcs.get('twotime'),
+                          tau=md_xpcs.get('tau'),
+                          mask=md_xpcs.get('mask'),
+                          dqmap=md_xpcs.get('dqmap'),
+                          dqlist=md_xpcs.get('dqlist'),
+                          dphilist=md_xpcs.get('dphilist'),
+                          sqmap=md_xpcs.get('sqmap')
+                          )
+creator.create_saxs_1d_group(group,
+                             I=md_saxs1d.get("I"),
+                             I_partial=md_saxs1d.get("I_partial"))
+creator.create_saxs_2d_group(group,
+                             I=md_saxs2d.get("I"))
+creator.create_instrument_group(group,
+                                count_time=md_instrument.get("count_time"),
+                                frame_time=md_instrument.get("frame_time"),
+                                description=md_instrument.get("description"),
+                                distance=md_instrument.get("distance"),
+                                x_pixel_size=md_instrument.get("x_pixel_size"),
+                                y_pixel_size=md_instrument.get("y_pixel_size"),
+                                energy=md_instrument.get("energy"))
 
-aps_loader = APSLoader(input_file=input_filename)
-md_xpcs = aps_loader.xpcs_md()
-md_saxs1d = aps_loader.saxs1d_md()
-md_saxs2d = aps_loader.saxs2d_md()
-md_instrument = aps_loader.instrument_md()
-
-
-group = creator.create_entry_group(md=md)
-# creator.create_xpcs_group(group, xpcs_md)
-creator.create_xpcs_group(group, md_xpcs)
-creator.create_saxs_1d_group(group, md_saxs1d)
-creator.create_saxs_2d_group(group, md_saxs2d)
-# creator.create_instrument_group(group, md_instrument)
+output_file.close()

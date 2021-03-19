@@ -67,7 +67,12 @@ class NXCreator:
         group = self._init_group(self._h5root, nm=entry_name, NX_class="NXentry")
 
         group.create_dataset("definition", data=NX_APP_DEF_NAME)
+        if experiment_description is not None:
+            experiment_description = experiment_description
+        else:
+            experiment_description = 'Default XPCS experiment'
         self._create_dataset(group, "experiment_description", experiment_description)
+        title = title if title is not None else "default"
         self._create_dataset(group, "title", title)
         logger.debug("title: %s", title)
 
@@ -97,7 +102,7 @@ class NXCreator:
         """
         see Data Solutions Pilot Meeting Notes
         """
-        # md = md if md is not None else {}
+
         signal_dataset = None
         # check   input data
         for i in locals():
@@ -107,7 +112,7 @@ class NXCreator:
                               f'Cannot write complete XPCS groups')
             # here we check the plottable data
             elif i in ("g2", "twotime", "tau"):
-                signal_dataset = i.__name__
+                signal_dataset = i
 
         xpcs_group = self._init_group(h5parent, "XPCS", "NXprocess")
         # TODO check if plottable data is assigned correctly
@@ -128,8 +133,8 @@ class NXCreator:
         twotime_group = self._init_group(xpcs_group, "twotime", "NXdata")
         self._create_dataset(twotime_group, "g2_partials_twotime", g2_partials_twotime, units="au")
         self._create_dataset(twotime_group, "g2_twotime", g2_twotime, units="au")
-        # Twotime data should be a C-shaped 3D array
-        # self._create_dataset(twotime_group, "C_0000X", C_0000X, units="au")
+        # TODO find a better name for this entry: e.g. twotime_corr, twotime, C2T_all...?
+        self._create_dataset(twotime_group, "twotime", twotime, units="au")
 
         #create instrument group and mask group, add datasets
         #TODO do we really want an instrument group here or direktly adding mask as a subentry?
@@ -198,9 +203,6 @@ class NXCreator:
                                 energy: float=None
                                 ):
         """Write the NXinstrument group."""
-        if "instrument" not in md:
-            return
-        md = md if md is not None else {}
         instrument_group = self._init_group(h5parent, "instrument", "NXinstrument")
 
         # create detector group and add datasets
@@ -215,3 +217,15 @@ class NXCreator:
         #create monochromator group and add datasets
         mono_group = self._init_group(instrument_group, "monochromator", "NXmonochromator")
         self._create_dataset(mono_group, "energy", energy, units="au")
+
+    def write_new_file(self, output_filename, number_of_entries=1, md=None):
+        """Write the complete NeXus file."""
+        if md is None:
+            md = {}
+        with h5py.File(output_filename, "w") as root:
+            self.write_file_header(root, md=md)
+            for entry in range(1, number_of_entries+1):
+            # for entry in range(1, len(md['energy'])+1):
+                print(f'writing entry_{entry}')
+                self.create_entry_group(root, md=md, current_entry=entry)
+        root.close()
