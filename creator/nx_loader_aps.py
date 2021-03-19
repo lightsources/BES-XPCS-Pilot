@@ -3,7 +3,6 @@ import numpy as np
 
 
 class APSLoader():
-
     def __init__(self, input_file):
         self.data_file = h5py.File(input_file, 'r')
 
@@ -20,9 +19,8 @@ class APSLoader():
             c2t_all = None
         return c2t_all
 
-    #TODO move these to a more general approach for different loaders
+    #TODO change this to a more general approach for different loaders
     def xpcs_md(self):
-
         xpcs = dict(
             g2=self.data_file.get("/exchange/norm-0-g2"),
             g2_stderr=self.data_file.get("/exchange/norm-0-stderr"),
@@ -43,25 +41,25 @@ class APSLoader():
 
     def saxs1d_md(self):
         saxs1d = dict(
-            I=self.data_file.get("..."),
-            I_partial=self.data_file.get("...")
+            I=self.data_file.get("/exchange/partition-mean-total"),
+            I_partial=self.data_file.get("/exchange/partition-mean-partial")
         )
         return saxs1d
 
     def saxs2d_md(self):
         saxs2d = dict(
-            I=self.data_file.get("...")
+            I=self.data_file.get("/exchange/pixelSum")
         )
         return saxs2d
 
     def instrument_md(self):
         instrument = dict(
-            count_time = self.data_file.get("..."),
-            frame_time = self.data_file.get("..."),
-            description = self.data_file.get("..."),
-            distance = self.data_file.get("..."),
-            x_pixel_size = self.data_file.get("..."),
-            y_pixel_size = self.data_file.get("..."),
+            count_time=self.data_file.get("/measurement/instrument/detector/exposure_time"),
+            frame_time=self.data_file.get("/measurement/instrument/detector/exposure_period"),
+            description=self.data_file.get("/measurement/instrument/detector/manufacturer"),
+            distance=self.data_file.get("/measurement/instrument/detector/distance"),
+            x_pixel_size=self.data_file.get("/measurement/instrument/detector/x_pixel_size"),
+            y_pixel_size=self.data_file.get("/measurement/instrument/detector/y_pixel_size"),
         )
         return instrument
 
