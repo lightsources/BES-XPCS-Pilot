@@ -54,9 +54,6 @@ def get_user_parameters():
 
 options = get_user_parameters()
 output_filename = options.NeXus_file
-# TODO what to do if file exists (and is still opened elsewhere)? Append?
-# output_file = h5py.File(output_filename, "w")
-
 
 input_filename = options.Input_file
 loader_id = options.Loader_id
@@ -68,14 +65,18 @@ elif loader_id == "csx" or "CSX":
     pass
     # loader = CSXLoader(input_file=input_filename)
 
+### GETTING THE DATA IS FLEXIBLE --> Choose best way depedning on data
 # Get data dictionaries from selected loader
 md_xpcs = loader.xpcs_md()
 md_saxs1d = loader.saxs1d_md()
 md_saxs2d = loader.saxs2d_md()
 md_instrument = loader.instrument_md()
 
+
+### Instanciate Creator Class
 creator = NXCreator(output_filename)
 
+# TODO what to do if file exists (and is still opened elsewhere)? Append?
 creator.init_file()
 creator.create_entry_group(entry_number=1)
 creator.create_xpcs_group(g2=md_xpcs.get('g2/data'),
@@ -92,13 +93,10 @@ creator.create_xpcs_group(g2=md_xpcs.get('g2/data'),
                           dphilist=md_xpcs.get('dphilist'),
                           sqmap=md_xpcs.get('sqmap')
                           )
-creator.create_saxs_1d_group(group,
-                             I=md_saxs1d.get("I"),
+creator.create_saxs_1d_group(I=md_saxs1d.get("I"),
                              I_partial=md_saxs1d.get("I_partial"))
-creator.create_saxs_2d_group(group,
-                             I=md_saxs2d.get("I"))
-creator.create_instrument_group(group,
-                                count_time=md_instrument.get("count_time"),
+creator.create_saxs_2d_group(I=md_saxs2d.get("I"))
+creator.create_instrument_group(count_time=md_instrument.get("count_time"),
                                 frame_time=md_instrument.get("frame_time"),
                                 description=md_instrument.get("description"),
                                 distance=md_instrument.get("distance"),
@@ -106,11 +104,4 @@ creator.create_instrument_group(group,
                                 y_pixel_size=md_instrument.get("y_pixel_size"),
                                 energy=md_instrument.get("energy"))
 
-# group = creator.create_entry_group(experiment_description="XPCS experiment",
-#                                    title="XPCS")
-# # NOTE: get() return None if key doesn't exist, None is caught in creator methods
-# # FIXME check order and use of kwargs
 
-
-#
-# output_file.close()

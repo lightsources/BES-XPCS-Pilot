@@ -55,7 +55,6 @@ class NXCreator:
 
     def write_file_header(self, output_file):
         """optional header metadata"""
-        #TODO check how this can be implemented in a better way
         timestamp = datetime.datetime.now().isoformat(sep=" ", timespec="seconds")
         logger.debug("timestamp: %s", str(timestamp))
         # give the HDF5 root some more attributes
@@ -157,7 +156,8 @@ class NXCreator:
             # create datagroup and add datasets
             data_group = self._init_group(self.xpcs_group, "data", "NXdata")
             self._create_dataset(data_group, "g2", g2, units=g2_unit)
-            self._create_dataset(data_group, "g2_stderr", g2_stderr, units=g2_unit)
+            # TODO how do we want to add the units?
+            # self._create_dataset(data_group, "g2_stderr", g2_stderr, units=g2_unit)
             self._create_dataset(data_group, "tau", tau, units="au")
 
             # add twotime group and dataset
@@ -168,7 +168,7 @@ class NXCreator:
             self._create_dataset(twotime_group, "twotime", twotime, units="au")
 
             # create instrument group and mask group, add datasets
-            # TODO do we really want an instrument group here or direktly adding mask as a subentry?
+            # TODO do we really want an instrument group here or directly adding mask as a subentry?
             instrument_group = self._init_group(self.xpcs_group, "instrument", "NXdata")
             mask_group = self._init_group(instrument_group, "mask", "NXdata")
             self._create_dataset(mask_group, "mask", mask, units="au")
