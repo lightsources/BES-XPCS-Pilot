@@ -1,11 +1,12 @@
 import h5py
-from creator.nx_creator_xpcs import NXCreator
-from creator.nx_loader_aps import APSLoader
 import sys
 
-#TODO add logging and other stuff if desired
+from creator.nx_creator_xpcs import NXCreator
+from creator.nx_loader_aps import APSLoader
 
-#TODO add option to pass input in prompt if not given as sys args
+
+# TODO add logging and other stuff if desired
+# TODO add option to pass input in prompt if not given as sys args
 def get_user_parameters():
     """configure user's command line parameters from sys.argv"""
     import argparse
@@ -35,12 +36,12 @@ def get_user_parameters():
     parser.add_argument(
         "Input_file",
         action="store",
-        help="NXcxi_ptycho (input) data file name",
+        help="NXxpcs (input) data file name",
     )
     parser.add_argument(
         "NeXus_file",
         action="store",
-        help="NXcxi_ptycho (output) data file name",
+        help="NXxpcs (output) data file name",
     )
 
     parser.add_argument(
@@ -53,11 +54,14 @@ def get_user_parameters():
 
 options = get_user_parameters()
 output_filename = options.NeXus_file
-output_file = h5py.File(output_filename, "w")
+# TODO what to do if file exists (and is still opened elsewhere)? Append?
+# output_file = h5py.File(output_filename, "w")
+
+
 input_filename = options.Input_file
 loader_id = options.Loader_id
 
-#TODO add logic to select loader based on file suffix/user input
+# TODO add logic to select loader based on file suffix/user input
 if loader_id == "aps" or "APS":
     loader = APSLoader(input_file=input_filename)
 elif loader_id == "csx" or "CSX":
@@ -70,15 +74,16 @@ md_saxs1d = loader.saxs1d_md()
 md_saxs2d = loader.saxs2d_md()
 md_instrument = loader.instrument_md()
 
-creator = NXCreator(output_file)
-group = creator.create_entry_group(experiment_description="XPCS experiment",
-                                   title="XPCS")
-# NOTE: get() return None if key doesn't exist, None is caught in creator methods
-creator.create_xpcs_group(group,
-                          g2=md_xpcs.get('g2'),
+creator = NXCreator(output_filename)
+
+creator.init_file()
+creator.create_entry_group(entry_number=1)
+creator.create_xpcs_group(g2=md_xpcs.get('g2/data'),
+                          g2_unit=md_xpcs.get('g2/unit'),
                           g2_stderr=md_xpcs.get('g2_stderr'),
                           g2_partials_twotime=md_xpcs.get('g2_partials_twotime'),
                           g2_twotime=md_xpcs.get('g2_twotime'),
+                          # TODO find a better name for this entry: e.g. twotime_corr, twotime, C2T_all...?
                           twotime=md_xpcs.get('twotime'),
                           tau=md_xpcs.get('tau'),
                           mask=md_xpcs.get('mask'),
@@ -101,4 +106,11 @@ creator.create_instrument_group(group,
                                 y_pixel_size=md_instrument.get("y_pixel_size"),
                                 energy=md_instrument.get("energy"))
 
-output_file.close()
+# group = creator.create_entry_group(experiment_description="XPCS experiment",
+#                                    title="XPCS")
+# # NOTE: get() return None if key doesn't exist, None is caught in creator methods
+# # FIXME check order and use of kwargs
+
+
+#
+# output_file.close()
