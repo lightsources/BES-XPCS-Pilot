@@ -57,13 +57,13 @@ output_filename = options.NeXus_file
 
 input_filename = options.Input_file
 loader_id = options.Loader_id
-
 # TODO add logic to select loader based on file suffix/user input
-if loader_id == "aps" or "APS":
+# TODO: add additional keyword arguments to have standard signature
+if loader_id.lower() == "aps":
     loader = APSLoader(input_file=input_filename)
-elif loader_id == "csx" or "CSX":
-    pass
-    # loader = CSXLoader(input_file=input_filename)
+elif loader_id.lower() == "nslsii":
+    # TODO: handle use_q_values in parser
+    loader = NSLSLoader(input_file=input_filename, use_q_values=True)
 
 ### GETTING THE DATA IS FLEXIBLE --> Choose best way depedning on data
 # Get data dictionaries from selected loader
