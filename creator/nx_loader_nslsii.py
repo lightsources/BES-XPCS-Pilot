@@ -50,10 +50,11 @@ class NSLSLoader:
             xpcs_data['dqlist_unit'] = '1/angstrom'
         else:
             q_index_list = [i + 1 for i in range(len(q_vals))]
+            # This is an integer pointer; doesn't need a unit
             xpcs_data['dqlist'] = q_index_list
-            xpcs_data['dqlist_unit'] = 'count'
 
-        xpcs_data['dphilist'] = self.data_file.get('dphilist')
+        # Angle measurement
+        xpcs_data['dphi'] = self.data_file.get('dphi')
 
         xpcs_data['sqmap'] = self.data_file.get('sqmap')
 
