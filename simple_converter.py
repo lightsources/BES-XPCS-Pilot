@@ -3,6 +3,7 @@ import sys
 
 from creator.nx_creator_xpcs import NXCreator
 from creator.nx_loader_aps import APSLoader
+from creator.nx_loader_nslsii import NSLSLoader
 
 
 # TODO add logging and other stuff if desired
