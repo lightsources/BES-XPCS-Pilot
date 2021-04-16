@@ -60,7 +60,7 @@ class NXCreator:
         # give the HDF5 root some more attributes
         output_file.attrs["file_name"] = output_file.filename
         output_file.attrs["file_time"] = timestamp
-        #TODO does instrument name belong in header?
+        #TODO does instrument name belong in header? --> move to instrument group
         output_file.attrs["instrument"] = "instrument_name"
         output_file.attrs["creator"] = __file__  # TODO: better choice?
         output_file.attrs["HDF5_Version"] = h5py.version.hdf5_version
@@ -96,7 +96,7 @@ class NXCreator:
             entry_group = self._init_group(file, name=entry_name, NX_class="NXentry")
             self.entry_group_name = entry_group.name
 
-            #TODO Decide on actual content of these entries
+            #TODO Decide on actual content of these entries --> see NX defintion PR
             entry_group.create_dataset("definition", data=NX_APP_DEF_NAME)
             if experiment_description is not None:
                 experiment_description = experiment_description
@@ -106,10 +106,46 @@ class NXCreator:
             title = title if title is not None else "default"
             self._create_dataset(entry_group, "title", title)
             logger.debug("title: %s", title)
+            # Point to this group for default plot
+            file.attrs["default"] = entry_group.name
 
-            # FIXME: Check NeXus structure: point to this group for default plot
-            #file.attrs["default"] = self.entry_group.name.split("/")[-1]
-            file.close()
+
+    def check_unit(self, expected, supplied):
+        """
+            Our test for units should check if the supplied
+            units string can be mapped into the expected units for that field.
+        :param expected:
+        :param supplied:
+        :return:
+        """
+        # TODO check units and use pint to convert
+        # https://pint.readthedocs.io/en/stable/
+        # https://pint.readthedocs.io/en/0.10.1/tutorial.html
+        # import pint
+        #
+        # def check_units(self, expected, supplied):
+        #     """
+        #     Test if supplied units string can be converted into expected units.
+        #
+        #     PARAMETERS
+        #
+        #     expected *str*: expected units example
+        #     supplied *str*: units string that was given
+        #
+        #     RETURNS
+        #
+        #     *bool*: `True` if units conversion is possible
+        #     """
+        #     # TODO: check both for pint.UndefinedUnitError
+        #     ureg = pint.UnitRegistry()
+        #     user = 1.0 * ureg(supplied)
+        #     try:
+        #         v = user.to(supplied)
+        #         return True
+        #     except import.DimensionalityError:
+        #         return False
+        pass
+
 
     def create_xpcs_group(self,
                           g2: np.ndarray = None,
@@ -126,10 +162,6 @@ class NXCreator:
                           sqmap: np.ndarray = None,
                           *args,
                           **kwargs):
-
-        # TODO check units and use pint to convert
-        # https://pint.readthedocs.io/en/stable/
-
         """
         see Data Solutions Pilot Meeting Notes
         """
@@ -146,7 +178,7 @@ class NXCreator:
                 signal_dataset = i
         with h5py.File(self._output_filename, "a") as file:
             self.xpcs_group = self._init_group(file[self.entry_group_name], "XPCS", "NXprocess")
-            # TODO check if plottable data is assigned correctly
+            #check that plottable data is assigned correctly
             if signal_dataset is None:
                 warnings.warn(f'No plottable data available in {self.xpcs_group.__name__} cannot write signal attribute')
             else:
@@ -156,7 +188,6 @@ class NXCreator:
             # create datagroup and add datasets
             data_group = self._init_group(self.xpcs_group, "data", "NXdata")
             self._create_dataset(data_group, "g2", g2, units=g2_unit)
-            # TODO how do we want to add the units?
             # self._create_dataset(data_group, "g2_stderr", g2_stderr, units=g2_unit)
             self._create_dataset(data_group, "tau", tau, units="au")
 
@@ -176,7 +207,7 @@ class NXCreator:
             self._create_dataset(mask_group, "dqlist", dqlist, units="au")
             self._create_dataset(mask_group, "dphilist", dphilist, units="au")
             self._create_dataset(mask_group, "sqmap", sqmap, units="au")
-            file.close()
+
 
     def create_saxs_1d_group(self,
                              I: np.ndarray = None,
@@ -197,7 +228,7 @@ class NXCreator:
             data_group = self._init_group(saxs_1d_group, "data", "NXdata")
             self._create_dataset(data_group, "I", I, units="au")
             self._create_dataset(data_group, "I_partial", I_partial, units="au")
-            file.close()
+
 
 
     def create_saxs_2d_group(self,
@@ -217,7 +248,7 @@ class NXCreator:
             saxs_2d_group = self._init_group(file[self.entry_group_name], "SAXS_2D", "NXprocess")
             data_group = self._init_group(saxs_2d_group, "data", "NXdata")
             self._create_dataset(data_group, "I", I, units="au")
-            file.close()
+
 
     def create_instrument_group(self,
                                 count_time: np.ndarray = None,
@@ -244,5 +275,5 @@ class NXCreator:
             # create monochromator group and add datasets
             mono_group = self._init_group(self.instrument_group, "monochromator", "NXmonochromator")
             self._create_dataset(mono_group, "energy", energy, units="au")
-            file.close()
+
 
