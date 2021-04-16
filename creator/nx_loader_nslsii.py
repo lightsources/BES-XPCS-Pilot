@@ -1,7 +1,5 @@
 import h5py
 
-# from creator.nx_creator_xpcs import NXCreator
-
 
 class NSLSLoader:
     def __init__(self, input_file, use_q_values=True):
@@ -9,7 +7,6 @@ class NSLSLoader:
         self.use_q_values = use_q_values  # use q values or indices for dqlist
 
     def get_entry_data(self):
-        # TODO: fix implementation for this and figure out where this goes
         entry_data = {}
         entry_data['experiment_description'] = self.data_file.get('md').attrs['Measurement']
         entry_data['title'] = self.data_file.get('md').attrs['sample']
@@ -63,7 +60,6 @@ class NSLSLoader:
         return xpcs_data
 
     def saxs1d_md(self):
-        # TODO: units?
         saxs_1d_data = {}
         saxs_1d_data['I'] = self.data_file.get('iq_saxs')
         saxs_1d_data['I_unit'] = 'a.u'
@@ -74,7 +70,6 @@ class NSLSLoader:
         return saxs_1d_data
 
     def saxs2d_md(self):
-        # TODO: units?
         saxs_2d_data = {}
         saxs_2d_data['I'] = self.data_file.get('avg_img')
         saxs_2d_data['I_unit'] = 'a.u'
