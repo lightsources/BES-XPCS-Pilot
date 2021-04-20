@@ -3,6 +3,7 @@ import sys
 
 from creator.nx_creator_xpcs import NXCreator
 from creator.nx_loader_aps import APSLoader
+from creator.nx_loader_nslsii import NSLSLoader
 
 
 # TODO add logging and other stuff if desired
@@ -49,6 +50,13 @@ def get_user_parameters():
         action="store",
         help="Loader ID defines Loader type",
     )
+
+    # If this flag isn't present, use_q_values defaults to False
+    parser.add_argument(
+        "--use_q_values",
+        action="store_true",
+        help="Use this to use q values for dqlist instead of index values",
+    )
     return parser.parse_args()
 
 
@@ -57,13 +65,14 @@ output_filename = options.NeXus_file
 
 input_filename = options.Input_file
 loader_id = options.Loader_id
+use_q_values = options.use_q_values
 # TODO add logic to select loader based on file suffix/user input
 # TODO: add additional keyword arguments to have standard signature
 if loader_id.lower() == "aps":
     loader = APSLoader(input_file=input_filename)
 elif loader_id.lower() == "nslsii":
     # TODO: handle use_q_values in parser
-    loader = NSLSLoader(input_file=input_filename, use_q_values=True)
+    loader = NSLSLoader(input_file=input_filename, use_q_values=use_q_values)
 
 ### GETTING THE DATA IS FLEXIBLE --> Choose best way depedning on data
 # Get data dictionaries from selected loader
