@@ -4,6 +4,7 @@ import h5py
 import logging
 import numpy as np
 import warnings
+import pint
 
 logger = logging.getLogger(__name__)
 # logger.setLevel(logging.DEBUG)
@@ -20,14 +21,14 @@ NX_APP_DEF_NAME = "NXxpcs"  # name of NeXus Application Definition
 
 class NXCreator:
     """
-
-    Write a NeXus file from the XPCS data
+    Write a NeXus file from the XPCS and SAXS data
+    Using NXxpcs and NXcansas defitition
 
     These files contain several sets of results, including:
 
+    * XPCS
     * 1-D SAXS
     * 2-D SAXS
-    * XPCS
     * and may include other analyses
 
     """
@@ -114,37 +115,18 @@ class NXCreator:
         """
             Our test for units should check if the supplied
             units string can be mapped into the expected units for that field.
-        :param expected:
-        :param supplied:
-        :return:
+        :param : expected units example
+        :param : units string that was given
+        :return *bool*: `True` if units conversion is possible:
         """
-        # TODO check units and use pint to convert
-        # https://pint.readthedocs.io/en/stable/
-        # https://pint.readthedocs.io/en/0.10.1/tutorial.html
-        # import pint
-        #
-        # def check_units(self, expected, supplied):
-        #     """
-        #     Test if supplied units string can be converted into expected units.
-        #
-        #     PARAMETERS
-        #
-        #     expected *str*: expected units example
-        #     supplied *str*: units string that was given
-        #
-        #     RETURNS
-        #
-        #     *bool*: `True` if units conversion is possible
-        #     """
-        #     # TODO: check both for pint.UndefinedUnitError
-        #     ureg = pint.UnitRegistry()
-        #     user = 1.0 * ureg(supplied)
-        #     try:
-        #         v = user.to(supplied)
-        #         return True
-        #     except import.DimensionalityError:
-        #         return False
-        pass
+        ureg = pint.UnitRegistry()
+        user = 1.0 * ureg(supplied)
+        try:
+            converted = user.to(expected)
+            return True
+        except pint.DimensionalityError:
+            print("WARNING: Supplied unit does not match expected units")
+            return False
 
 
     def create_xpcs_group(self,
