@@ -15,7 +15,7 @@ NX_EXTENSION = ".nxs"
 NX_APP_DEF_NAME = "NXxpcs"  # name of NeXus Application Definition
 
 
-# TODO: not defined in NeXus at this time
+#TODO: not defined in NeXus at this time
 # Need to create & propose this new Application Definition to NIAC
 
 
@@ -61,8 +61,6 @@ class NXCreator:
         # give the HDF5 root some more attributes
         output_file.attrs["file_name"] = output_file.filename
         output_file.attrs["file_time"] = timestamp
-        #TODO does instrument name belong in header? --> move to instrument group
-        output_file.attrs["instrument"] = "instrument_name"
         output_file.attrs["creator"] = __file__  # TODO: better choice?
         output_file.attrs["HDF5_Version"] = h5py.version.hdf5_version
         output_file.attrs["h5py_version"] = h5py.version.version
@@ -97,7 +95,6 @@ class NXCreator:
             entry_group = self._init_group(file, name=entry_name, NX_class="NXentry")
             self.entry_group_name = entry_group.name
 
-            #TODO Decide on actual content of these entries --> see NX defintion PR
             entry_group.create_dataset("definition", data=NX_APP_DEF_NAME)
             if experiment_description is not None:
                 experiment_description = experiment_description
@@ -119,24 +116,32 @@ class NXCreator:
         :param : units string that was given
         :return *bool*: `True` if units conversion is possible:
         """
+        #TODO How register arbitrary unit in pint
         ureg = pint.UnitRegistry()
         user = 1.0 * ureg(supplied)
         try:
-            converted = user.to(expected)
+            user.to(expected)
             return True
         except pint.DimensionalityError:
             print("WARNING: Supplied unit does not match expected units")
             return False
+
+    #TODO where to do the unit check?
 
 
     def create_xpcs_group(self,
                           g2: np.ndarray = None,
                           g2_unit: str = 'a.u',
                           g2_stderr: np.ndarray = None,
+                          g2_stderr_unit: str = 'a.u',
                           g2_partials_twotime: np.ndarray = None,
+                          g2_partials_twotime_unit: str = 'a.u.',
                           g2_twotime: np.ndarray = None,
+                          g2_twotime_unit: str = 'a.u.',
                           twotime: np.ndarray = None,
+                          twotime_unit: str = 'a.u.',
                           tau: np.ndarray = None,
+                          tau_unit: str = 's',
                           mask: np.ndarray = None,
                           dqmap: np.ndarray = None,
                           dqlist: np.ndarray = None,
@@ -171,14 +176,13 @@ class NXCreator:
             data_group = self._init_group(self.xpcs_group, "data", "NXdata")
             self._create_dataset(data_group, "g2", g2, units=g2_unit)
             # self._create_dataset(data_group, "g2_stderr", g2_stderr, units=g2_unit)
-            self._create_dataset(data_group, "tau", tau, units="au")
-
+            self._create_dataset(data_group, "tau", tau, units=tau_unit)
             # add twotime group and dataset
             twotime_group = self._init_group(self.xpcs_group, "twotime", "NXdata")
-            self._create_dataset(twotime_group, "g2_partials_twotime", g2_partials_twotime, units="au")
-            self._create_dataset(twotime_group, "g2_twotime", g2_twotime, units="au")
+            self._create_dataset(twotime_group, "g2_partials_twotime", g2_partials_twotime, units=g2_partials_twotime_unit)
+            self._create_dataset(twotime_group, "g2_twotime", g2_twotime, units=g2_twotime_unit)
             # TODO find a better name for this entry: e.g. twotime_corr, twotime, C2T_all...?
-            self._create_dataset(twotime_group, "twotime", twotime, units="au")
+            self._create_dataset(twotime_group, "twotime", twotime, units=twotime_unit)
 
             # create instrument group and mask group, add datasets
             # TODO do we really want an instrument group here or directly adding mask as a subentry?
@@ -233,6 +237,7 @@ class NXCreator:
 
 
     def create_instrument_group(self,
+                                instrument_name: str = None,
                                 count_time: np.ndarray = None,
                                 frame_time: np.ndarray = None,
                                 description: str = None,
@@ -244,6 +249,7 @@ class NXCreator:
         """Write the NXinstrument group."""
         with h5py.File(self._output_filename, "a") as file:
             self.instrument_group = self._init_group(file[self.entry_group_name], "instrument", "NXinstrument")
+            self.instrument_group.attrs["instrument"] = instrument_name
 
             # create detector group and add datasets
             detector_group = self._init_group(self.instrument_group, "detector", "NXdetector")
