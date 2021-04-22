@@ -49,24 +49,36 @@ class APSLoader():
         saxs1d = dict(
             I=self.data_file.get("/exchange/partition-mean-total"),
             I_unit='a.u.',
-            I_partial=self.data_file.get("/exchange/partition-mean-partial")
+            I_partial=self.data_file.get("/exchange/partition-mean-partial"),
+            I_partial_unit='a.u'
         )
         return saxs1d
 
     def saxs2d_md(self):
         saxs2d = dict(
-            I=self.data_file.get("/exchange/pixelSum")
+            I=self.data_file.get("/exchange/pixelSum"),
+            i_unit='a.u.'
         )
         return saxs2d
 
     def instrument_md(self):
         instrument = dict(
+        #TODO add instrument name e.g. as input when running the converter
+            # beam_center_x=self.data_file.get("/measurement/instrument/detector/beam_center"),
+            # beam_center_y=self.data_file.get("/measurement/instrument/detector/beam_center"),
             count_time=self.data_file.get("/measurement/instrument/detector/exposure_time"),
-            frame_time=self.data_file.get("/measurement/instrument/detector/exposure_period"),
+            count_time_unit='s',
             description=self.data_file.get("/measurement/instrument/detector/manufacturer"),
             distance=self.data_file.get("/measurement/instrument/detector/distance"),
+            distance_unit='mm',
+            energy=self.data_file.get("/measurement/instrument/source_begin/energy"),
+            energy_unit='keV',
+            frame_time=self.data_file.get("/measurement/instrument/detector/exposure_period"),
+            frame_time_unit='s',
             x_pixel_size=self.data_file.get("/measurement/instrument/detector/x_pixel_size"),
+            x_pixel_size_unit='um',
             y_pixel_size=self.data_file.get("/measurement/instrument/detector/y_pixel_size"),
+            y_pixel_size_unit='um'
         )
         return instrument
 
