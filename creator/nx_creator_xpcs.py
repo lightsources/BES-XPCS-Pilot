@@ -59,6 +59,8 @@ class NXCreator:
         timestamp = datetime.datetime.now().isoformat(sep=" ", timespec="seconds")
         logger.debug("timestamp: %s", str(timestamp))
         # give the HDF5 root some more attributes
+        #TODO move instrument name to instrument group
+        # output_file.attrs["instrument"] = instrument_name
         output_file.attrs["file_name"] = output_file.filename
         output_file.attrs["file_time"] = timestamp
         output_file.attrs["creator"] = __file__  # TODO: better choice?
@@ -76,6 +78,32 @@ class NXCreator:
             ds.attrs[k] = v
         ds.attrs["target"] = ds.name
         return ds
+
+    def _check_unit(self, expected, supplied):
+        """
+            Our test for units should check if the supplied
+            units string can be mapped into the expected units for that field.
+        :param : expected units example
+        :param : units string that was given
+        :return *bool*: `True` if units conversion is possible:
+        """
+        #TODO How register arbitrary unit in pint
+        ureg = pint.UnitRegistry()
+        user = 1.0 * ureg(supplied)
+        try:
+            user.to(expected)
+            return True
+        except pint.DimensionalityError:
+            print("WARNING: Supplied unit does not match expected units")
+            return False
+
+    def create_data_with_unit(self, group, name, value, expected, supplied):
+
+        if self._check_unit(expected, supplied):
+            self._create_dataset(group, name, value, unit=supplied)
+        else:
+            self._create_dataset(group, name, value)
+
 
     def create_entry_group(self,
                            experiment_description: str = None,
@@ -108,23 +136,7 @@ class NXCreator:
             file.attrs["default"] = entry_group.name
 
 
-    def check_unit(self, expected, supplied):
-        """
-            Our test for units should check if the supplied
-            units string can be mapped into the expected units for that field.
-        :param : expected units example
-        :param : units string that was given
-        :return *bool*: `True` if units conversion is possible:
-        """
-        #TODO How register arbitrary unit in pint
-        ureg = pint.UnitRegistry()
-        user = 1.0 * ureg(supplied)
-        try:
-            user.to(expected)
-            return True
-        except pint.DimensionalityError:
-            print("WARNING: Supplied unit does not match expected units")
-            return False
+
 
     #TODO where to do the unit check?
 
@@ -174,25 +186,27 @@ class NXCreator:
 
             # create datagroup and add datasets
             data_group = self._init_group(self.xpcs_group, "data", "NXdata")
-            self._create_dataset(data_group, "g2", g2, units=g2_unit)
-            # self._create_dataset(data_group, "g2_stderr", g2_stderr, units=g2_unit)
-            self._create_dataset(data_group, "tau", tau, units=tau_unit)
+
+            self.create_data_with_unit(data_group, "g2", g2, 'a.u.', supplied=g2_unit)
+            self.create_data_with_unit(data_group, "g2_stderr", g2_stderr, 'a.u.', supplied=g2_unit)
+            self.create_data_with_unit(data_group, "tau", tau, 's', supplied=tau_unit)
             # add twotime group and dataset
             twotime_group = self._init_group(self.xpcs_group, "twotime", "NXdata")
-            self._create_dataset(twotime_group, "g2_partials_twotime", g2_partials_twotime, units=g2_partials_twotime_unit)
-            self._create_dataset(twotime_group, "g2_twotime", g2_twotime, units=g2_twotime_unit)
+            self.create_data_with_unit(twotime_group, "g2_partials_twotime", g2_partials_twotime, 'a.u.',
+                                       supplied=g2_partials_twotime_unit)
+            self.create_data_with_unit(twotime_group, "g2_twotime", g2_twotime, 'a.u.', supplied=g2_twotime_unit)
             # TODO find a better name for this entry: e.g. twotime_corr, twotime, C2T_all...?
-            self._create_dataset(twotime_group, "twotime", twotime, units=twotime_unit)
+            self.create_data_with_unit(twotime_group, "twotime", twotime, 'a.u.', supplied=twotime_unit)
 
             # create instrument group and mask group, add datasets
             # TODO do we really want an instrument group here or directly adding mask as a subentry?
             instrument_group = self._init_group(self.xpcs_group, "instrument", "NXdata")
             mask_group = self._init_group(instrument_group, "mask", "NXdata")
-            self._create_dataset(mask_group, "mask", mask, units="au")
-            self._create_dataset(mask_group, "dqmap", dqmap, units="au")
-            self._create_dataset(mask_group, "dqlist", dqlist, units="au")
-            self._create_dataset(mask_group, "dphilist", dphilist, units="au")
-            self._create_dataset(mask_group, "sqmap", sqmap, units="au")
+            self._create_dataset(mask_group, "mask", mask)
+            self._create_dataset(mask_group, "dqmap", dqmap)
+            self._create_dataset(mask_group, "dqlist", dqlist)
+            self._create_dataset(mask_group, "dphilist", dphilist)
+            self._create_dataset(mask_group, "sqmap", sqmap)
 
 
     def create_saxs_1d_group(self,
@@ -239,29 +253,36 @@ class NXCreator:
     def create_instrument_group(self,
                                 instrument_name: str = None,
                                 count_time: np.ndarray = None,
+                                count_time_unit: str = None,
                                 frame_time: np.ndarray = None,
+                                frame_time_unit: str = None,
                                 description: str = None,
                                 distance: float = None,
+                                distance_unit: str = None,
                                 x_pixel_size: float = None,
+                                x_pixel_size_unit: str = None,
                                 y_pixel_size: float = None,
-                                energy: float = None
+                                y_pixel_size_unit: str = None,
+                                energy: float = None,
+                                energy_unit: str = None,
                                 ):
         """Write the NXinstrument group."""
         with h5py.File(self._output_filename, "a") as file:
             self.instrument_group = self._init_group(file[self.entry_group_name], "instrument", "NXinstrument")
-            self.instrument_group.attrs["instrument"] = instrument_name
+            #TODO how to add instrument name here
+            # self.instrument_group.attrs["instrument"] = instrument_name
 
             # create detector group and add datasets
             detector_group = self._init_group(self.instrument_group, "detector", "NXdetector")
-            self._create_dataset(detector_group, "count_time", count_time, units="au")
-            self._create_dataset(detector_group, "frame_time", frame_time, units="au")
-            self._create_dataset(detector_group, "description", description, units="au")
-            self._create_dataset(detector_group, "distance", distance, units="au")
-            self._create_dataset(detector_group, "x_pixel_size", x_pixel_size, units="au")
-            self._create_dataset(detector_group, "y_pixel_size", y_pixel_size, units="au")
+            self.create_data_with_unit(detector_group, "count_time", count_time, 's', supplied=count_time_unit)
+            self.create_data_with_unit(detector_group, "frame_time", frame_time, 's', supplied=frame_time_unit)
+            self._create_dataset(detector_group, "description", description)
+            self.create_data_with_unit(detector_group, "distance", distance, 'mm', supplied=distance_unit)
+            self.create_data_with_unit(detector_group, "x_pixel_size", x_pixel_size, 'um', supplied=x_pixel_size_unit)
+            self.create_data_with_unit(detector_group, "y_pixel_size", y_pixel_size, 'um', supplied=y_pixel_size_unit)
 
             # create monochromator group and add datasets
             mono_group = self._init_group(self.instrument_group, "monochromator", "NXmonochromator")
-            self._create_dataset(mono_group, "energy", energy, units="au")
+            self.create_data_with_unit(mono_group, "energy", energy, 'eV', supplied=energy_unit)
 
 

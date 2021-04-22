@@ -1,9 +1,8 @@
-import h5py
 import sys
 
 from creator.nx_creator_xpcs import NXCreator
-from creator.nx_loader_aps import APSLoader
-from creator.nx_loader_nslsii import NSLSLoader
+from loader.nx_loader_aps import APSLoader
+from loader.nx_loader_nslsii import NSLSLoader
 
 
 # TODO add logging and other stuff if desired
@@ -88,29 +87,45 @@ creator = NXCreator(output_filename)
 # TODO what to do if file exists (and is still opened elsewhere)? Append?
 creator.init_file()
 creator.create_entry_group(entry_number=1)
-creator.create_xpcs_group(g2=md_xpcs.get('g2/data'),
-                          g2_unit=md_xpcs.get('g2/unit'),
+creator.create_xpcs_group(
+                          g2=md_xpcs.get('g2'),
+                          g2_unit=md_xpcs.get('g2_unit'),
                           g2_stderr=md_xpcs.get('g2_stderr'),
+                          g2_stderr_unit=md_xpcs.get('g2_stderr_unit'),
                           g2_partials_twotime=md_xpcs.get('g2_partials_twotime'),
+                          g2_partials_twotime_unit=md_xpcs.get('g2_partials_twotime_unit'),
                           g2_twotime=md_xpcs.get('g2_twotime'),
+                          g2_twotime_unit=md_xpcs.get('g2_twotime_unit'),
                           # TODO find a better name for this entry: e.g. twotime_corr, twotime, C2T_all...?
                           twotime=md_xpcs.get('twotime'),
+                          twotime_unit=md_xpcs.get('twotime_unit'),
                           tau=md_xpcs.get('tau'),
+                          tau_unit=md_xpcs.get('tau_unit'),
                           mask=md_xpcs.get('mask'),
                           dqmap=md_xpcs.get('dqmap'),
                           dqlist=md_xpcs.get('dqlist'),
                           dphilist=md_xpcs.get('dphilist'),
                           sqmap=md_xpcs.get('sqmap')
                           )
-creator.create_saxs_1d_group(I=md_saxs1d.get("I"),
-                             I_partial=md_saxs1d.get("I_partial"))
+creator.create_saxs_1d_group(
+                             I=md_saxs1d.get("I"),
+                             I_unit=md_saxs1d.get("I_unit"),
+                             I_partial=md_saxs1d.get("I_partial"),
+                             I_partial_unit=md_saxs1d.get("I_partial_unit"))
 creator.create_saxs_2d_group(I=md_saxs2d.get("I"))
-creator.create_instrument_group(count_time=md_instrument.get("count_time"),
+creator.create_instrument_group(
+                                count_time=md_instrument.get("count_time"),
+                                count_time_unit=md_instrument.get("count_time_unit"),
                                 frame_time=md_instrument.get("frame_time"),
+                                frame_time_unit=md_instrument.get("frame_time_unit"),
                                 description=md_instrument.get("description"),
                                 distance=md_instrument.get("distance"),
+                                distance_unit=md_instrument.get("distance_unit"),
                                 x_pixel_size=md_instrument.get("x_pixel_size"),
+                                x_pixel_size_unit=md_instrument.get("x_pixel_size_unit"),
                                 y_pixel_size=md_instrument.get("y_pixel_size"),
-                                energy=md_instrument.get("energy"))
+                                y_pixel_size_unit=md_instrument.get("y_pixel_size_unit"),
+                                energy=md_instrument.get("energy"),
+                                energy_unit=md_instrument.get("energy_unit"))
 
 
