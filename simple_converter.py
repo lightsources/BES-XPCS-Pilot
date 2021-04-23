@@ -4,6 +4,10 @@ from creator.nx_creator_xpcs import NXCreator
 from loader.nx_loader_aps import APSLoader
 from loader.nx_loader_nslsii import NSLSLoader
 
+"""
+usage: python simple_converter.py inputfile outputfile loader_id
+"""
+
 
 # TODO add logging and other stuff if desired
 # TODO add option to pass input in prompt if not given as sys args
@@ -86,7 +90,7 @@ creator = NXCreator(output_filename)
 
 # TODO what to do if file exists (and is still opened elsewhere)? Append?
 creator.init_file()
-creator.create_entry_group(entry_number=1)
+creator.create_entry_group()
 creator.create_xpcs_group(
                           g2=md_xpcs.get('g2'),
                           g2_unit=md_xpcs.get('g2_unit'),
@@ -110,6 +114,8 @@ creator.create_xpcs_group(
 creator.create_saxs_1d_group(
                              I=md_saxs1d.get("I"),
                              I_unit=md_saxs1d.get("I_unit"),
+                             Q=md_saxs1d.get("Q"),
+                             Q_unit=md_saxs1d.get("Q_unit"),
                              I_partial=md_saxs1d.get("I_partial"),
                              I_partial_unit=md_saxs1d.get("I_partial_unit"))
 creator.create_saxs_2d_group(I=md_saxs2d.get("I"))

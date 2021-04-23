@@ -40,7 +40,7 @@ class APSLoader():
             dqlist=self.data_file.get("/xpcs/dqlist"),
             dphilist=self.data_file.get("/xpcs/dphilist"),
             sqmap=self.data_file.get("/xpcs/sqmap"),
-            sqlist=self.data_file.get("/xpcs/sqlist"),
+            # sqlist=self.data_file.get("/xpcs/sqlist"),
             sphilist=self.data_file.get("/xpcs/sphilist")
         )
         return xpcs
@@ -49,8 +49,10 @@ class APSLoader():
         saxs1d = dict(
             I=self.data_file.get("/exchange/partition-mean-total"),
             I_unit='a.u.',
+            Q=self.data_file.get("/xpcs/sqlist"),
+            Q_unit= '1/angstrom',
             I_partial=self.data_file.get("/exchange/partition-mean-partial"),
-            I_partial_unit='a.u'
+            I_partial_unit='a.u.'
         )
         return saxs1d
 

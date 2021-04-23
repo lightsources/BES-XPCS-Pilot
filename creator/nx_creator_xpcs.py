@@ -136,11 +136,6 @@ class NXCreator:
             file.attrs["default"] = entry_group.name
 
 
-
-
-    #TODO where to do the unit check?
-
-
     def create_xpcs_group(self,
                           g2: np.ndarray = None,
                           g2_unit: str = 'a.u',
@@ -211,7 +206,11 @@ class NXCreator:
 
     def create_saxs_1d_group(self,
                              I: np.ndarray = None,
+                             I_unit: str = None,
+                             Q: np.ndarray = None,
+                             Q_unit: str = None,
                              I_partial: np.ndarray = None,
+                             I_partial_unit: str = None,
                              *args,
                              **kwargs):
         """
@@ -226,8 +225,9 @@ class NXCreator:
         with h5py.File(self._output_filename, "a") as file:
             saxs_1d_group = self._init_group(file[self.entry_group_name], "SAXS_1D", "NXprocess")
             data_group = self._init_group(saxs_1d_group, "data", "NXdata")
-            self._create_dataset(data_group, "I", I, units="au")
-            self._create_dataset(data_group, "I_partial", I_partial, units="au")
+            self.create_data_with_unit(data_group, "I", I, 'a.u.', supplied=I_unit)
+            self.create_data_with_unit(data_group, 'Q', Q, '1/angstrom', supplied=Q_unit)
+            self.create_data_with_unit(data_group, "I_partial", I_partial, 'a.u.', supplied=I_partial_unit)
 
 
 
