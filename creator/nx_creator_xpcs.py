@@ -79,11 +79,12 @@ class NXCreator:
         ds.attrs["target"] = ds.name
         return ds
 
-    def _check_unit(self, expected, supplied):
+    def _check_unit(self, name, expected, supplied):
         """
             Our test for units should check if the supplied
             units string can be mapped into the expected units for that field.
-        :param : expected units example
+        :param : name of field
+        :param : expected units
         :param : units string that was given
         :return *bool*: `True` if units conversion is possible:
         """
@@ -94,12 +95,13 @@ class NXCreator:
             user.to(expected)
             return True
         except pint.DimensionalityError:
-            print("WARNING: Supplied unit does not match expected units")
+            logger.warning("WARNING: '%s': Supplied unit (%s) does not match expected units (%s)", name, supplied, expected)
             return False
+        #TODO catch arbitrary unit separately from pint --> point that out in documentation
 
     def create_data_with_unit(self, group, name, value, expected, supplied):
 
-        if self._check_unit(expected, supplied):
+        if self._check_unit(name, expected, supplied):
             self._create_dataset(group, name, value, unit=supplied)
         else:
             self._create_dataset(group, name, value)
