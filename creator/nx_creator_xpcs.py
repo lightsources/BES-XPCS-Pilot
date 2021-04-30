@@ -170,7 +170,7 @@ class NXCreator:
             # create instrument group and mask group, add datasets
             # TODO do we really want an instrument group here or directly adding mask as a subentry?
             instrument_group = self._init_group(self.xpcs_group, "instrument", "NXdata")
-            mask_group = self._init_group(instrument_group, "mask", "NXdata")
+            mask_group = self._init_group(instrument_group, "masks", "NXdata")
             self._create_dataset(mask_group, "mask", mask, units="au")
             self._create_dataset(mask_group, "dqmap", dqmap, units="au")
             self._create_dataset(mask_group, "dqlist", dqlist, units="au")
