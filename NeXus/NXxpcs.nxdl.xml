@@ -281,8 +281,48 @@
                       usage:NX_CHAR = Selective
 
           </doc>
-          <group type="NXarraymask" minOccurs="0" maxOccurs="unbounded" />
-          <group type="NXparameterizedmask" minOccurs="0" maxOccurs="unbounded" />
+          <field name="mask" type="NX_NUMBER">
+            <doc>
+            TODO:
+
+            The ``units`` attribute should be set to ``"au"``
+            indicating arbitrary units.
+            </doc>
+          </field>
+          <field name="dqmap" type="NX_NUMBER">
+            <doc>
+            TODO:
+
+            The ``units`` attribute should be set to ``"au"``
+            indicating arbitrary units.
+            </doc>
+          </field>
+          <field name="dqlist" type="NX_NUMBER">
+            <doc>
+            TODO:
+
+            The ``units`` attribute should be set to ``"au"``
+            indicating arbitrary units.
+            </doc>
+          </field>
+          <field name="dphilist" type="NX_NUMBER">
+            <doc>
+            TODO:
+
+            The ``units`` attribute should be set to ``"au"``
+            indicating arbitrary units.
+            </doc>
+          </field>
+          <field name="sqmap" type="NX_NUMBER">
+            <doc>
+            TODO:
+
+            The ``units`` attribute should be set to ``"au"``
+            indicating arbitrary units.
+            </doc>
+          </field>
+          <!-- <group type="NXarraymask" minOccurs="0" maxOccurs="unbounded" /> -->
+          <!-- <group type="NXparameterizedmask" minOccurs="0" maxOccurs="unbounded" /> -->
       </group>
     </group>
 
