@@ -21,11 +21,9 @@ NX_APP_DEF_NAME = "NXxpcs"  # name of NeXus Application Definition
 
 class NXCreator:
     """
-    Write a NeXus file from the XPCS and SAXS data
-    Using NXxpcs and NXcansas defitition
+    Write a NeXus file from the XPCS and SAXS data Using NXxpcs and NXcansas definition
 
     These files contain several sets of results, including:
-
     * XPCS
     * 1-D SAXS
     * 2-D SAXS
@@ -80,10 +78,12 @@ class NXCreator:
 
     def _check_unit(self, name, expected, supplied):
         """
-            Our test for units should check if the supplied
-            units string can be mapped into the expected units for that field.
-            If arbitrary units are supplied in form of 'au', 'a.u.' or 'a.u' no conversion is applied
-            and pint if not used for the unit check.
+            Unit check for supplied units
+
+        Our test for units should check if the supplied
+        units string can be mapped into the expected units for that field.
+        If arbitrary units are supplied in form of 'au', 'a.u.' or 'a.u' no conversion is applied
+        and pint if not used for the unit check.
 
         :param : name of field
         :param : expected units
@@ -125,6 +125,7 @@ class NXCreator:
                            entry_number=None):
         """
         all information about the measurement
+
         see: https://manual.nexusformat.org/classes/base_classes/NXentry.html
         """
 
@@ -171,7 +172,7 @@ class NXCreator:
                           *args,
                           **kwargs):
         """
-        see Data Solutions Pilot Meeting Notes
+        See NXxpcs definition for details
         """
 
         signal_dataset = None
@@ -228,7 +229,7 @@ class NXCreator:
                              *args,
                              **kwargs):
         """
-        see Data Solutions Pilot Meeting Notes
+        See NXcansas definition
         """
 
         for i in locals():
@@ -250,7 +251,7 @@ class NXCreator:
                              *args,
                              **kwargs):
         """
-        see Data Solutions Pilot Meeting Notes
+        See NXcansas definition
         """
 
         for i in locals():
@@ -283,7 +284,8 @@ class NXCreator:
                                 energy: float = None,
                                 energy_unit: str = None,
                                 ):
-        """Write the NXinstrument group."""
+        """Write the NXinstrument group. See NXxpcs definition"""
+
         with h5py.File(self._output_filename, "a") as file:
             self.instrument_group = self._init_group(file[self.entry_group_name], "instrument", "NXinstrument")
             #TODO how to add instrument name here
