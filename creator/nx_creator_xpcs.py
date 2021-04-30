@@ -172,10 +172,11 @@ class NXCreator:
             instrument_group = self._init_group(self.xpcs_group, "instrument", "NXdata")
             mask_group = self._init_group(instrument_group, "masks", "NXdata")
             self._create_dataset(mask_group, "mask", mask, units="au")
-            self._create_dataset(mask_group, "dqmap", dqmap, units="au")
-            self._create_dataset(mask_group, "dqlist", dqlist, units="au")
-            self._create_dataset(mask_group, "dphilist", dphilist, units="au")
-            self._create_dataset(mask_group, "sqmap", sqmap, units="au")
+            self._create_dataset(mask_group, "dqmap", dqmap)
+            self._create_dataset(mask_group, "dqlist", dqlist, units="1/Angstrom")
+            self._create_dataset(mask_group, "dphilist", dphilist, units="1/Angstrom")
+            self._create_dataset(mask_group, "sqmap", sqmap)
+            self._create_dataset(mask_group, "sqlist", sqlist, units="1/Angstrom")
             file.close()
 
     def create_saxs_1d_group(self,
