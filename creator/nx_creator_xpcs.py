@@ -92,7 +92,7 @@ class NXCreator:
         """
 
         # catch arbitrary unit separately from pint --> point that out in documentation
-        if supplied == 'au' or 'a.u.' or 'a.u':
+        if supplied in ['au', 'a.u.', 'a.u']:
             logger.info("Info: arbitrary units supplied for '%s' in form of '%s' np unit conversion applicable",
                         name,
                         supplied)
