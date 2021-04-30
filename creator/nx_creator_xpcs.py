@@ -49,7 +49,6 @@ class NXCreator:
 
     def init_file(self):
         """Write the complete NeXus file."""
-        #TODO check how this can be shared with other converters or moved to different module
         with h5py.File(self._output_filename, "w") as self.file:
             self.write_file_header(self.file)
             self.file.close()
@@ -83,21 +82,34 @@ class NXCreator:
         """
             Our test for units should check if the supplied
             units string can be mapped into the expected units for that field.
+            If arbitrary units are supplied in form of 'au', 'a.u.' or 'a.u' no conversion is applied
+            and pint if not used for the unit check.
+
         :param : name of field
         :param : expected units
         :param : units string that was given
         :return *bool*: `True` if units conversion is possible:
         """
-        #TODO How register arbitrary unit in pint
-        ureg = pint.UnitRegistry()
-        user = 1.0 * ureg(supplied)
-        try:
-            user.to(expected)
+
+        # catch arbitrary unit separately from pint --> point that out in documentation
+        if supplied == 'au' or 'a.u.' or 'a.u':
+            logger.info("Info: arbitrary units supplied for '%s' in form of '%s' np unit conversion applicable",
+                        name,
+                        supplied)
             return True
-        except pint.DimensionalityError:
-            logger.warning("WARNING: '%s': Supplied unit (%s) does not match expected units (%s)", name, supplied, expected)
-            return False
-        #TODO catch arbitrary unit separately from pint --> point that out in documentation
+        else:
+            ureg = pint.UnitRegistry()
+            user = 1.0 * ureg(supplied)
+            try:
+                user.to(expected)
+                return True
+            except pint.DimensionalityError:
+                logger.warning("WARNING: '%s': Supplied unit (%s) does not match expected units (%s)",
+                               name,
+                               supplied,
+                               expected)
+                return False
+
 
     def create_data_with_unit(self, group, name, value, expected, supplied):
 
