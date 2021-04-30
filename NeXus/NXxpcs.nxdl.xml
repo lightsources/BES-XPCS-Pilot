@@ -283,42 +283,47 @@
           </doc>
           <field name="mask" type="NX_NUMBER">
             <doc>
-            TODO:
+            ROI mask
 
             The ``units`` attribute should be set to ``"au"``
             indicating arbitrary units.
             </doc>
           </field>
-          <field name="dqmap" type="NX_NUMBER">
+          <field name="dqmap" type="NX_DIMENSIONLESS">
             <doc>
-            TODO:
+            ROI index array.
+
+            The values of this mask index the $Q$ value from the
+            the ``dqlist`` field.
 
             The ``units`` attribute should be set to ``"au"``
             indicating arbitrary units.
             </doc>
           </field>
-          <field name="dqlist" type="NX_NUMBER">
+          <field name="dqlist" type="NX_NUMBER" units="NX_PER_LENGTH">
             <doc>
-            TODO:
+            1-D list of $Q$ values, 1 for each ROI.
+            </doc>
+          </field>
+          <field name="dphilist" type="NX_NUMBER" units="NX_PER_LENGTH">
+            <doc>
+            Array of $\varphi$ value for each pixel.
+            </doc>
+          </field>
+          <field name="sqmap" type="NX_DIMENSIONLESS">
+            <doc>
+            ROI index array.
+
+            The values of this mask index the $|Q|$ value from the
+            the ``sqlist`` field.
 
             The ``units`` attribute should be set to ``"au"``
             indicating arbitrary units.
             </doc>
           </field>
-          <field name="dphilist" type="NX_NUMBER">
+          <field name="sqlist" type="NX_NUMBER" units="NX_PER_LENGTH">
             <doc>
-            TODO:
-
-            The ``units`` attribute should be set to ``"au"``
-            indicating arbitrary units.
-            </doc>
-          </field>
-          <field name="sqmap" type="NX_NUMBER">
-            <doc>
-            TODO:
-
-            The ``units`` attribute should be set to ``"au"``
-            indicating arbitrary units.
+            1-D list of $|Q|$ values, 1 for each ROI.
             </doc>
           </field>
           <!-- <group type="NXarraymask" minOccurs="0" maxOccurs="unbounded" /> -->
