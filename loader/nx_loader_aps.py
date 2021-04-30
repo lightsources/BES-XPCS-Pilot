@@ -6,7 +6,7 @@ class APSLoader():
     def __init__(self, input_file):
         self.data_file = h5py.File(input_file, 'r')
 
-    def get_c2t(self):
+    def _get_c2t(self):
         c2t_list = []
         if self.data_file.get("exchange/C2T_all") is not None:
             for key in self.data_file.get("exchange/C2T_all"):
@@ -33,7 +33,7 @@ class APSLoader():
             g2_twotime=self.data_file.get("/exchange/g2full"),
             g2_twotime_unit='a.u.',
             # TODO figure out how to access large amount of data
-            twotime=self.get_c2t(),
+            twotime=self._get_c2t(),
             twotime_unit='a.u.',
             mask=self.data_file.get("/xpcs/mask"),
             dqmap=self.data_file.get("/xpcs/dqmap"),
@@ -80,7 +80,11 @@ class APSLoader():
             x_pixel_size=self.data_file.get("/measurement/instrument/detector/x_pixel_size"),
             x_pixel_size_unit='um',
             y_pixel_size=self.data_file.get("/measurement/instrument/detector/y_pixel_size"),
-            y_pixel_size_unit='um'
+            y_pixel_size_unit='um',
+            beam_center_x=self.data_file.get('/measurement/instrument/acquisition/beam_center_x'),
+            beam_center_x_unit='pixel',
+            beam_center_y=self.data_file.get('/measurement/instrument/acquisition/beam_center_y'),
+            beam_center_y_unit='pixel'
         )
         return instrument
 

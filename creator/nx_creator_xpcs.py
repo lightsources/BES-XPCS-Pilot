@@ -265,6 +265,9 @@ class NXCreator:
                                 x_pixel_size_unit: str = None,
                                 y_pixel_size: float = None,
                                 y_pixel_size_unit: str = None,
+                                beam_center_x: float = None,
+                                beam_center_unit: str = None,
+                                beam_center_y: float = None,
                                 energy: float = None,
                                 energy_unit: str = None,
                                 ):
@@ -282,6 +285,8 @@ class NXCreator:
             self.create_data_with_unit(detector_group, "distance", distance, 'mm', supplied=distance_unit)
             self.create_data_with_unit(detector_group, "x_pixel_size", x_pixel_size, 'um', supplied=x_pixel_size_unit)
             self.create_data_with_unit(detector_group, "y_pixel_size", y_pixel_size, 'um', supplied=y_pixel_size_unit)
+            self.create_data_with_unit(detector_group, "beam_center_x", beam_center_x, 'um', supplied=beam_center_unit)
+            self.create_data_with_unit(detector_group, "beam_center_y", beam_center_y, 'um', supplied=beam_center_unit)
 
             # create monochromator group and add datasets
             mono_group = self._init_group(self.instrument_group, "monochromator", "NXmonochromator")
