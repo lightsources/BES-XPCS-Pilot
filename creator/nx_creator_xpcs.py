@@ -4,6 +4,7 @@ import h5py
 import logging
 import numpy as np
 import warnings
+import pint
 
 logger = logging.getLogger(__name__)
 # logger.setLevel(logging.DEBUG)
@@ -14,20 +15,18 @@ NX_EXTENSION = ".nxs"
 NX_APP_DEF_NAME = "NXxpcs"  # name of NeXus Application Definition
 
 
-# TODO: not defined in NeXus at this time
+#TODO: not defined in NeXus at this time
 # Need to create & propose this new Application Definition to NIAC
 
 
 class NXCreator:
     """
-
-    Write a NeXus file from the XPCS data
+    Write a NeXus file from the XPCS and SAXS data Using NXxpcs and NXcansas definition
 
     These files contain several sets of results, including:
-
+    * XPCS
     * 1-D SAXS
     * 2-D SAXS
-    * XPCS
     * and may include other analyses
 
     """
@@ -48,7 +47,6 @@ class NXCreator:
 
     def init_file(self):
         """Write the complete NeXus file."""
-        #TODO check how this can be shared with other converters or moved to different module
         with h5py.File(self._output_filename, "w") as self.file:
             self.write_file_header(self.file)
             self.file.close()
@@ -58,10 +56,10 @@ class NXCreator:
         timestamp = datetime.datetime.now().isoformat(sep=" ", timespec="seconds")
         logger.debug("timestamp: %s", str(timestamp))
         # give the HDF5 root some more attributes
+        #TODO move instrument name to instrument group
+        # output_file.attrs["instrument"] = instrument_name
         output_file.attrs["file_name"] = output_file.filename
         output_file.attrs["file_time"] = timestamp
-        #TODO does instrument name belong in header?
-        output_file.attrs["instrument"] = "instrument_name"
         output_file.attrs["creator"] = __file__  # TODO: better choice?
         output_file.attrs["HDF5_Version"] = h5py.version.hdf5_version
         output_file.attrs["h5py_version"] = h5py.version.version
@@ -78,12 +76,56 @@ class NXCreator:
         ds.attrs["target"] = ds.name
         return ds
 
+    def _check_unit(self, name, expected, supplied):
+        """
+        Unit check for supplied units
+
+        Our test for units should check if the supplied
+        units string can be mapped into the expected units for that field.
+        If arbitrary units are supplied in form of 'au', 'a.u.' or 'a.u' no conversion is applied
+        and pint if not used for the unit check.
+
+        :param : name of field
+        :param : expected units
+        :param : units string that was given
+        :return *bool*: `True` if units conversion is possible:
+        """
+
+        # catch arbitrary unit separately from pint --> point that out in documentation
+        if supplied in ['au', 'a.u.', 'a.u']:
+            logger.info("Info: arbitrary units supplied for '%s' in form of '%s' np unit conversion applicable",
+                        name,
+                        supplied)
+            return True
+        else:
+            ureg = pint.UnitRegistry()
+            user = 1.0 * ureg(supplied)
+            try:
+                user.to(expected)
+                return True
+            except pint.DimensionalityError:
+                logger.warning("WARNING: '%s': Supplied unit (%s) does not match expected units (%s)",
+                               name,
+                               supplied,
+                               expected)
+                return False
+
+
+    def create_data_with_unit(self, group, name, value, expected, supplied):
+
+        if self._check_unit(name, expected, supplied):
+            self._create_dataset(group, name, value, unit=supplied)
+        else:
+            self._create_dataset(group, name, value)
+
+
     def create_entry_group(self,
                            experiment_description: str = None,
                            title: str = None,
                            entry_number=None):
         """
         all information about the measurement
+
         see: https://manual.nexusformat.org/classes/base_classes/NXentry.html
         """
 
@@ -96,7 +138,6 @@ class NXCreator:
             entry_group = self._init_group(file, name=entry_name, NX_class="NXentry")
             self.entry_group_name = entry_group.name
 
-            #TODO Decide on actual content of these entries
             entry_group.create_dataset("definition", data=NX_APP_DEF_NAME)
             if experiment_description is not None:
                 experiment_description = experiment_description
@@ -106,19 +147,23 @@ class NXCreator:
             title = title if title is not None else "default"
             self._create_dataset(entry_group, "title", title)
             logger.debug("title: %s", title)
+            # Point to this group for default plot
+            file.attrs["default"] = entry_group.name
 
-            # FIXME: Check NeXus structure: point to this group for default plot
-            #file.attrs["default"] = self.entry_group.name.split("/")[-1]
-            file.close()
 
     def create_xpcs_group(self,
                           g2: np.ndarray = None,
                           g2_unit: str = 'a.u',
                           g2_stderr: np.ndarray = None,
+                          g2_stderr_unit: str = 'a.u',
                           g2_partials_twotime: np.ndarray = None,
+                          g2_partials_twotime_unit: str = 'a.u.',
                           g2_twotime: np.ndarray = None,
+                          g2_twotime_unit: str = 'a.u.',
                           twotime: np.ndarray = None,
+                          twotime_unit: str = 'a.u.',
                           tau: np.ndarray = None,
+                          tau_unit: str = 's',
                           mask: np.ndarray = None,
                           dqmap: np.ndarray = None,
                           dqlist: np.ndarray = None,
@@ -126,12 +171,8 @@ class NXCreator:
                           sqmap: np.ndarray = None,
                           *args,
                           **kwargs):
-
-        # TODO check units and use pint to convert
-        # https://pint.readthedocs.io/en/stable/
-
         """
-        see Data Solutions Pilot Meeting Notes
+        See NXxpcs definition for details
         """
 
         signal_dataset = None
@@ -146,7 +187,7 @@ class NXCreator:
                 signal_dataset = i
         with h5py.File(self._output_filename, "a") as file:
             self.xpcs_group = self._init_group(file[self.entry_group_name], "XPCS", "NXprocess")
-            # TODO check if plottable data is assigned correctly
+            #check that plottable data is assigned correctly
             if signal_dataset is None:
                 warnings.warn(f'No plottable data available in {self.xpcs_group.__name__} cannot write signal attribute')
             else:
@@ -155,17 +196,17 @@ class NXCreator:
 
             # create datagroup and add datasets
             data_group = self._init_group(self.xpcs_group, "data", "NXdata")
-            self._create_dataset(data_group, "g2", g2, units=g2_unit)
-            # TODO how do we want to add the units?
-            # self._create_dataset(data_group, "g2_stderr", g2_stderr, units=g2_unit)
-            self._create_dataset(data_group, "tau", tau, units="au")
 
+            self.create_data_with_unit(data_group, "g2", g2, 'a.u.', supplied=g2_unit)
+            self.create_data_with_unit(data_group, "g2_stderr", g2_stderr, 'a.u.', supplied=g2_unit)
+            self.create_data_with_unit(data_group, "tau", tau, 's', supplied=tau_unit)
             # add twotime group and dataset
             twotime_group = self._init_group(self.xpcs_group, "twotime", "NXdata")
-            self._create_dataset(twotime_group, "g2_partials_twotime", g2_partials_twotime, units="au")
-            self._create_dataset(twotime_group, "g2_twotime", g2_twotime, units="au")
+            self.create_data_with_unit(twotime_group, "g2_partials_twotime", g2_partials_twotime, 'a.u.',
+                                       supplied=g2_partials_twotime_unit)
+            self.create_data_with_unit(twotime_group, "g2_twotime", g2_twotime, 'a.u.', supplied=g2_twotime_unit)
             # TODO find a better name for this entry: e.g. twotime_corr, twotime, C2T_all...?
-            self._create_dataset(twotime_group, "twotime", twotime, units="au")
+            self.create_data_with_unit(twotime_group, "twotime", twotime, 'a.u.', supplied=twotime_unit)
 
             # create instrument group and mask group, add datasets
             # TODO do we really want an instrument group here or directly adding mask as a subentry?
@@ -179,13 +220,18 @@ class NXCreator:
             self._create_dataset(mask_group, "sqlist", sqlist, units="1/Angstrom")
             file.close()
 
+
     def create_saxs_1d_group(self,
                              I: np.ndarray = None,
+                             I_unit: str = None,
+                             Q: np.ndarray = None,
+                             Q_unit: str = None,
                              I_partial: np.ndarray = None,
+                             I_partial_unit: str = None,
                              *args,
                              **kwargs):
         """
-        see Data Solutions Pilot Meeting Notes
+        See NXcansas definition
         """
 
         for i in locals():
@@ -196,9 +242,10 @@ class NXCreator:
         with h5py.File(self._output_filename, "a") as file:
             saxs_1d_group = self._init_group(file[self.entry_group_name], "SAXS_1D", "NXprocess")
             data_group = self._init_group(saxs_1d_group, "data", "NXdata")
-            self._create_dataset(data_group, "I", I, units="au")
-            self._create_dataset(data_group, "I_partial", I_partial, units="au")
-            file.close()
+            self.create_data_with_unit(data_group, "I", I, 'a.u.', supplied=I_unit)
+            self.create_data_with_unit(data_group, 'Q', Q, '1/angstrom', supplied=Q_unit)
+            self.create_data_with_unit(data_group, "I_partial", I_partial, 'a.u.', supplied=I_partial_unit)
+
 
 
     def create_saxs_2d_group(self,
@@ -206,7 +253,7 @@ class NXCreator:
                              *args,
                              **kwargs):
         """
-        see Data Solutions Pilot Meeting Notes
+        See NXcansas definition
         """
 
         for i in locals():
@@ -218,32 +265,47 @@ class NXCreator:
             saxs_2d_group = self._init_group(file[self.entry_group_name], "SAXS_2D", "NXprocess")
             data_group = self._init_group(saxs_2d_group, "data", "NXdata")
             self._create_dataset(data_group, "I", I, units="au")
-            file.close()
+
 
     def create_instrument_group(self,
+                                instrument_name: str = None,
                                 count_time: np.ndarray = None,
+                                count_time_unit: str = None,
                                 frame_time: np.ndarray = None,
+                                frame_time_unit: str = None,
                                 description: str = None,
                                 distance: float = None,
+                                distance_unit: str = None,
                                 x_pixel_size: float = None,
+                                x_pixel_size_unit: str = None,
                                 y_pixel_size: float = None,
-                                energy: float = None
+                                y_pixel_size_unit: str = None,
+                                beam_center_x: float = None,
+                                beam_center_unit: str = None,
+                                beam_center_y: float = None,
+                                energy: float = None,
+                                energy_unit: str = None,
                                 ):
-        """Write the NXinstrument group."""
+        """Write the NXinstrument group. See NXxpcs definition"""
+
         with h5py.File(self._output_filename, "a") as file:
             self.instrument_group = self._init_group(file[self.entry_group_name], "instrument", "NXinstrument")
+            #TODO how to add instrument name here
+            # self.instrument_group.attrs["instrument"] = instrument_name
 
             # create detector group and add datasets
             detector_group = self._init_group(self.instrument_group, "detector", "NXdetector")
-            self._create_dataset(detector_group, "count_time", count_time, units="au")
-            self._create_dataset(detector_group, "frame_time", frame_time, units="au")
-            self._create_dataset(detector_group, "description", description, units="au")
-            self._create_dataset(detector_group, "distance", distance, units="au")
-            self._create_dataset(detector_group, "x_pixel_size", x_pixel_size, units="au")
-            self._create_dataset(detector_group, "y_pixel_size", y_pixel_size, units="au")
+            self.create_data_with_unit(detector_group, "count_time", count_time, 's', supplied=count_time_unit)
+            self.create_data_with_unit(detector_group, "frame_time", frame_time, 's', supplied=frame_time_unit)
+            self._create_dataset(detector_group, "description", description)
+            self.create_data_with_unit(detector_group, "distance", distance, 'mm', supplied=distance_unit)
+            self.create_data_with_unit(detector_group, "x_pixel_size", x_pixel_size, 'um', supplied=x_pixel_size_unit)
+            self.create_data_with_unit(detector_group, "y_pixel_size", y_pixel_size, 'um', supplied=y_pixel_size_unit)
+            self.create_data_with_unit(detector_group, "beam_center_x", beam_center_x, 'um', supplied=beam_center_unit)
+            self.create_data_with_unit(detector_group, "beam_center_y", beam_center_y, 'um', supplied=beam_center_unit)
 
             # create monochromator group and add datasets
             mono_group = self._init_group(self.instrument_group, "monochromator", "NXmonochromator")
-            self._create_dataset(mono_group, "energy", energy, units="au")
-            file.close()
+            self.create_data_with_unit(mono_group, "energy", energy, 'eV', supplied=energy_unit)
+
 

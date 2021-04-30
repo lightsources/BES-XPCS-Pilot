@@ -78,6 +78,7 @@ class NSLSLoader:
 
     def instrument_md(self):
         instrument_data = {}
+        #TODO add instrument name e.g. as input when running the converter
         instrument_data['energy'] = self.data_file.get('md').attrs['eiger4m_single_photon_energy']
         instrument_data['energy_unit'] = 'eV'
         instrument_data['description'] = self.data_file.get('md').attrs['detector']
