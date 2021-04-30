@@ -78,7 +78,7 @@ class NXCreator:
 
     def _check_unit(self, name, expected, supplied):
         """
-            Unit check for supplied units
+        Unit check for supplied units
 
         Our test for units should check if the supplied
         units string can be mapped into the expected units for that field.
