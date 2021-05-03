@@ -76,146 +76,48 @@
       </doc>
     </field>
 
-    <group type="NXprocess" name="XPCS">
+    <group type="NXdata" name="data">
       <!-- TODO: -->
-      <group type="NXdata" name="data">
-        <!-- TODO: -->
-        <field name="frame_sum" type="NX_NUMBER" units="NX_ANY">
-          <doc>average intensity v. time</doc>
-        </field>
-        <field name="g2" type="NX_NUMBER" units="NX_ANY">
-          <doc>TODO:</doc>
-        </field>
-        <field name="g2_stderr" type="NX_NUMBER" units="NX_ANY">
-          <doc>TODO:</doc>
-        </field>
-        <field name="tau" type="NX_INT" units="NX_ANY">
-          <doc>
-          delay time, multitau
+      <field name="frame_sum" type="NX_NUMBER" units="NX_ANY">
+        <doc>average intensity v. time</doc>
+      </field>
+      <field name="g2" type="NX_NUMBER" units="NX_ANY">
+        <doc>TODO:</doc>
+      </field>
+      <field name="g2_stderr" type="NX_NUMBER" units="NX_ANY">
+        <doc>TODO:</doc>
+      </field>
+      <field name="tau" type="NX_INT" units="NX_ANY">
+        <doc>
+        delay time, multitau
 
-          t_el, this is integer delta frame units, not time elapsed units
-          </doc>
-        </field>
-      </group>
-      <group type="NXdata" name="twotime">
-        <!-- TODO: -->
-        <field name="C2" type="NX_NUMBER" units="NX_ANY">
-          <doc>two-time correlation</doc>
-        </field>
-        <field name="g2_twotime" type="NX_NUMBER" units="NX_ANY">
-          <doc>g2full, sum across the diagonals of C2</doc>
-        </field>
-        <field name="g2_partials_twotime" type="NX_NUMBER" units="NX_ANY">
-          <doc>g2 by subset of frames</doc>
-        </field>
-      </group>
+        t_el, this is integer delta frame units, not time elapsed units
+        </doc>
+      </field>
     </group>
-
-    <group type="NXcanSAS" name="SAXS_1D">
-      <!--
-        https://manual.nexusformat.org/classes/applications/NXcanSAS.html
-
-        TODO: Should this be type="NXsubentry" with definition field of NXcanSAS?
-
-        Structure from our initial example file:
-
-            SAXS_1D:NXsubentry
-              @NX_class = NXsubentry
-              @canSAS_class = SASentry
-              @default = data
-              definition:NX_CHAR = NXcanSAS
-              instrument -> /entry/instrument
-              run -> /entry/title
-              sample -> /entry/sample
-              title:NX_CHAR = static 1D SAXS from XPCS data
-              data:NXdata
-                @I_axes = Q
-                @NX_class = NXdata
-                @Q_indices = 0
-                @canSAS_class = SASdata
-                @signal = I
-                I:NX_FLOAT32[270] = [0.27429348, 0.34260944, 0.2445109, '...', 0.0057929275]
-                  @units = arbitrary
-                  @units_details = Photon/Pixel/Frame
-                Q:NX_FLOAT64[270] = [0.0018368, 0.00186642, 0.001891, '...', 0.063412]
-                  @units = 1/angstrom ->
-
-      -->
-      <doc>Additions to the NXcanSAS definition.</doc>
-      <group type="NXdata" name="data">
-        <field name="I_partial" type="NX_NUMBER">
-          <doc>
-            I(Q) for stability plot.
-
-            Q: Should units match I?
-          </doc>
-        </field>
-        <!-- defined in NXcanSAS -->
-        <field name="I" type="NX_NUMBER" />
-        <field name="Q" type="NX_NUMBER" units="NX_PER_LENGTH" />
-      </group>
-    </group>
-
-    <group type="NXcanSAS" name="SAXS_2D">
-      <!--
-        https://manual.nexusformat.org/classes/applications/NXcanSAS.html
-
-        TODO: Should this be type="NXsubentry" with definition field of NXcanSAS?
-
-          SAXS_2D:NXsubentry
-            @NX_class = NXsubentry
-            @canSAS_class = SASentry
-            @default = data
-            definition:NX_CHAR = NXcanSAS
-            instrument -> /entry/instrument
-            run -> /entry/title
-            sample -> /entry/sample
-            title:NX_CHAR = static 2D SAXS from XPCS data
-            data:NXdata
-              @NX_class = NXdata
-              @canSAS_class = SASdata
-              @mask = mask
-              @signal = I
-              I:NX_FLOAT32[516,1556] = __array
-                __array = [
-                    [0.0029529633, 0.0049402798, 0.006318577, '...', 0.0109847365]
-                    [0.0043127504, 0.004439526, 0.005501271, '...', 0.004218236]
-                    [0.008683259, 0.0066289976, 0.003876593, '...', 0.0056484076]
-                    ...
-                    [0.004690421, 0.0072740484, 0.0053803907, '...', 0.0039639533]
-                  ]
-                @units = arbitrary
-                @units_details = Photon/Pixel/Frame
-              mask:NX_INT64[516,1556] = __array
-                __array = [
-                    [0, 0, 0, '...', 0]
-                    [0, 0, 0, '...', 0]
-                    [0, 0, 0, '...', 0]
-                    ...
-                    [0, 0, 0, '...', 0]
-                  ]
-                @units = boolean
-
-      -->
-      <doc>Additions to the NXcanSAS definition.</doc>
-      <!-- TODO: any?-->
-      <!-- defined in NXcanSAS -->
-      <group type="NXdata" name="data">
-        <field name="I" type="NX_NUMBER" />
-        <field name="Q" type="NX_NUMBER" units="NX_PER_LENGTH" />
-      </group>
+    <group type="NXdata" name="twotime">
+      <!-- TODO: -->
+      <field name="C2" type="NX_NUMBER" units="NX_ANY">
+        <doc>two-time correlation</doc>
+      </field>
+      <field name="g2_twotime" type="NX_NUMBER" units="NX_ANY">
+        <doc>g2full, sum across the diagonals of C2</doc>
+      </field>
+      <field name="g2_partials_twotime" type="NX_NUMBER" units="NX_ANY">
+        <doc>g2 by subset of frames</doc>
+      </field>
     </group>
 
     <group type="NXinstrument" name="instrument">
       <doc>XPCS Metadata</doc>
       <group type="NXmonochromator" name="monochromator">
-      <!-- TODO: verify with fields defined in base class -->
+        <!-- TODO: verify with fields defined in base class -->
         <field name="energy" type="NX_FLOAT" units="NX_ENERGY">
           <doc>Incident beam line energy (either keV or eV).</doc>
         </field>
       </group>
       <group type="NXdetector" name="detector">
-      <!-- TODO: verify with fields defined in base class -->
+        <!-- TODO: verify with fields defined in base class -->
         <field name="description">
           <doc>Detector name.</doc>
         </field>
@@ -330,7 +232,7 @@
           <!-- <group type="NXparameterizedmask" minOccurs="0" maxOccurs="unbounded" /> -->
       </group>
     </group>
-
+  
     <group type="NXsample" name="sample">
       <field name="temperature_set" type="NX_NUMBER" units="NX_TEMPERATURE">
         <doc>
@@ -345,11 +247,6 @@
       <group type="NXpositioner" name="position_x" />
       <group type="NXpositioner" name="position_y" />
       <group type="NXpositioner" name="position_z" />
-    </group>
-
-    <group type="NXdata" name="data">
-        <!-- TODO: here, link to datasets -->
-        <doc>Describes the default view.  Link to datasets as needed.</doc>
     </group>
 
     <group type="NXnote" name="ROI" minOccurs="0" maxOccurs="unbounded">
