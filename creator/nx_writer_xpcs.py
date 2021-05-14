@@ -1,5 +1,7 @@
-from nx_creator_xpcs import NXCreator
-from nx_loader_aps import APSLoader
+from creator.nx_creator_xpcs import NXCreator
+from loader.nx_loader_aps import APSLoader
+from loader.nx_loader_nslsii import NSLSLoader
+
 import sys
 
 class Writer():
