@@ -76,16 +76,15 @@
       </doc>
     </field>
 
-    <group type="NXdata" name="data">
-      <!-- TODO: -->
+    <group type="NXdata" name="xpcs">
       <field name="frame_sum" type="NX_NUMBER" units="NX_ANY">
         <doc>average intensity v. time</doc>
       </field>
       <field name="g2" type="NX_NUMBER" units="NX_ANY">
-        <doc>TODO:</doc>
+        <doc>time correlation function</doc>
       </field>
       <field name="g2_stderr" type="NX_NUMBER" units="NX_ANY">
-        <doc>TODO:</doc>
+        <doc>estimated uncertainty of the time correlation function</doc>
       </field>
       <field name="tau" type="NX_INT" units="NX_ANY">
         <doc>
@@ -96,7 +95,10 @@
       </field>
     </group>
     <group type="NXdata" name="twotime">
-      <!-- TODO: -->
+      <!--
+          TODO: Scientists want a different name for this group?
+                What is the new name?
+      -->
       <field name="C2" type="NX_NUMBER" units="NX_ANY">
         <doc>two-time correlation</doc>
       </field>
@@ -111,13 +113,11 @@
     <group type="NXinstrument" name="instrument">
       <doc>XPCS Metadata</doc>
       <group type="NXmonochromator" name="monochromator">
-        <!-- TODO: verify with fields defined in base class -->
         <field name="energy" type="NX_FLOAT" units="NX_ENERGY">
           <doc>Incident beam line energy (either keV or eV).</doc>
         </field>
       </group>
       <group type="NXdetector" name="detector">
-        <!-- TODO: verify with fields defined in base class -->
         <field name="description">
           <doc>Detector name.</doc>
         </field>
