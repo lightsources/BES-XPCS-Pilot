@@ -162,6 +162,7 @@ class NXCreator:
                           g2_twotime_unit: str = 'a.u.',
                           C2: np.ndarray = None,
                           C2_unit: str = 'a.u.',
+                          # TODO: decide on name for this time, see comment in xml file
                           tau: np.ndarray = None,
                           tau_unit: str = 's',
                           frame_sum: np.ndarray = None,
