@@ -90,6 +90,8 @@
         <doc>
         delay time, multitau
 
+        TODO: https://github.com/lightsources/BES-XPCS-Pilot/pull/38#discussion_r627008771
+
         t_el, this is integer delta frame units, not time elapsed units
         </doc>
       </field>
