@@ -160,19 +160,23 @@ class NXCreator:
                           g2_partials_twotime_unit: str = 'a.u.',
                           g2_twotime: np.ndarray = None,
                           g2_twotime_unit: str = 'a.u.',
-                          twotime: np.ndarray = None,
-                          twotime_unit: str = 'a.u.',
+                          C2: np.ndarray = None,
+                          C2_unit: str = 'a.u.',
+                          # TODO: decide on name for this time, see comment in xml file
                           tau: np.ndarray = None,
                           tau_unit: str = 's',
+                          frame_sum: np.ndarray = None,
                           mask: np.ndarray = None,
                           dqmap: np.ndarray = None,
                           dqlist: np.ndarray = None,
                           dphilist: np.ndarray = None,
                           sqmap: np.ndarray = None,
+                          sqlist: np.ndarray = None,
                           *args,
                           **kwargs):
         """
         See NXxpcs definition for details
+        TODO: add documentation
         """
 
         signal_dataset = None
@@ -206,7 +210,7 @@ class NXCreator:
                                        supplied=g2_partials_twotime_unit)
             self.create_data_with_unit(twotime_group, "g2_twotime", g2_twotime, 'a.u.', supplied=g2_twotime_unit)
             # TODO find a better name for this entry: e.g. twotime_corr, twotime, C2T_all...?
-            self.create_data_with_unit(twotime_group, "twotime", twotime, 'a.u.', supplied=twotime_unit)
+            self.create_data_with_unit(twotime_group, "C2", C2, 'a.u.', supplied=C2_unit)
 
             # create instrument group and mask group, add datasets
             # TODO do we really want an instrument group here or directly adding mask as a subentry?
