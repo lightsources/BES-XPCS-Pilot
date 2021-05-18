@@ -333,7 +333,7 @@ class NXCreator:
         :param : beam_center_y is the position of beam center in detector's coordinates in vertical direction
         :param : beam_center_unit in pixel
         :param : energy is the photon energy of the incident beam
-        :param : energy_unit in units of energy 
+        :param : energy_unit in units of energy
         """
 
         with h5py.File(self._output_filename, "a") as file:
