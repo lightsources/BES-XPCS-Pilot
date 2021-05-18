@@ -90,7 +90,6 @@ class NSLSLoader:
         instrument_data['beam_center_y'] = self.data_file.get('md').attrs['beam_center_y']
         instrument_data['beam_center_y_unit'] = 'pixel'
         instrument_data['x_pixel_size'] = self.data_file.get('md').attrs['x_pixel_size']
-        instrument_data['x_pixel_size_unit'] = 'um'
         instrument_data['y_pixel_size'] = self.data_file.get('md').attrs['y_pixel_size']
-        instrument_data['y_pixel_size_unit'] = 'um'
+        instrument_data['pixel_size_unit'] = 'um'
         return instrument_data

@@ -155,7 +155,6 @@ class NXCreator:
                           g2: np.ndarray = None,
                           g2_unit: str = 'a.u',
                           g2_stderr: np.ndarray = None,
-                          g2_stderr_unit: str = 'a.u',
                           g2_partials_twotime: np.ndarray = None,
                           g2_partials_twotime_unit: str = 'a.u.',
                           g2_twotime: np.ndarray = None,
@@ -176,7 +175,25 @@ class NXCreator:
                           **kwargs):
         """
         See NXxpcs definition for details
-        TODO: add documentation
+
+        # TODO fix/extend documentation
+        :param : g2 are values for the one-dimensional correlation as function of delay time (tau)
+        :param : g2_unit unit for g2 is usually arbitrary units
+        :param : g2_stderr are the standard deviation error values for the g2 correlation values
+        :param : g2_partials_twotime
+        :param : g2_partials_twotime_unit
+        :param : C2 is the two-dimensional Twotime correlation
+        :param : C2_unit unit for C2 is usually arbitrary units
+        :param : tau is the delay time corresponding to the g2 correlation values
+        :param : tau_unit any unit of time
+        :param : frame_sum is the twodimensional average along the frames stack
+        :param : mask is a two-dimensional array of the same shape as the data frames that masks valid and invalid pixel
+                 such as broken pixels, beamstop etc
+        :param : dqmap is a two-dimensional map of q bins indexed from 0 to N (number of q bins)
+        :param : dqlist is a list of the q values for the multiple g2 correlation curves
+        :param : dphilist is a list of the phi values
+        :param : sqmap is a two-dimensional map of q bins indexed from 0 to N (number of q bins)
+        :param : sqlist
         """
 
         signal_dataset = None
@@ -236,6 +253,13 @@ class NXCreator:
                              **kwargs):
         """
         See NXcansas definition
+
+        :param : I is the azimuthally integrated intensity
+        :param : I_unit is the unit for the azimuthally integrated intensity
+        :param : Q is the q value corresponding to the azimuthally integrated intensity values
+        :param : Q_unit unit in reciprocal space
+        :param : I_partial unit in reciprocal space
+        :param : I_partial_unit unit in reciprocal space
         """
 
         for i in locals():
@@ -258,6 +282,8 @@ class NXCreator:
                              **kwargs):
         """
         See NXcansas definition
+
+        :param : I is the averaged intensity olong the twodimensional stack of frames
         """
 
         for i in locals():
@@ -281,16 +307,34 @@ class NXCreator:
                                 distance: float = None,
                                 distance_unit: str = None,
                                 x_pixel_size: float = None,
-                                x_pixel_size_unit: str = None,
                                 y_pixel_size: float = None,
-                                y_pixel_size_unit: str = None,
+                                pixel_size_unit: str = None,
                                 beam_center_x: float = None,
                                 beam_center_unit: str = None,
                                 beam_center_y: float = None,
                                 energy: float = None,
                                 energy_unit: str = None,
                                 ):
-        """Write the NXinstrument group. See NXxpcs definition"""
+        """
+        Write the NXinstrument group. See NXxpcs definition
+
+        :param : instrument_name
+        :param : count_time is the exposure time of each frame
+        :param : count_time_unit in units of time
+        :param : frame_time is the exposure period i.e. the time between start of frame
+        :param : frame_time_unit in units of time
+        :param : description
+        :param : distance is the distance between the sample and the detector
+        :param : distance_unit in units of length
+        :param : x_pixel_size pixel size of the detector in horizontal direction
+        :param : y_pixel_size pixel size of the detector in vertical direction
+        :param : pixel_size_unit in units of length
+        :param : beam_center_x is the position of beam center in detector's coordinates in horizontal direction
+        :param : beam_center_y is the position of beam center in detector's coordinates in vertical direction
+        :param : beam_center_unit in pixel
+        :param : energy is the photon energy of the incident beam
+        :param : energy_unit in units of energy 
+        """
 
         with h5py.File(self._output_filename, "a") as file:
             self.instrument_group = self._init_group(file[self.entry_group_name], "instrument", "NXinstrument")
@@ -303,10 +347,10 @@ class NXCreator:
             self.create_data_with_unit(detector_group, "frame_time", frame_time, 's', supplied=frame_time_unit)
             self._create_dataset(detector_group, "description", description)
             self.create_data_with_unit(detector_group, "distance", distance, 'mm', supplied=distance_unit)
-            self.create_data_with_unit(detector_group, "x_pixel_size", x_pixel_size, 'um', supplied=x_pixel_size_unit)
-            self.create_data_with_unit(detector_group, "y_pixel_size", y_pixel_size, 'um', supplied=y_pixel_size_unit)
-            self.create_data_with_unit(detector_group, "beam_center_x", beam_center_x, 'um', supplied=beam_center_unit)
-            self.create_data_with_unit(detector_group, "beam_center_y", beam_center_y, 'um', supplied=beam_center_unit)
+            self.create_data_with_unit(detector_group, "x_pixel_size", x_pixel_size, 'um', supplied=pixel_size_unit)
+            self.create_data_with_unit(detector_group, "y_pixel_size", y_pixel_size, 'um', supplied=pixel_size_unit)
+            self.create_data_with_unit(detector_group, "beam_center_x", beam_center_x, 'pixel', supplied=beam_center_unit)
+            self.create_data_with_unit(detector_group, "beam_center_y", beam_center_y, 'pixel', supplied=beam_center_unit)
 
             # create monochromator group and add datasets
             mono_group = self._init_group(self.instrument_group, "monochromator", "NXmonochromator")

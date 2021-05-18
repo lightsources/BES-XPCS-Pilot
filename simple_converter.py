@@ -127,9 +127,8 @@ creator.create_instrument_group(
                                 distance=md_instrument.get("distance"),
                                 distance_unit=md_instrument.get("distance_unit"),
                                 x_pixel_size=md_instrument.get("x_pixel_size"),
-                                x_pixel_size_unit=md_instrument.get("x_pixel_size_unit"),
                                 y_pixel_size=md_instrument.get("y_pixel_size"),
-                                y_pixel_size_unit=md_instrument.get("y_pixel_size_unit"),
+                                pixel_size_unit=md_instrument.get("y_pixel_size_unit"),
                                 energy=md_instrument.get("energy"),
                                 energy_unit=md_instrument.get("energy_unit"))
 
