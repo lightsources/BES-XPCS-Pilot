@@ -318,12 +318,12 @@ class NXCreator:
         """
         Write the NXinstrument group. See NXxpcs definition
 
-        :param : instrument_name
+        :param : instrument_name a descriptive name of the instrument the data originates from
         :param : count_time is the exposure time of each frame
         :param : count_time_unit in units of time
         :param : frame_time is the exposure period i.e. the time between start of frame
         :param : frame_time_unit in units of time
-        :param : description
+        :param : description descriptive information of the instrument, could be the detector manufacturer
         :param : distance is the distance between the sample and the detector
         :param : distance_unit in units of length
         :param : x_pixel_size pixel size of the detector in horizontal direction
