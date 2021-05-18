@@ -95,7 +95,6 @@ creator.create_xpcs_group(
                           g2=md_xpcs.get('g2'),
                           g2_unit=md_xpcs.get('g2_unit'),
                           g2_stderr=md_xpcs.get('g2_stderr'),
-                          g2_stderr_unit=md_xpcs.get('g2_stderr_unit'),
                           g2_partials_twotime=md_xpcs.get('g2_partials_twotime'),
                           g2_partials_twotime_unit=md_xpcs.get('g2_partials_twotime_unit'),
                           g2_twotime=md_xpcs.get('g2_twotime'),

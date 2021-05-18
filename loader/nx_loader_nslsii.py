@@ -23,12 +23,9 @@ class NSLSLoader:
         xpcs_data['frameSum_unit'] = 'a.u'
         xpcs_data['g2'] = self.data_file.get('g2')
         xpcs_data['g2_unit'] = 'a.u'
-
         xpcs_data['g2_stderr'] = self.data_file.get('g2_stderr')
-        xpcs_data['g2_stderr_unit'] = 'a.u'
         xpcs_data['tau'] = self.data_file.get('taus')
         xpcs_data['tau_unit'] = 's'
-
         # TODO: C2 or twotime?
         xpcs_data['twotime'] = self.data_file.get('g12b')
         xpcs_data['twotime_unit'] = 'a.u'

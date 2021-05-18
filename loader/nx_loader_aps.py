@@ -25,7 +25,6 @@ class APSLoader():
             g2=self.data_file.get("/exchange/norm-0-g2"),
             g2_unit='a.u.',
             g2_stderr=self.data_file.get("/exchange/norm-0-stderr"),
-            g2_stderr_unit='a.u.',
             tau=self.data_file.get("/exchange/tau"),
             tau_unit='s',
             g2_partials_twotime=self.data_file.get("/exchange/g2partials"),
