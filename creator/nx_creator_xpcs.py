@@ -321,16 +321,16 @@ class NXCreator:
         :param : instrument_name a descriptive name of the instrument the data originates from
         :param : count_time is the exposure time of each frame
         :param : count_time_unit in units of time
-        :param : frame_time is the exposure period i.e. the time between start of frame
+        :param : frame_time is the exposure period of frames i.e. the time between frame starts
         :param : frame_time_unit in units of time
-        :param : description descriptive information of the instrument, could be the detector manufacturer
+        :param : description is the detector name and/or manufacturer
         :param : distance is the distance between the sample and the detector
         :param : distance_unit in units of length
-        :param : x_pixel_size pixel size of the detector in horizontal direction
-        :param : y_pixel_size pixel size of the detector in vertical direction
+        :param : x_pixel_size pixel size of the detector in x direction
+        :param : y_pixel_size pixel size of the detector in y direction
         :param : pixel_size_unit in units of length
-        :param : beam_center_x is the position of beam center in detector's coordinates in horizontal direction
-        :param : beam_center_y is the position of beam center in detector's coordinates in vertical direction
+        :param : beam_center_x is the position of beam center in detector's coordinates in x direction
+        :param : beam_center_y is the position of beam center in detector's coordinates in y direction
         :param : beam_center_unit in pixel
         :param : energy is the photon energy of the incident beam
         :param : energy_unit in units of energy
