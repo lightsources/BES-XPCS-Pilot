@@ -180,8 +180,8 @@ class NXCreator:
         :param : g2 are values for the one-dimensional correlation as function of delay time (tau)
         :param : g2_unit unit for g2 is usually arbitrary units
         :param : g2_stderr are the standard deviation error values for the g2 correlation values
-        :param : g2_partials_twotime
-        :param : g2_partials_twotime_unit
+        :param : g2_partials_twotime is the sum across the diagonals of C2
+        :param : g2_partials_twotime_unit are subsets of the sum across the diagonals of C2
         :param : C2 is the two-dimensional Twotime correlation
         :param : C2_unit unit for C2 is usually arbitrary units
         :param : tau is the delay time corresponding to the g2 correlation values
