@@ -81,8 +81,9 @@
       <group type="NXdata" name="data">
         <!-- TODO: -->
         <field name="frame_sum" type="NX_NUMBER" units="NX_ANY">
-          <doc>twodimensional average along the frames stack
-               average intensity v. time
+          <doc>
+            two-dimensional average along the frames stack
+            average intensity v. time
           </doc>
         </field>
         <field name="g2" type="NX_NUMBER" units="NX_ANY">
@@ -111,11 +112,6 @@
           <doc>g2 by subset of frames</doc>
         </field>
       </group>
-    </group>
-
-        t_el, this is integer delta frame units, not time elapsed units
-        </doc>
-      </field>
     </group>
     <group type="NXdata" name="twotime">
       <!--
