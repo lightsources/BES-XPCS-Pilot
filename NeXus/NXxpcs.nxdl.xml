@@ -94,10 +94,13 @@
         </field>
         <field name="tau" type="NX_INT" units="NX_ANY">
           <doc>
-          delay time corresponding to the g2 correlation values
-          TODO clarify:
-          t_el, this is integer delta frame units, not time elapsed units
+          Delay time corresponding to the g2 correlation values.
           </doc>
+          <!--
+            TODO: clarify this additional text, also where does it belong?
+
+            ``t_el``, this is integer delta frame units, not time elapsed units
+          -->
         </field>
       </group>
       <group type="NXdata" name="twotime">
