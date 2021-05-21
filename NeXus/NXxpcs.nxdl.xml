@@ -76,64 +76,58 @@
       </doc>
     </field>
 
-    <group type="NXprocess" name="XPCS">
-      <!-- TODO: -->
-      <group type="NXdata" name="data">
-        <!-- TODO: -->
-        <field name="frame_sum" type="NX_NUMBER" units="NX_ANY">
-          <doc>
-            two-dimensional average along the frames stack
-            average intensity v. time
-          </doc>
-        </field>
-        <field name="g2" type="NX_NUMBER" units="NX_ANY">
-          <doc>values for the one-dimensional correlation as function of delay time (tau):</doc>
-        </field>
-        <field name="g2_errors" type="NX_NUMBER" units="NX_ANY">
-          <doc>Standard deviation error values for the g2 correlation values.</doc>
-        </field>
-        <field name="tau" type="NX_INT" units="NX_ANY">
-          <doc>
-          Delay time corresponding to the g2 correlation values.
-          </doc>
-          <!--
-            TODO: clarify this additional text, also where does it belong?
+    <group type="NXdata" name="data">
+      <field name="frame_sum" type="NX_NUMBER" units="NX_ANY">
+        <doc>
+          Two-dimensional average along the frames stack.
 
-            ``t_el``, this is integer delta frame units, not time elapsed units
-          -->
-        </field>
-      </group>
-      <group type="NXdata" name="twotime">
-        <!-- TODO: -->
-        <field name="C2" type="NX_NUMBER" units="NX_ANY">
-          <doc>two-dimensional Twotime correlation</doc>
-        </field>
-        <field name="g2_twotime" type="NX_NUMBER" units="NX_ANY">
-          <doc>g2full, sum across the diagonals of C2</doc>
-        </field>
-        <field name="g2_partials_twotime" type="NX_NUMBER" units="NX_ANY">
-          <doc>g2 by subset of frames</doc>
-        </field>
-      </group>
+          average intensity v. time
+        </doc>
+      </field>
+      <field name="g2" type="NX_NUMBER" units="NX_ANY">
+        <doc>One-dimensional time correlation as function of delay time (tau).</doc>
+      </field>
+      <field name="g2_errors" type="NX_NUMBER" units="NX_ANY">
+        <!-- NeXus convention calls this "_errors" even if it is std. dev. -->
+        <doc>
+            Standard deviation of the g2 correlation values.
+        </doc>
+      </field>
+      <field name="tau" type="NX_INT" units="NX_ANY">
+        <doc>
+        Delay time corresponding to the g2 correlation values.  As in :math:`g_2(\tau)`.
+        </doc>
+        <!--
+          TODO: clarify this additional text, also where does it belong?
+
+          ``t_el``, this is integer delta frame units, not time elapsed units
+        -->
+      </field>
     </group>
+
     <group type="NXdata" name="twotime">
       <!--
           TODO: Scientists want a different name for this group?
                 What is the new name?
       -->
       <field name="C2" type="NX_NUMBER" units="NX_ANY">
-        <doc>two-time correlation</doc>
+        <doc>Two-time correlation, two-dimensional.</doc>
       </field>
       <field name="g2_twotime" type="NX_NUMBER" units="NX_ANY">
-        <doc>g2full, sum across the diagonals of C2</doc>
+        <doc>Sum across the diagonals of ``C2``.  Also known as ``g2full``.</doc>
       </field>
       <field name="g2_partials_twotime" type="NX_NUMBER" units="NX_ANY">
-        <doc>g2 by subset of frames</doc>
+        <doc>``g2`` by subset of frames.</doc>
       </field>
     </group>
 
     <group type="NXinstrument" name="instrument">
-      <doc>XPCS Metadata</doc>
+      <doc>
+          XPCS instrument Metadata.
+
+          Objects can entered here directly or linked from other
+          objects in the NeXus file (such as within ``/entry/instrument``).
+      </doc>
       <group type="NXmonochromator" name="monochromator">
         <field name="energy" type="NX_FLOAT" units="NX_ENERGY">
           <doc>Incident beam line energy (either keV or eV).</doc>
@@ -147,7 +141,7 @@
           <doc>Distance between sample and detector.</doc>
         </field>
         <field name="count_time" type="NX_NUMBER" units="NX_TIME">
-          <doc>Exposure time of frames, s</doc>
+          <doc>Exposure time of frames, s.</doc>
         </field>
         <field name="frame_time" type="NX_NUMBER" units="NX_TIME">
           <doc>
@@ -178,6 +172,13 @@
 
       <group type="NXnote" name="masks" minOccurs="0" maxOccurs="1">
           <doc>
+              Data masks or mappings to regions of interest.
+
+              Fields in this ``masks`` group describe regions of interest
+              in the data by either a mask to select pixels or to associate
+              a *map* of ROIs with a (one-dimensional) *list* of values.
+          </doc>
+              <!--  FIXME: removed this archaic doc text.  It's different below.
               Data masks could be defined using either NXarraymask
               or NXparameterizedmask.
 
@@ -203,8 +204,7 @@
                           ]
                       mask_names:NX_CHAR[9] = Q=0.002
                       usage:NX_CHAR = Selective
-
-          </doc>
+              -->
           <field name="mask" type="NX_NUMBER">
             <doc>
             ROI mask
