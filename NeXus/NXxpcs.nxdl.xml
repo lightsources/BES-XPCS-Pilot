@@ -89,8 +89,8 @@
         <field name="g2" type="NX_NUMBER" units="NX_ANY">
           <doc>values for the one-dimensional correlation as function of delay time (tau):</doc>
         </field>
-        <field name="g2_stderr" type="NX_NUMBER" units="NX_ANY">
-          <doc>standard deviation error values for the g2 correlation values:</doc>
+        <field name="g2_errors" type="NX_NUMBER" units="NX_ANY">
+          <doc>Standard deviation error values for the g2 correlation values.</doc>
         </field>
         <field name="tau" type="NX_INT" units="NX_ANY">
           <doc>
