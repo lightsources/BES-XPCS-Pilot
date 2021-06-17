@@ -85,9 +85,9 @@ class NXCreator:
         If arbitrary units are supplied in form of 'au', 'a.u.' or 'a.u' no conversion is applied
         and pint if not used for the units check.
 
-        :param : name of field
-        :param : expected units
-        :param : units string that was given
+        :param name: name of field
+        :param expected: expected units
+        :param supplied: units string that was supplied
         :return *bool*: `True` if units conversion is possible:
         """
 
@@ -130,17 +130,20 @@ class NXCreator:
     def create_entry_group(self,
                            experiment_description: str = None,
                            title: str = None,
-                           entry_number=None):
+                           entry_index=None):
         """
         all information about the measurement
-
         see: https://manual.nexusformat.org/classes/base_classes/NXentry.html
+
+        :param experiment_description: string to describe the experiment
+        :param title: of the experiment
+        :param entry_index: entry number (if multiple entries exist)
         """
 
-        if entry_number is None:
+        if entry_index is None:
             entry_name = "entry"
         else:
-            entry_name = f"entry_{entry_number}"
+            entry_name = f"entry_{entry_index}"
 
         with h5py.File(self._output_filename, "a") as file:
             entry_group = self._init_group(file, name=entry_name, NX_class="NXentry")
@@ -290,7 +293,7 @@ class NXCreator:
         """
         See NXcansas definition
 
-        :param : I is the averaged intensity olong the twodimensional stack of frames
+        :param : I is the averaged intensity along the two-dimensional stack of frames
         """
 
         for i in locals():
