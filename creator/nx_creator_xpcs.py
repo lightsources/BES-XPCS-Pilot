@@ -112,7 +112,15 @@ class NXCreator:
 
 
     def create_data_with_units(self, group, name, value, expected, supplied):
+        """
+        Create datasets and check units if provided
 
+        :param group: h5parent
+        :param name: name of the dataset
+        :param value: value for the dataset
+        :param expected: expected units
+        :param supplied: supplied units
+        """
         if self._check_units(name, expected, supplied):
             self._create_dataset(group, name, value, units=supplied)
         else:
