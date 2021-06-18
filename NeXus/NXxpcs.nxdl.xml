@@ -83,10 +83,16 @@
         <field name="frame_sum" type="NX_NUMBER" units="NX_ANY">
           <doc>average intensity v. time</doc>
         </field>
+        <field name="frame_average" type="NX_NUMBER" units="NX_ANY">
+          <doc>average intensity v. time</doc>
+        </field>
         <field name="g2" type="NX_NUMBER" units="NX_ANY">
           <doc>TODO:</doc>
         </field>
         <field name="g2_stderr" type="NX_NUMBER" units="NX_ANY">
+          <doc>TODO:</doc>
+        </field>
+        <field name="G2_unnormalized" type="NX_NUMBER" units="NX_ANY">
           <doc>TODO:</doc>
         </field>
         <field name="tau" type="NX_INT" units="NX_ANY">
@@ -96,16 +102,13 @@
           t_el, this is integer delta frame units, not time elapsed units
           </doc>
         </field>
-      </group>
-      <group type="NXdata" name="twotime">
-        <!-- TODO: -->
-        <field name="C2" type="NX_NUMBER" units="NX_ANY">
+        <field name="two_time_corr_func" type="NX_NUMBER" units="NX_ANY">
           <doc>two-time correlation</doc>
         </field>
-        <field name="g2_twotime" type="NX_NUMBER" units="NX_ANY">
+        <field name="g2_from_two_time_corr_func" type="NX_NUMBER" units="NX_ANY">
           <doc>g2full, sum across the diagonals of C2</doc>
         </field>
-        <field name="g2_partials_twotime" type="NX_NUMBER" units="NX_ANY">
+        <field name="g2_from_two_time_corr_func_partials" type="NX_NUMBER" units="NX_ANY">
           <doc>g2 by subset of frames</doc>
         </field>
       </group>

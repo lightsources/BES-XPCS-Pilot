@@ -173,7 +173,7 @@ class NXCreator:
                           g2_from_two_time_corr_func_partials: np.ndarray = None,
                           g2_from_two_time_corr_units: str = 'a.u.',
 
-                          # TODO: decide on name for this time, see comment in xml file
+                          # TODO: decide on name for tau --> see survey discussion
                           tau: np.ndarray = None,
                           tau_units: str = 's',
                           frame_sum: np.ndarray = None,
