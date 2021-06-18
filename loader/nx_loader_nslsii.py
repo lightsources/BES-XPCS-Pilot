@@ -29,9 +29,9 @@ class NSLSLoader:
         # TODO: C2 or twotime?
         xpcs_data['twotime'] = self.data_file.get('g12b')
         xpcs_data['twotime_units'] = 'a.u'
-        xpcs_data['g2_twotime'] = self.data_file.get('g2_twotime')
-        xpcs_data['g2_twotime_units'] = 'a.u'
-        xpcs_data['g2_partials_twotime'] = self.data_file.get('g2_partials_twotime')
+        xpcs_data['g2_from_two_time_corr_func'] = self.data_file.get('g2_from_two_time_corr_func')
+        xpcs_data['g2_from_two_time_corr_units'] = 'a.u'
+        xpcs_data['g2_from_two_time_corr_func_partials'] = self.data_file.get('g2_from_two_time_corr_func_partials')
         xpcs_data['g2_partials_twotime_units'] = 'a.u'
 
         xpcs_data['mask'] = self.data_file.get('mask')
