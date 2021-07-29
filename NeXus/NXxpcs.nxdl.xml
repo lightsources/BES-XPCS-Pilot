@@ -106,10 +106,10 @@
           <doc>two-time correlation</doc>
         </field>
         <field name="g2_from_two_time_corr_func" type="NX_NUMBER" units="NX_ANY">
-          <doc>g2full, sum across the diagonals of C2</doc>
+          <doc>sum across diagonals in two_time_corr_func</doc>
         </field>
         <field name="g2_from_two_time_corr_func_partials" type="NX_NUMBER" units="NX_ANY">
-          <doc>g2 by subset of frames</doc>
+          <doc>subset of sum across diagonals in two_time_corr_func</doc>
         </field>
       </group>
     </group>
