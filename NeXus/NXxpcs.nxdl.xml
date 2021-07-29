@@ -87,7 +87,10 @@
           <doc>average intensity v. time</doc>
         </field>
         <field name="g2" type="NX_NUMBER" units="NX_ANY">
-          <doc>normalized intensity auto-correlation function</doc>
+          <doc>normalized intensity auto-correlation function, see Lumma, Rev. Sci. Instr. (2000), Eq 1
+               :math:: g_2(Q,t) = \frac{ \langle I(Q,t\prime) I(Q,t|prime = t) \rangle }{ \langle I(Q,t\prime)\rangle^2 }; t > 0
+
+          </doc>
         </field>
         <field name="g2_stderr" type="NX_NUMBER" units="NX_ANY">
           <doc>standard deviation error values for the g2 values</doc>
