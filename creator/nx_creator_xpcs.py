@@ -93,7 +93,7 @@ class NXCreator:
 
         # catch arbitrary units separately from pint --> point that out in documentation
         if supplied in ['au', 'a.u.', 'a.u']:
-            logger.info("Info: arbitrary units supplied for '%s' in form of '%s' np units conversion applicable",
+            logger.info("Info: arbitrary units supplied for '%s' in form of '%s' no units conversion applicable",
                         name,
                         supplied)
             return True
@@ -104,7 +104,7 @@ class NXCreator:
                 user.to(expected)
                 return True
             except pint.DimensionalityError:
-                logger.warning("WARNING: '%s': Supplied units (%s) does not match expected units (%s)",
+                logger.warning("WARNING: '%s': Supplied units (%s) do not match expected units (%s)",
                                name,
                                supplied,
                                expected)
