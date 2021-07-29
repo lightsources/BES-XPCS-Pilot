@@ -99,6 +99,7 @@
           <doc>unnormalized intensity auto-correlation function</doc>
         </field>
         <field name="tau" type="NX_INT" units="NX_ANY">
+          <!-- TODO: fix description and naming-->
           <doc>
           delay time, multitau
 
@@ -106,7 +107,9 @@
           </doc>
         </field>
         <field name="two_time_corr_func" type="NX_NUMBER" units="NX_ANY">
-          <doc>two-time correlation</doc>
+          <doc>two-time correlation see Fluerasu, Phys Rev E (2007), Eq 1 and Sutton, Optics Express (2003)
+               :math:: C(q, t_1, t_2) = \frac{ \langle I(q, t_1)I(q, t_2)\rangle }{ \langle I(q,t_1)\rangle \langle I(q,t_2)\rangle }
+          </doc>
         </field>
         <field name="g2_from_two_time_corr_func" type="NX_NUMBER" units="NX_ANY">
           <doc>sum across diagonals in two_time_corr_func</doc>
