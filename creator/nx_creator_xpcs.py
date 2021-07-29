@@ -193,10 +193,10 @@ class NXCreator:
         :param : frame_sum is the two-dimensional sum along the frames stack
         :param : frame_average is the two-dimensional average along the frames stack
         :param : frame_units units for the frame_sum and/or frame_average
-        :param g2: normalized intensity autocorrelation function
+        :param g2: normalized intensity auto-correlation function
         :param g2_units: units for g2 is usually "a.u." (arbitrary units)
-        :param g2_stderr: are the standard deviation error values for the g2 values
-        :param G2_unnormalized: unnormalized intensity autocorrelation function
+        :param g2_stderr: standard deviation error values for the g2 values
+        :param G2_unnormalized: unnormalized intensity auto-correlation function
         :param two_time_corr_func: two-time intensity correlation function
         :param two_time_corr_units: untis for two-time intensity correlation function, typically "a.u."
         :param g2_from_two_time_corr_func: sum across diagonals in two_time_corr_func

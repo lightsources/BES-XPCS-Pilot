@@ -87,13 +87,13 @@
           <doc>average intensity v. time</doc>
         </field>
         <field name="g2" type="NX_NUMBER" units="NX_ANY">
-          <doc>TODO:</doc>
+          <doc>normalized intensity auto-correlation function</doc>
         </field>
         <field name="g2_stderr" type="NX_NUMBER" units="NX_ANY">
-          <doc>TODO:</doc>
+          <doc>standard deviation error values for the g2 values</doc>
         </field>
         <field name="G2_unnormalized" type="NX_NUMBER" units="NX_ANY">
-          <doc>TODO:</doc>
+          <doc>unnormalized intensity auto-correlation function</doc>
         </field>
         <field name="tau" type="NX_INT" units="NX_ANY">
           <doc>
