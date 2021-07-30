@@ -173,9 +173,9 @@ class NXCreator:
                           g2_from_two_time_corr_func_partials: np.ndarray = None,
                           g2_from_two_time_corr_units: str = 'a.u.',
 
-                          # TODO: decide on name for tau --> see survey discussion
-                          tau: np.ndarray = None,
-                          tau_units: str = 's',
+                          delay_difference: np.ndarray = None,
+                          #TODO: define python object to check against
+                          delay_difference_units = None,
                           frame_sum: np.ndarray = None,
                           frame_average: np.ndarray = None,
                           frame_units: str = 'counts',
@@ -190,9 +190,9 @@ class NXCreator:
         """
         See NXxpcs definition for details
 
-        :param : frame_sum is the two-dimensional sum along the frames stack
-        :param : frame_average is the two-dimensional average along the frames stack
-        :param : frame_units units for the frame_sum and/or frame_average
+        :param frame_sum: the two-dimensional sum along the frames stack
+        :param frame_average: is the two-dimensional average along the frames stack
+        :param frame_units: units for the frame_sum and/or frame_average
         :param g2: normalized intensity auto-correlation function
         :param g2_units: units for g2 is usually "a.u." (arbitrary units)
         :param g2_stderr: standard deviation error values for the g2 values
@@ -203,9 +203,12 @@ class NXCreator:
         :param g2_from_two_time_corr_func_partials: subset of sum across diagonals in two_time_corr_func
         :param g2_partials_twotime_units: units for g2_from_two_time_corr_func, typically "a.u."
 
-        :param : tau is the delay time corresponding to the g2 correlation values
-        :param : tau_units any time units
-        :param : mask is a two-dimensional array of the same shape as the data frames that masks valid and invalid pixel
+        :param delay_difference: quantized difference so that the "step" between two consecutive frames is one frame
+                                 (or step = dt = 1 frame)
+                                 It's the delay time corresponding to the g2 correlation values.
+        :param delay_difference_units: NX_INT units of frames (i.e. integers) preferred, refer to NXdetector for
+                                       conversion to time units
+        :param mask: two-dimensional array of the same shape as the data frames that masks valid and invalid pixel
                  such as broken pixels, beamstop etc
         :param : dqmap is a two-dimensional map of q bins indexed from 0 to N (number of q bins)
         :param : dqlist is a list of the q values for the multiple g2 correlation curves

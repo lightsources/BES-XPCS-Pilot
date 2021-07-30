@@ -95,10 +95,10 @@ creator.create_xpcs_group(
                           g2=md_xpcs.get('g2'),
                           g2_units=md_xpcs.get('g2_units'),
                           g2_stderr=md_xpcs.get('g2_stderr'),
-                          g2_partials_twotime=md_xpcs.get('g2_partials_twotime'),
+                          g2_from_two_time_corr_func_partials=md_xpcs.get('g2_from_two_time_corr_func_partials'),
                           g2_partials_twotime_units=md_xpcs.get('g2_partials_twotime_units'),
-                          g2_twotime=md_xpcs.get('g2_twotime'),
-                          g2_twotime_units=md_xpcs.get('g2_twotime_units'),
+                          g2_from_two_time_corr_func=md_xpcs.get('g2_from_two_time_corr_func'),
+                          g2_from_two_time_corr_units=md_xpcs.get('g2_from_two_time_corr_units'),
                           # TODO find a better name for this entry: e.g. twotime_corr, twotime, C2T_all...?
                           twotime=md_xpcs.get('twotime'),
                           twotime_units=md_xpcs.get('twotime_units'),

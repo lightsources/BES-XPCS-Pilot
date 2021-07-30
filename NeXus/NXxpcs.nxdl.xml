@@ -98,12 +98,13 @@
         <field name="G2_unnormalized" type="NX_NUMBER" units="NX_ANY">
           <doc>unnormalized intensity auto-correlation function</doc>
         </field>
-        <field name="tau" type="NX_INT" units="NX_ANY">
-          <!-- TODO: fix description and naming-->
+        <field name="delay_difference" type="NX_INT" units="NX_INT">
           <doc>
-          delay time, multitau
-
-          t_el, this is integer delta frame units, not time elapsed units
+          delay_difference (also known as delay or lag) quantized difference so that the "step" between two consecutive
+            frames is one frame (or step = dt = 1 frame)
+            It is the delay time corresponding to the g2 correlation values.
+            The unit of delay_differences is NX_INT for units of frames (i.e. integers) preferred,
+            refer to NXdetector for conversion to time units
           </doc>
         </field>
         <field name="two_time_corr_func" type="NX_NUMBER" units="NX_ANY">
