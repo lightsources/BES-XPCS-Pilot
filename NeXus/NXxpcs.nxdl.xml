@@ -128,9 +128,17 @@
           Objects can entered here directly or linked from other
           objects in the NeXus file (such as within ``/entry/instrument``).
       </doc>
-      <group type="NXmonochromator" name="monochromator">
-        <field name="energy" type="NX_FLOAT" units="NX_ENERGY">
+      <group type="NXbeam" name="incident_beam">
+        <field name="incident_energy" type="NX_FLOAT" units="NX_ENERGY">
           <doc>Incident beam line energy (either keV or eV).</doc>
+        </field>
+        <field name="incident_polarization">
+          <doc>
+            Terse description of the incident beam polarization.
+
+            The value can be plain text, such as ``vertical``, ``C+``,
+           ``circular left``.
+          </doc>
         </field>
       </group>
       <group type="NXdetector" name="detector">
