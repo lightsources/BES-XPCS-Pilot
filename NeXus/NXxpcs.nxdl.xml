@@ -107,10 +107,19 @@
             refer to NXdetector for conversion to time units
           </doc>
         </field>
-        <field name="two_time_corr_func" type="NX_NUMBER" units="NX_ANY">
+        <field name="two_time_corr_func" type="NX_NUMBER" units="NX_ANY"  >
           <doc>two-time correlation see Fluerasu, Phys Rev E (2007), Eq 1 and Sutton, Optics Express (2003)
                :math:: C(q, t_1, t_2) = \frac{ \langle I(q, t_1)I(q, t_2)\rangle }{ \langle I(q,t_1)\rangle \langle I(q,t_2)\rangle }
           </doc>
+          <attribute name="baseline_reference" type="NX_INT">
+            <doc>
+              The baseline is the expected value of a full decorrelation. Will be used as a constant value in fitting.
+            </doc>
+            <enumeration>
+        		<item value="0"/>
+        		<item value="1"/>
+        	</enumeration>
+          </attribute>
         </field>
         <field name="g2_from_two_time_corr_func" type="NX_NUMBER" units="NX_ANY">
           <doc>sum across diagonals in two_time_corr_func</doc>
