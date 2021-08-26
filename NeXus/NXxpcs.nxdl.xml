@@ -38,6 +38,9 @@
   <doc>
     X-ray Photon Correlation Spectroscopy data (results).
 
+    It is expected that this XPCS data will be part of multi-modal data set that could involve e.f. NXcansas
+    or 1D and/or 2D data.
+
     see: https://docs.google.com/spreadsheets/d/1sZrhLlzER9nuEWmPSLbWcfsgH_0DlBI9QrGRBQdKRQg/edit#gid=0
   </doc>
   <group type="NXentry" name="entry">
@@ -80,25 +83,25 @@
       <!-- TODO: -->
       <group type="NXdata" name="data">
         <!-- TODO: -->
-        <field name="frame_sum" type="NX_NUMBER" units="NX_ANY">
+        <field name="frame_sum" type="NX_NUMBER" units="NX_ANY" minOccurs="0" maxOccurs="1">
           <doc>average intensity v. time</doc>
         </field>
-        <field name="frame_average" type="NX_NUMBER" units="NX_ANY">
+        <field name="frame_average" type="NX_NUMBER" units="NX_ANY" minOccurs="0" maxOccurs="1">
           <doc>average intensity v. time</doc>
         </field>
-        <field name="g2" type="NX_NUMBER" units="NX_ANY">
+        <field name="g2" type="NX_NUMBER" units="NX_ANY" minOccurs="0" maxOccurs="1">
           <doc>normalized intensity auto-correlation function, see Lumma, Rev. Sci. Instr. (2000), Eq 1
                :math:: g_2(Q,t) = \frac{ \langle I(Q,t\prime) I(Q,t|prime = t) \rangle }{ \langle I(Q,t\prime)\rangle^2 }; t > 0
 
           </doc>
         </field>
-        <field name="g2_stderr" type="NX_NUMBER" units="NX_ANY">
+        <field name="g2_stderr" type="NX_NUMBER" units="NX_ANY" minOccurs="0" maxOccurs="1">
           <doc>standard deviation error values for the g2 values</doc>
         </field>
-        <field name="G2_unnormalized" type="NX_NUMBER" units="NX_ANY">
+        <field name="G2_unnormalized" type="NX_NUMBER" units="NX_ANY" minOccurs="0" maxOccurs="1">
           <doc>unnormalized intensity auto-correlation function</doc>
         </field>
-        <field name="delay_difference" type="NX_INT" units="NX_INT">
+        <field name="delay_difference" type="NX_INT" units="NX_INT" minOccurs="0" maxOccurs="1">
           <doc>
           delay_difference (also known as delay or lag) quantized difference so that the "step" between two consecutive
             frames is one frame (or step = dt = 1 frame)
@@ -107,13 +110,14 @@
             refer to NXdetector for conversion to time units
           </doc>
         </field>
-        <field name="two_time_corr_func" type="NX_NUMBER" units="NX_ANY"  >
+        <field name="two_time_corr_func" type="NX_NUMBER" units="NX_ANY" minOccurs="0" maxOccurs="1">
           <doc>two-time correlation see Fluerasu, Phys Rev E (2007), Eq 1 and Sutton, Optics Express (2003)
                :math:: C(q, t_1, t_2) = \frac{ \langle I(q, t_1)I(q, t_2)\rangle }{ \langle I(q,t_1)\rangle \langle I(q,t_2)\rangle }
           </doc>
           <attribute name="baseline_reference" type="NX_INT">
             <doc>
               The baseline is the expected value of a full decorrelation. Will be used as a constant value in fitting.
+              This value is required.
             </doc>
             <enumeration>
         		<item value="0"/>
@@ -121,104 +125,61 @@
         	</enumeration>
           </attribute>
         </field>
-        <field name="g2_from_two_time_corr_func" type="NX_NUMBER" units="NX_ANY">
+        <field name="g2_from_two_time_corr_func" type="NX_NUMBER" units="NX_ANY" minOccurs="0" maxOccurs="1">
           <doc>sum across diagonals in two_time_corr_func</doc>
+          <attribute name="baseline_reference" type="NX_INT">
+            <doc>
+              The baseline is the expected value of a full decorrelation. Will be used as a constant value in fitting.
+              This value is required.
+            </doc>
+            <enumeration>
+        		<item value="0"/>
+        		<item value="1"/>
+        	</enumeration>
+          </attribute>
         </field>
-        <field name="g2_from_two_time_corr_func_partials" type="NX_NUMBER" units="NX_ANY">
+        <field name="g2_from_two_time_corr_func_partials" type="NX_NUMBER" units="NX_ANY" minOccurs="0" maxOccurs="1">
           <doc>subset of sum across diagonals in two_time_corr_func</doc>
+          <attribute name="baseline_reference" type="NX_INT">
+            <doc>
+              The baseline is the expected value of a full decorrelation. Will be used as a constant value in fitting.
+              This value is required.
+            </doc>
+            <enumeration>
+        		<item value="0"/>
+        		<item value="1"/>
+        	</enumeration>
+          </attribute>
         </field>
       </group>
     </group>
 
-    <group type="NXcanSAS" name="SAXS_1D">
-      <!--
+    <group type="NXcanSAS" name="SAXS_1D" minOccurs="0">
+      <doc>Additions to the NXcanSAS definition.
+
         https://manual.nexusformat.org/classes/applications/NXcanSAS.html
-
-        TODO: Should this be type="NXsubentry" with definition field of NXcanSAS?
-
-        Structure from our initial example file:
-
-            SAXS_1D:NXsubentry
-              @NX_class = NXsubentry
-              @canSAS_class = SASentry
-              @default = data
-              definition:NX_CHAR = NXcanSAS
-              instrument -> /entry/instrument
-              run -> /entry/title
-              sample -> /entry/sample
-              title:NX_CHAR = static 1D SAXS from XPCS data
-              data:NXdata
-                @I_axes = Q
-                @NX_class = NXdata
-                @Q_indices = 0
-                @canSAS_class = SASdata
-                @signal = I
-                I:NX_FLOAT32[270] = [0.27429348, 0.34260944, 0.2445109, '...', 0.0057929275]
-                  @units = arbitrary
-                  @units_details = Photon/Pixel/Frame
-                Q:NX_FLOAT64[270] = [0.0018368, 0.00186642, 0.001891, '...', 0.063412]
-                  @units = 1/angstrom ->
-
-      -->
-      <doc>Additions to the NXcanSAS definition.</doc>
+      </doc>
       <group type="NXdata" name="data">
         <field name="I_partial" type="NX_NUMBER">
           <doc>
-            I(Q) for stability plot.
+            I(Q) for stability plot used for XPCS data.
 
-            Q: Should units match I?
+            Q can be interpreted as pixels or in units of inverse length.
+
+            <!--TODO Q: Should units match I? Request send out via email. To be followed up. What about time dependency?
+            -->
           </doc>
         </field>
-        <!-- defined in NXcanSAS -->
         <field name="I" type="NX_NUMBER" />
         <field name="Q" type="NX_NUMBER" units="NX_PER_LENGTH" />
       </group>
     </group>
 
-    <group type="NXcanSAS" name="SAXS_2D">
-      <!--
-        https://manual.nexusformat.org/classes/applications/NXcanSAS.html
+    <group type="NXcanSAS" name="SAXS_2D"  minOccurs="0">
+      <doc>Additions to the NXcanSAS definition.
 
-        TODO: Should this be type="NXsubentry" with definition field of NXcanSAS?
-
-          SAXS_2D:NXsubentry
-            @NX_class = NXsubentry
-            @canSAS_class = SASentry
-            @default = data
-            definition:NX_CHAR = NXcanSAS
-            instrument -> /entry/instrument
-            run -> /entry/title
-            sample -> /entry/sample
-            title:NX_CHAR = static 2D SAXS from XPCS data
-            data:NXdata
-              @NX_class = NXdata
-              @canSAS_class = SASdata
-              @mask = mask
-              @signal = I
-              I:NX_FLOAT32[516,1556] = __array
-                __array = [
-                    [0.0029529633, 0.0049402798, 0.006318577, '...', 0.0109847365]
-                    [0.0043127504, 0.004439526, 0.005501271, '...', 0.004218236]
-                    [0.008683259, 0.0066289976, 0.003876593, '...', 0.0056484076]
-                    ...
-                    [0.004690421, 0.0072740484, 0.0053803907, '...', 0.0039639533]
-                  ]
-                @units = arbitrary
-                @units_details = Photon/Pixel/Frame
-              mask:NX_INT64[516,1556] = __array
-                __array = [
-                    [0, 0, 0, '...', 0]
-                    [0, 0, 0, '...', 0]
-                    [0, 0, 0, '...', 0]
-                    ...
-                    [0, 0, 0, '...', 0]
-                  ]
-                @units = boolean
-
-      -->
-      <doc>Additions to the NXcanSAS definition.</doc>
-      <!-- TODO: any?-->
-      <!-- defined in NXcanSAS -->
+      https://manual.nexusformat.org/classes/applications/NXcanSAS.html
+      </doc>
       <group type="NXdata" name="data">
         <field name="I" type="NX_NUMBER" />
         <field name="Q" type="NX_NUMBER" units="NX_PER_LENGTH" />

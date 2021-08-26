@@ -225,7 +225,7 @@ class NXCreator:
                 warnings.warn(f'Did not receive expected {i.__name__} data - '
                               f'Cannot write complete XPCS groups')
             # here we check the plottable data
-            elif i in ("g2", "twotime", "tau"):
+            elif i in ("g2", "twotime", "delay_difference"):
                 signal_dataset = i
         with h5py.File(self._output_filename, "a") as file:
             self.xpcs_group = self._init_group(file[self.entry_group_name], "XPCS", "NXprocess")
@@ -244,7 +244,7 @@ class NXCreator:
             self.create_data_with_units(data_group, "g2", g2, 'a.u.', supplied=g2_units)
             self.create_data_with_units(data_group, "g2_stderr", g2_stderr, 'a.u.', supplied=g2_units)
             self.create_data_with_units(data_group, "G2_unnormalized", G2_unnormalized, 'a.u.', supplied=g2_units)
-            self.create_data_with_units(data_group, "tau", tau, 's', supplied=tau_units)
+            self.create_data_with_units(data_group, "delay_difference", delay_difference, 's', supplied=delay_difference_units)
 
             self.create_data_with_units(data_group,
                                         "g2_from_two_time_corr_func",
