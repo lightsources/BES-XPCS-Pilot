@@ -224,17 +224,17 @@
             indicating arbitrary units.
             </doc>
           </field>
-          <field name="dqlist" type="NX_NUMBER" units="NX_PER_LENGTH">
+          <field name="dqlist" type="NX_NUMBER" units="NX_PER_LENGTH" minOccurs="0">
             <doc>
             1-D list of $Q$ values, 1 for each ROI.
             </doc>
           </field>
-          <field name="dphilist" type="NX_NUMBER" units="NX_PER_LENGTH">
+          <field name="dphilist" type="NX_NUMBER" units="NX_PER_LENGTH" minOccurs="0">
             <doc>
             Array of $\varphi$ value for each pixel.
             </doc>
           </field>
-          <field name="sqmap" type="NX_DIMENSIONLESS">
+          <field name="sqmap" type="NX_DIMENSIONLESS" minOccurs="0">
             <doc>
             ROI index array.
 
