@@ -246,17 +246,18 @@ class NXCreator:
             self.create_data_with_units(data_group, "G2_unnormalized", G2_unnormalized, 'a.u.', supplied=g2_units)
             self.create_data_with_units(data_group, "delay_difference", delay_difference, 's', supplied=delay_difference_units)
 
-            self.create_data_with_units(data_group,
+            twotime_group = self._init_group(self.xpcs_group, "twotime", "NXdata")
+            self.create_data_with_units(twotime_group,
                                         "g2_from_two_time_corr_func",
                                         g2_from_two_time_corr_func,
                                         'a.u.',
                                         supplied=g2_from_two_time_corr_units)
-            self.create_data_with_units(data_group,
+            self.create_data_with_units(twotime_group,
                                         "g2_from_two_time_corr_func_partials",
                                         g2_from_two_time_corr_func_partials,
                                         'a.u.',
                                         supplied=g2_from_two_time_corr_units)
-            self.create_data_with_units(data_group,
+            self.create_data_with_units(twotime_group,
                                         "two_time_corr_func",
                                         two_time_corr_func,
                                         'a.u.',
