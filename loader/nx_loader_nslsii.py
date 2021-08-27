@@ -4,7 +4,7 @@ import h5py
 class NSLSLoader:
     def __init__(self, input_file, use_q_values=True):
         self.data_file = h5py.File(input_file, "r")
-        self.use_q_values = use_q_values  # use q values or indices for dqlist
+        self.use_q_values = use_q_values  # use q values or indices for dynamic_q_list
 
     def get_entry_data(self):
         entry_data = {}
@@ -42,16 +42,16 @@ class NSLSLoader:
         xpcs_data['dqmap'] = self.data_file.get('roi_mask')
 
         # Option to let user pick between q value
-        # or q index for dqlist
+        # or q index for dynamic_q_list
         d = {int(k): v for k, v in self.data_file.get('qval_dict').attrs.items()}
         q_vals = [d[i][0] for i in sorted(d.keys())]
         if self.use_q_values:
-            xpcs_data['dqlist'] = q_vals
-            xpcs_data['dqlist_unit'] = '1/angstrom'
+            xpcs_data['dynamic_q_list'] = q_vals
+            xpcs_data['dynamic_q_list_unit'] = '1/angstrom'
         else:
             q_index_list = [i + 1 for i in range(len(q_vals))]
             # This is an integer pointer; doesn't need a unit
-            xpcs_data['dqlist'] = q_index_list
+            xpcs_data['dynamic_q_list'] = q_index_list
 
         # Angle measurement
         xpcs_data['dphi'] = self.data_file.get('dphi')

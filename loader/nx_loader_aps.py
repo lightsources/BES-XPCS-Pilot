@@ -37,7 +37,7 @@ class APSLoader():
             twotime_unit='a.u.',
             mask=self.data_file.get("/xpcs/mask"),
             dqmap=self.data_file.get("/xpcs/dqmap"),
-            dqlist=self.data_file.get("/xpcs/dqlist"),
+            dynamic_q_list=self.data_file.get("/xpcs/dqlist"),
             dphilist=self.data_file.get("/xpcs/dphilist"),
             sqmap=self.data_file.get("/xpcs/sqmap"),
             # sqlist=self.data_file.get("/xpcs/sqlist"),

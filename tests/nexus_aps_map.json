@@ -21,7 +21,7 @@
 	"/entry/sample/position_value": "/measurement/sample/translation",
 	"/entry/XPCS/instrument/mask/mask": "/xpcs/mask",
 	"/entry/XPCS/instrument/mask/dqmap": "/xpcs/dqmap",
-	"/entry/XPCS/instrument/mask/dqlist": "/xpcs/dqlist",
+	"/entry/XPCS/instrument/mask/dynamic_q_list": "/xpcs/dqlist",
 	"/entry/XPCS/instrument/mask/dphilist": "/xpcs/dphilist",
 	"/entry/XPCS/instrument/mask/sqmap": "/xpcs/sqmap",
 	"/entry/XPCS/instrument/mask/sqlist": "/xpcs/sqlist",

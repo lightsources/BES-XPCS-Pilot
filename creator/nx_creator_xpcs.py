@@ -168,7 +168,7 @@ class NXCreator:
                           frame_sum: np.ndarray = None,
                           mask: np.ndarray = None,
                           dqmap: np.ndarray = None,
-                          dqlist: np.ndarray = None,
+                          dynamic_q_list: np.ndarray = None,
                           dphilist: np.ndarray = None,
                           sqmap: np.ndarray = None,
                           sqlist: np.ndarray = None,
@@ -218,7 +218,7 @@ class NXCreator:
             mask_group = self._init_group(instrument_group, "masks", "NXdata")
             self._create_dataset(mask_group, "mask", mask, units="au")
             self._create_dataset(mask_group, "dqmap", dqmap)
-            self._create_dataset(mask_group, "dqlist", dqlist, units="1/Angstrom")
+            self._create_dataset(mask_group, "dynamic_q_list", dynamic_q_list, units="1/Angstrom")
             self._create_dataset(mask_group, "dphilist", dphilist, units="1/Angstrom")
             self._create_dataset(mask_group, "sqmap", sqmap)
             self._create_dataset(mask_group, "sqlist", sqlist, units="1/Angstrom")

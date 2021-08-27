@@ -218,13 +218,13 @@
             ROI index array.
 
             The values of this mask index the $Q$ value from the
-            the ``dqlist`` field.
+            the ``dynamic_q_list`` field.
 
             The ``units`` attribute should be set to ``"au"``
             indicating arbitrary units.
             </doc>
           </field>
-          <field name="dqlist" type="NX_NUMBER" units="NX_PER_LENGTH" minOccurs="0">
+          <field name="dynamic_q_list" type="NX_NUMBER" units="NX_PER_LENGTH" minOccurs="0">
             <doc>
             1-D list of $Q$ values, 1 for each ROI.
             </doc>
