@@ -106,7 +106,7 @@ creator.create_xpcs_group(
                           tau=md_xpcs.get('tau'),
                           tau_unit=md_xpcs.get('tau_unit'),
                           mask=md_xpcs.get('mask'),
-                          dqmap=md_xpcs.get('dqmap'),
+                          dynamic_roi_map=md_xpcs.get('dynamic_roi_map'),
                           dynamic_q_list=md_xpcs.get('dynamic_q_list'),
                           dynamic_phi_list=md_xpcs.get('dynamic_phi_list'),
                           sqmap=md_xpcs.get('sqmap')

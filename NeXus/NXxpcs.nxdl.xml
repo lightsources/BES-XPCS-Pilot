@@ -213,7 +213,7 @@
             indicating arbitrary units.
             </doc>
           </field>
-          <field name="dqmap" type="NX_DIMENSIONLESS">
+          <field name="dynamic_roi_map" type="NX_DIMENSIONLESS">
             <doc>
             ROI index array.
 

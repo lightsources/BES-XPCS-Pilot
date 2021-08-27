@@ -49,7 +49,7 @@ class Writer():
     #            #TODO figure out how to access large amount of data
     #            # "C": "C_shaped_array"
     #            "mask": "mask_value",
-    #            "dqmap": "dqmap_value"
+    #            "dynamic_roi_map": "dynamic_roi_map_value"
     #         }
 
 

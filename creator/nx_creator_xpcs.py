@@ -167,7 +167,7 @@ class NXCreator:
                           tau_unit: str = 's',
                           frame_sum: np.ndarray = None,
                           mask: np.ndarray = None,
-                          dqmap: np.ndarray = None,
+                          dynamic_roi_map: np.ndarray = None,
                           dynamic_q_list: np.ndarray = None,
                           dynamic_phi_list: np.ndarray = None,
                           sqmap: np.ndarray = None,
@@ -217,7 +217,7 @@ class NXCreator:
             instrument_group = self._init_group(self.xpcs_group, "instrument", "NXdata")
             mask_group = self._init_group(instrument_group, "masks", "NXdata")
             self._create_dataset(mask_group, "mask", mask, units="au")
-            self._create_dataset(mask_group, "dqmap", dqmap)
+            self._create_dataset(mask_group, "dynamic_roi_map", dynamic_roi_map)
             self._create_dataset(mask_group, "dynamic_q_list", dynamic_q_list, units="1/Angstrom")
             self._create_dataset(mask_group, "dynamic_phi_list", dynamic_phi_list, units="1/Angstrom")
             self._create_dataset(mask_group, "sqmap", sqmap)

@@ -20,7 +20,7 @@
 	"/entry/sample/temperature": "/measurement/sample/temperature_A",
 	"/entry/sample/position_value": "/measurement/sample/translation",
 	"/entry/XPCS/instrument/mask/mask": "/xpcs/mask",
-	"/entry/XPCS/instrument/mask/dqmap": "/xpcs/dqmap",
+	"/entry/XPCS/instrument/mask/dynamic_roi_map": "/xpcs/dqmap",
 	"/entry/XPCS/instrument/mask/dynamic_q_list": "/xpcs/dqlist",
 	"/entry/XPCS/instrument/mask/dynamic_phi_list": "/xpcs/dynamic_phi_list",
 	"/entry/XPCS/instrument/mask/sqmap": "/xpcs/sqmap",

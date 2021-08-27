@@ -39,7 +39,7 @@ class NSLSLoader:
 
         xpcs_data['mask'] = self.data_file.get('mask')
 
-        xpcs_data['dqmap'] = self.data_file.get('roi_mask')
+        xpcs_data['dynamic_roi_map'] = self.data_file.get('roi_mask')
 
         # Option to let user pick between q value
         # or q index for dynamic_q_list
