@@ -171,7 +171,7 @@ class NXCreator:
                           dynamic_q_list: np.ndarray = None,
                           dphilist: np.ndarray = None,
                           sqmap: np.ndarray = None,
-                          sqlist: np.ndarray = None,
+                          static_q_list: np.ndarray = None,
                           *args,
                           **kwargs):
         """
@@ -221,7 +221,7 @@ class NXCreator:
             self._create_dataset(mask_group, "dynamic_q_list", dynamic_q_list, units="1/Angstrom")
             self._create_dataset(mask_group, "dphilist", dphilist, units="1/Angstrom")
             self._create_dataset(mask_group, "sqmap", sqmap)
-            self._create_dataset(mask_group, "sqlist", sqlist, units="1/Angstrom")
+            self._create_dataset(mask_group, "static_q_list", static_q_list, units="1/Angstrom")
             file.close()
 
 

@@ -239,13 +239,13 @@
             ROI index array.
 
             The values of this mask index the $|Q|$ value from the
-            the ``sqlist`` field.
+            the ``static_q_list`` field.
 
             The ``units`` attribute should be set to ``"au"``
             indicating arbitrary units.
             </doc>
           </field>
-          <field name="sqlist" type="NX_NUMBER" units="NX_PER_LENGTH">
+          <field name="static_q_list" type="NX_NUMBER" units="NX_PER_LENGTH">
             <doc>
             1-D list of $|Q|$ values, 1 for each ROI.
             </doc>
