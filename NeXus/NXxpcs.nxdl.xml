@@ -105,18 +105,18 @@
       </field>
     </group>
 
-    <group type="NXdata" name="twotime">
+    <group type="NXdata" name="twotime" minOccurs="0">
       <!--
           TODO: Scientists want a different name for this group?
                 What is the new name?
       -->
-      <field name="C2" type="NX_NUMBER" units="NX_ANY">
+      <field name="C2" type="NX_NUMBER" units="NX_ANY" minOccurs="0">
         <doc>Two-time correlation, two-dimensional.</doc>
       </field>
-      <field name="g2_twotime" type="NX_NUMBER" units="NX_ANY">
+      <field name="g2_twotime" type="NX_NUMBER" units="NX_ANY" minOccurs="0">
         <doc>Sum across the diagonals of ``C2``.  Also known as ``g2full``.</doc>
       </field>
-      <field name="g2_partials_twotime" type="NX_NUMBER" units="NX_ANY">
+      <field name="g2_partials_twotime" type="NX_NUMBER" units="NX_ANY" minOccurs="0">
         <doc>``g2`` by subset of frames.</doc>
       </field>
     </group>
