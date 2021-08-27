@@ -39,7 +39,7 @@ class APSLoader():
             dynamic_roi_map=self.data_file.get("/xpcs/dqmap"),
             dynamic_q_list=self.data_file.get("/xpcs/dqlist"),
             dynamic_phi_list=self.data_file.get("/xpcs/dphilist"),
-            sqmap=self.data_file.get("/xpcs/sqmap"),
+            static_roi_map=self.data_file.get("/xpcs/sqmap"),
             # static_q_list=self.data_file.get("/xpcs/sqlist"),
             static_phi_list=self.data_file.get("/xpcs/sphilist")
         )

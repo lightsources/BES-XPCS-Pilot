@@ -56,7 +56,7 @@ class NSLSLoader:
         # Angle measurement
         xpcs_data['dphi'] = self.data_file.get('dphi')
 
-        xpcs_data['sqmap'] = self.data_file.get('sqmap')
+        xpcs_data['static_roi_map'] = self.data_file.get('static_roi_map')
 
         return xpcs_data
 

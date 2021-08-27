@@ -109,7 +109,7 @@ creator.create_xpcs_group(
                           dynamic_roi_map=md_xpcs.get('dynamic_roi_map'),
                           dynamic_q_list=md_xpcs.get('dynamic_q_list'),
                           dynamic_phi_list=md_xpcs.get('dynamic_phi_list'),
-                          sqmap=md_xpcs.get('sqmap')
+                          static_roi_map=md_xpcs.get('static_roi_map')
                           )
 creator.create_saxs_1d_group(
                              I=md_saxs1d.get("I"),

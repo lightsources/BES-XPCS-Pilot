@@ -234,7 +234,7 @@
             Array of $\varphi$ value for each pixel.
             </doc>
           </field>
-          <field name="sqmap" type="NX_DIMENSIONLESS" minOccurs="0">
+          <field name="static_roi_map" type="NX_DIMENSIONLESS" minOccurs="0">
             <doc>
             ROI index array.
 

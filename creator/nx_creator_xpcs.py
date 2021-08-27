@@ -170,7 +170,7 @@ class NXCreator:
                           dynamic_roi_map: np.ndarray = None,
                           dynamic_q_list: np.ndarray = None,
                           dynamic_phi_list: np.ndarray = None,
-                          sqmap: np.ndarray = None,
+                          static_roi_map: np.ndarray = None,
                           static_q_list: np.ndarray = None,
                           *args,
                           **kwargs):
@@ -220,7 +220,7 @@ class NXCreator:
             self._create_dataset(mask_group, "dynamic_roi_map", dynamic_roi_map)
             self._create_dataset(mask_group, "dynamic_q_list", dynamic_q_list, units="1/Angstrom")
             self._create_dataset(mask_group, "dynamic_phi_list", dynamic_phi_list, units="1/Angstrom")
-            self._create_dataset(mask_group, "sqmap", sqmap)
+            self._create_dataset(mask_group, "static_roi_map", static_roi_map)
             self._create_dataset(mask_group, "static_q_list", static_q_list, units="1/Angstrom")
             file.close()
 
