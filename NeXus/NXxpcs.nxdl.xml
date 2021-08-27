@@ -87,7 +87,7 @@
       <field name="g2" type="NX_NUMBER" units="NX_ANY">
         <doc>One-dimensional time correlation as function of delay time (tau).</doc>
       </field>
-      <field name="g2_errors" type="NX_NUMBER" units="NX_ANY">
+      <field name="g2_errors" type="NX_NUMBER" units="NX_ANY" minOccurs="0">
         <!-- NeXus convention calls this "_errors" even if it is std. dev. -->
         <doc>
             Standard deviation of the g2 correlation values.
