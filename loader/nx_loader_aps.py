@@ -31,6 +31,7 @@ class APSLoader():
             g2_partials_twotime_units='a.u.',
             g2_twotime=self.data_file.get("/exchange/g2full"),
             g2_twotime_units='a.u.',
+            baseline_reference=1,
             # TODO figure out how to access large amount of data
             twotime=self._get_c2t(),
             twotime_units='a.u.',

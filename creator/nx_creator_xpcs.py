@@ -172,6 +172,7 @@ class NXCreator:
                           g2_from_two_time_corr_func: np.ndarray = None,
                           g2_from_two_time_corr_func_partials: np.ndarray = None,
                           g2_from_two_time_corr_units: str = 'a.u.',
+                          baseline_reference: int = None,
 
                           delay_difference: np.ndarray = None,
                           #TODO: define python object to check against
@@ -190,6 +191,7 @@ class NXCreator:
         """
         See NXxpcs definition for details
 
+        :param baseline_reference: expected value of a full decorrelation, usually at 0 or 1
         :param frame_sum: the two-dimensional sum along the frames stack
         :param frame_average: is the two-dimensional average along the frames stack
         :param frame_units: units for the frame_sum and/or frame_average
@@ -251,17 +253,20 @@ class NXCreator:
                                         "g2_from_two_time_corr_func",
                                         g2_from_two_time_corr_func,
                                         'a.u.',
-                                        supplied=g2_from_two_time_corr_units)
+                                        supplied=g2_from_two_time_corr_units,
+                                        baseline_reference=baseline_reference)
             self.create_data_with_units(twotime_group,
                                         "g2_from_two_time_corr_func_partials",
                                         g2_from_two_time_corr_func_partials,
                                         'a.u.',
-                                        supplied=g2_from_two_time_corr_units)
+                                        supplied=g2_from_two_time_corr_units,
+                                        baseline_reference=baseline_reference)
             self.create_data_with_units(twotime_group,
                                         "two_time_corr_func",
                                         two_time_corr_func,
                                         'a.u.',
-                                        supplied=two_time_corr_units)
+                                        supplied=two_time_corr_units,
+                                        baseline_reference=baseline_reference)
 
             # create instrument group and mask group, add datasets
             # TODO do we really want an instrument group here or directly adding mask as a subentry?
