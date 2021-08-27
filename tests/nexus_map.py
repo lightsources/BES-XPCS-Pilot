@@ -29,6 +29,6 @@ md = {
     "/entry/XPCS/instrument/mask/dynamic_phi_list": np.random.uniform(0, 1, (16, )),
     "/entry/XPCS/instrument/mask/sqmap": np.random.uniform(0, 1, (16, 16)),
     "/entry/XPCS/instrument/mask/static_q_list": np.random.uniform(0, 1, (16, )),
-    "/entry/XPCS/instrument/mask/sphilist": np.random.uniform(0, 1, (16, ))
+    "/entry/XPCS/instrument/mask/static_phi_list": np.random.uniform(0, 1, (16, ))
 }
 

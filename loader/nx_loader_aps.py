@@ -41,7 +41,7 @@ class APSLoader():
             dynamic_phi_list=self.data_file.get("/xpcs/dphilist"),
             sqmap=self.data_file.get("/xpcs/sqmap"),
             # static_q_list=self.data_file.get("/xpcs/sqlist"),
-            sphilist=self.data_file.get("/xpcs/sphilist")
+            static_phi_list=self.data_file.get("/xpcs/sphilist")
         )
         return xpcs
 
