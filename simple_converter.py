@@ -108,7 +108,7 @@ creator.create_xpcs_group(
                           mask=md_xpcs.get('mask'),
                           dqmap=md_xpcs.get('dqmap'),
                           dynamic_q_list=md_xpcs.get('dynamic_q_list'),
-                          dphilist=md_xpcs.get('dphilist'),
+                          dynamic_phi_list=md_xpcs.get('dynamic_phi_list'),
                           sqmap=md_xpcs.get('sqmap')
                           )
 creator.create_saxs_1d_group(

@@ -22,7 +22,7 @@
 	"/entry/XPCS/instrument/mask/mask": "/xpcs/mask",
 	"/entry/XPCS/instrument/mask/dqmap": "/xpcs/dqmap",
 	"/entry/XPCS/instrument/mask/dynamic_q_list": "/xpcs/dqlist",
-	"/entry/XPCS/instrument/mask/dphilist": "/xpcs/dphilist",
+	"/entry/XPCS/instrument/mask/dynamic_phi_list": "/xpcs/dynamic_phi_list",
 	"/entry/XPCS/instrument/mask/sqmap": "/xpcs/sqmap",
 	"/entry/XPCS/instrument/mask/static_q_list": "/xpcs/static_q_list",
 	"/entry/XPCS/instrument/mask/sphilist": "/xpcs/sphilist"
