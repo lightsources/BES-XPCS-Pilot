@@ -264,14 +264,6 @@
                       usage:NX_CHAR = Selective
 
           </doc>
-          <field name="mask" type="NX_NUMBER">
-            <doc>
-            ROI mask
-
-            The ``units`` attribute should be set to ``"au"``
-            indicating arbitrary units.
-            </doc>
-          </field>
           <field name="dqmap" type="NX_DIMENSIONLESS">
             <doc>
             ROI index array.

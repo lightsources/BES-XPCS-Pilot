@@ -180,7 +180,6 @@ class NXCreator:
                           frame_sum: np.ndarray = None,
                           frame_average: np.ndarray = None,
                           frame_units: str = 'counts',
-                          mask: np.ndarray = None,
                           dqmap: np.ndarray = None,
                           dqlist: np.ndarray = None,
                           dphilist: np.ndarray = None,
@@ -210,8 +209,6 @@ class NXCreator:
                                  It's the delay time corresponding to the g2 correlation values.
         :param delay_difference_units: NX_INT units of frames (i.e. integers) preferred, refer to NXdetector for
                                        conversion to time units
-        :param mask: two-dimensional array of the same shape as the data frames that masks valid and invalid pixel
-                 such as broken pixels, beamstop etc
         :param : dqmap is a two-dimensional map of q bins indexed from 0 to N (number of q bins)
         :param : dqlist is a list of the q values for the multiple g2 correlation curves
         :param : dphilist is a list of the phi values
@@ -268,11 +265,9 @@ class NXCreator:
                                         supplied=two_time_corr_units,
                                         baseline_reference=baseline_reference)
 
-            # create instrument group and mask group, add datasets
-            # TODO do we really want an instrument group here or directly adding mask as a subentry?
+            # create instrument group and masks group, add datasets
             instrument_group = self._init_group(self.xpcs_group, "instrument", "NXdata")
             mask_group = self._init_group(instrument_group, "masks", "NXdata")
-            self._create_dataset(mask_group, "mask", mask, units="au")
             self._create_dataset(mask_group, "dqmap", dqmap)
             self._create_dataset(mask_group, "dqlist", dqlist, units="1/Angstrom")
             self._create_dataset(mask_group, "dphilist", dphilist, units="1/Angstrom")
