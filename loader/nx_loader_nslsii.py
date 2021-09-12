@@ -20,22 +20,19 @@ class NSLSLoader:
     def xpcs_md(self):
         xpcs_data = {}
         xpcs_data['frameSum'] = self.data_file.get('imgsum')
-        xpcs_data['frameSum_unit'] = 'a.u'
+        xpcs_data['frameSum_units'] = 'a.u'
         xpcs_data['g2'] = self.data_file.get('g2')
-        xpcs_data['g2_unit'] = 'a.u'
-
+        xpcs_data['g2_units'] = 'a.u'
         xpcs_data['g2_stderr'] = self.data_file.get('g2_stderr')
-        xpcs_data['g2_stderr_unit'] = 'a.u'
         xpcs_data['tau'] = self.data_file.get('taus')
-        xpcs_data['tau_unit'] = 's'
-
+        xpcs_data['tau_units'] = 's'
         # TODO: C2 or twotime?
         xpcs_data['twotime'] = self.data_file.get('g12b')
-        xpcs_data['twotime_unit'] = 'a.u'
+        xpcs_data['twotime_units'] = 'a.u'
         xpcs_data['g2_twotime'] = self.data_file.get('g2_twotime')
-        xpcs_data['g2_twotime_unit'] = 'a.u'
+        xpcs_data['g2_twotime_units'] = 'a.u'
         xpcs_data['g2_partials_twotime'] = self.data_file.get('g2_partials_twotime')
-        xpcs_data['g2_partials_twotime_unit'] = 'a.u'
+        xpcs_data['g2_partials_twotime_units'] = 'a.u'
 
         xpcs_data['mask'] = self.data_file.get('mask')
 
@@ -63,37 +60,36 @@ class NSLSLoader:
     def saxs1d_md(self):
         saxs_1d_data = {}
         saxs_1d_data['I'] = self.data_file.get('iq_saxs')
-        saxs_1d_data['I_unit'] = 'a.u'
+        saxs_1d_data['I_units'] = 'a.u'
         saxs_1d_data['Q'] = self.data_file.get('q_saxs')
-        saxs_1d_data['Q_unit'] = '1/angstrom'
+        saxs_1d_data['Q_units'] = '1/angstrom'
         saxs_1d_data['I_partial'] = self.data_file.get('I_partial')
-        saxs_1d_data['I_partial_unit'] = 'a.u'
+        saxs_1d_data['I_partial_units'] = 'a.u'
         return saxs_1d_data
 
     def saxs2d_md(self):
         saxs_2d_data = {}
         saxs_2d_data['I'] = self.data_file.get('avg_img')
-        saxs_2d_data['I_unit'] = 'a.u'
+        saxs_2d_data['I_units'] = 'a.u'
         return saxs_2d_data
 
     def instrument_md(self):
         instrument_data = {}
         #TODO add instrument name e.g. as input when running the converter
         instrument_data['energy'] = self.data_file.get('md').attrs['eiger4m_single_photon_energy']
-        instrument_data['energy_unit'] = 'eV'
+        instrument_data['energy_units'] = 'eV'
         instrument_data['description'] = self.data_file.get('md').attrs['detector']
         instrument_data['distance'] = self.data_file.get('md').attrs['detector_distance']
-        instrument_data['distance_unit'] = 'm'
+        instrument_data['distance_units'] = 'm'
         instrument_data['count_time'] = self.data_file.get('md').attrs['count_time']
-        instrument_data['count_time_unit'] = 'ms'
+        instrument_data['count_time_units'] = 'ms'
         instrument_data['frame_time'] = self.data_file.get('md').attrs['frame_time']
-        instrument_data['frame_time_unit'] = 'ms'
+        instrument_data['frame_time_units'] = 'ms'
         instrument_data['beam_center_x'] = self.data_file.get('md').attrs['beam_center_x']
-        instrument_data['beam_center_x_unit'] = 'pixel'
+        instrument_data['beam_center_x_units'] = 'pixel'
         instrument_data['beam_center_y'] = self.data_file.get('md').attrs['beam_center_y']
-        instrument_data['beam_center_y_unit'] = 'pixel'
+        instrument_data['beam_center_y_units'] = 'pixel'
         instrument_data['x_pixel_size'] = self.data_file.get('md').attrs['x_pixel_size']
-        instrument_data['x_pixel_size_unit'] = 'um'
         instrument_data['y_pixel_size'] = self.data_file.get('md').attrs['y_pixel_size']
-        instrument_data['y_pixel_size_unit'] = 'um'
+        instrument_data['pixel_size_units'] = 'um'
         return instrument_data

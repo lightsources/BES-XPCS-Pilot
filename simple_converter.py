@@ -93,18 +93,17 @@ creator.init_file()
 creator.create_entry_group()
 creator.create_xpcs_group(
                           g2=md_xpcs.get('g2'),
-                          g2_unit=md_xpcs.get('g2_unit'),
+                          g2_units=md_xpcs.get('g2_units'),
                           g2_stderr=md_xpcs.get('g2_stderr'),
-                          g2_stderr_unit=md_xpcs.get('g2_stderr_unit'),
                           g2_partials_twotime=md_xpcs.get('g2_partials_twotime'),
-                          g2_partials_twotime_unit=md_xpcs.get('g2_partials_twotime_unit'),
+                          g2_partials_twotime_units=md_xpcs.get('g2_partials_twotime_units'),
                           g2_twotime=md_xpcs.get('g2_twotime'),
-                          g2_twotime_unit=md_xpcs.get('g2_twotime_unit'),
+                          g2_twotime_units=md_xpcs.get('g2_twotime_units'),
                           # TODO find a better name for this entry: e.g. twotime_corr, twotime, C2T_all...?
                           twotime=md_xpcs.get('twotime'),
-                          twotime_unit=md_xpcs.get('twotime_unit'),
+                          twotime_units=md_xpcs.get('twotime_units'),
                           tau=md_xpcs.get('tau'),
-                          tau_unit=md_xpcs.get('tau_unit'),
+                          tau_units=md_xpcs.get('tau_units'),
                           mask=md_xpcs.get('mask'),
                           dynamic_roi_map=md_xpcs.get('dynamic_roi_map'),
                           dynamic_q_list=md_xpcs.get('dynamic_q_list'),
@@ -113,25 +112,24 @@ creator.create_xpcs_group(
                           )
 creator.create_saxs_1d_group(
                              I=md_saxs1d.get("I"),
-                             I_unit=md_saxs1d.get("I_unit"),
+                             I_units=md_saxs1d.get("I_units"),
                              Q=md_saxs1d.get("Q"),
-                             Q_unit=md_saxs1d.get("Q_unit"),
+                             Q_units=md_saxs1d.get("Q_units"),
                              I_partial=md_saxs1d.get("I_partial"),
-                             I_partial_unit=md_saxs1d.get("I_partial_unit"))
+                             I_partial_units=md_saxs1d.get("I_partial_units"))
 creator.create_saxs_2d_group(I=md_saxs2d.get("I"))
 creator.create_instrument_group(
                                 count_time=md_instrument.get("count_time"),
-                                count_time_unit=md_instrument.get("count_time_unit"),
+                                count_time_units=md_instrument.get("count_time_units"),
                                 frame_time=md_instrument.get("frame_time"),
-                                frame_time_unit=md_instrument.get("frame_time_unit"),
+                                frame_time_units=md_instrument.get("frame_time_units"),
                                 description=md_instrument.get("description"),
                                 distance=md_instrument.get("distance"),
-                                distance_unit=md_instrument.get("distance_unit"),
+                                distance_units=md_instrument.get("distance_units"),
                                 x_pixel_size=md_instrument.get("x_pixel_size"),
-                                x_pixel_size_unit=md_instrument.get("x_pixel_size_unit"),
                                 y_pixel_size=md_instrument.get("y_pixel_size"),
-                                y_pixel_size_unit=md_instrument.get("y_pixel_size_unit"),
+                                pixel_size_units=md_instrument.get("y_pixel_size_units"),
                                 energy=md_instrument.get("energy"),
-                                energy_unit=md_instrument.get("energy_unit"))
+                                energy_units=md_instrument.get("energy_units"))
 
 
