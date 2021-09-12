@@ -87,7 +87,7 @@
       <field name="g2" type="NX_NUMBER" units="NX_ANY">
         <doc>One-dimensional time correlation as function of delay time (tau).</doc>
       </field>
-      <field name="g2_errors" type="NX_NUMBER" units="NX_ANY">
+      <field name="g2_errors" type="NX_NUMBER" units="NX_ANY" minOccurs="0">
         <!-- NeXus convention calls this "_errors" even if it is std. dev. -->
         <doc>
             Standard deviation of the g2 correlation values.
@@ -105,18 +105,18 @@
       </field>
     </group>
 
-    <group type="NXdata" name="twotime">
+    <group type="NXdata" name="twotime" minOccurs="0">
       <!--
           TODO: Scientists want a different name for this group?
                 What is the new name?
       -->
-      <field name="C2" type="NX_NUMBER" units="NX_ANY">
+      <field name="C2" type="NX_NUMBER" units="NX_ANY" minOccurs="0">
         <doc>Two-time correlation, two-dimensional.</doc>
       </field>
-      <field name="g2_twotime" type="NX_NUMBER" units="NX_ANY">
+      <field name="g2_twotime" type="NX_NUMBER" units="NX_ANY" minOccurs="0">
         <doc>Sum across the diagonals of ``C2``.  Also known as ``g2full``.</doc>
       </field>
-      <field name="g2_partials_twotime" type="NX_NUMBER" units="NX_ANY">
+      <field name="g2_partials_twotime" type="NX_NUMBER" units="NX_ANY" minOccurs="0">
         <doc>``g2`` by subset of frames.</doc>
       </field>
     </group>
@@ -241,17 +241,17 @@
             indicating arbitrary units.
             </doc>
           </field>
-          <field name="dqlist" type="NX_NUMBER" units="NX_PER_LENGTH">
+          <field name="dqlist" type="NX_NUMBER" units="NX_PER_LENGTH" minOccurs="0">
             <doc>
             1-D list of $Q$ values, 1 for each ROI.
             </doc>
           </field>
-          <field name="dphilist" type="NX_NUMBER" units="NX_PER_LENGTH">
+          <field name="dphilist" type="NX_NUMBER" units="NX_PER_LENGTH" minOccurs="0">
             <doc>
             Array of $\varphi$ value for each pixel.
             </doc>
           </field>
-          <field name="sqmap" type="NX_DIMENSIONLESS">
+          <field name="sqmap" type="NX_DIMENSIONLESS" minOccurs="0">
             <doc>
             ROI index array.
 
@@ -271,21 +271,21 @@
           <!-- <group type="NXparameterizedmask" minOccurs="0" maxOccurs="unbounded" /> -->
       </group>
     </group>
-
-    <group type="NXsample" name="sample">
-      <field name="temperature_set" type="NX_NUMBER" units="NX_TEMPERATURE">
+  
+    <group type="NXsample" name="sample" minOccurs="0">
+      <field name="temperature_set" type="NX_NUMBER" units="NX_TEMPERATURE" minOccurs="0">
         <doc>
           Sample temperature setpoint, (C or K).
         </doc>
       </field>
-      <field name="temperature" type="NX_NUMBER" units="NX_TEMPERATURE">
+      <field name="temperature" type="NX_NUMBER" units="NX_TEMPERATURE" minOccurs="0">
         <doc>
           Sample temperature actual, (C or K).
         </doc>
       </field>
-      <group type="NXpositioner" name="position_x" />
-      <group type="NXpositioner" name="position_y" />
-      <group type="NXpositioner" name="position_z" />
+      <group type="NXpositioner" name="position_x" minOccurs="0" />
+      <group type="NXpositioner" name="position_y" minOccurs="0" />
+      <group type="NXpositioner" name="position_z" minOccurs="0" />
     </group>
 
     <group type="NXnote" name="ROI" minOccurs="0" maxOccurs="unbounded">
