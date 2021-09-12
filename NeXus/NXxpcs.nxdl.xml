@@ -147,6 +147,7 @@
         </field>
         <field name="extent" type="NX_FLOAT" units="NX_LENGTH">
           <doc>Size (2-D) of the beam at this position.</doc>
+          <!-- FIXME: (h, v) or (v, h)?  State this in the docs-->
         </field>
       </group>
       <group type="NXdetector" name="detector">
