@@ -266,8 +266,6 @@
             1-D list of $|Q|$ values, 1 for each ROI.
             </doc>
           </field>
-          <!-- <group type="NXarraymask" minOccurs="0" maxOccurs="unbounded" /> -->
-          <!-- <group type="NXparameterizedmask" minOccurs="0" maxOccurs="unbounded" /> -->
       </group>
     </group>
   
