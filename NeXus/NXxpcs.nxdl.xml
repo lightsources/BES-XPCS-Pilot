@@ -228,7 +228,6 @@
               in the data by either a mask to select pixels or to associate
               a *map* of ROIs with a (one-dimensional) *list* of values.
           </doc>
-          <!--  FIXME: removed archaic doc text. -->
           <field name="dqmap" type="NX_DIMENSIONLESS">
             <doc>
             ROI index array.
