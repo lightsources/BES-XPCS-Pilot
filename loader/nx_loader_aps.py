@@ -59,7 +59,7 @@ class APSLoader():
     def saxs2d_md(self):
         saxs2d = dict(
             I=self.data_file.get("/exchange/pixelSum"),
-            i_units='a.u.'
+            I_units='a.u.'
         )
         return saxs2d
 
