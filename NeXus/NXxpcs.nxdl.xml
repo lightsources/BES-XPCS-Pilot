@@ -81,14 +81,14 @@
 
     <group type="NXdata" name="data">
       <!-- TODO: needs documentation -->
-      <field name="frame_sum" type="NX_NUMBER" units="NX_ANY" minOccurs="0" maxOccurs="1">
+      <field name="frame_sum" type="NX_NUMBER" units="NX_COUNT" minOccurs="0" maxOccurs="1">
         <doc>
           Two-dimensional summation along the frames stack.
 
           sum of intensity v. time
         </doc>
       </field>
-      <field name="frame_average" type="NX_NUMBER" units="NX_ANY" minOccurs="0" maxOccurs="1">
+      <field name="frame_average" type="NX_NUMBER" units="NX_COUNT" minOccurs="0" maxOccurs="1">
         <doc>
             Two-dimensional average along the frames stack.
 
