@@ -19,7 +19,6 @@ class APSLoader():
             c2t_all = None
         return c2t_all
 
-    #TODO change this to a more general approach for different loaders
     def xpcs_md(self):
         xpcs = dict(
             g2=self.data_file.get("/exchange/norm-0-g2"),
@@ -35,7 +34,6 @@ class APSLoader():
             # TODO figure out how to access large amount of data
             twotime=self._get_c2t(),
             twotime_units='a.u.',
-            mask=self.data_file.get("/xpcs/mask"),
             dqmap=self.data_file.get("/xpcs/dqmap"),
             dqlist=self.data_file.get("/xpcs/dqlist"),
             dphilist=self.data_file.get("/xpcs/dphilist"),
@@ -66,8 +64,6 @@ class APSLoader():
     def instrument_md(self):
         instrument = dict(
         #TODO add instrument name e.g. as input when running the converter
-            # beam_center_x=self.data_file.get("/measurement/instrument/detector/beam_center"),
-            # beam_center_y=self.data_file.get("/measurement/instrument/detector/beam_center"),
             count_time=self.data_file.get("/measurement/instrument/detector/exposure_time"),
             count_time_units='s',
             description=self.data_file.get("/measurement/instrument/detector/manufacturer"),
