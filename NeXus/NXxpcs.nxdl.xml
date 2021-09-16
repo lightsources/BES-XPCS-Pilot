@@ -40,8 +40,6 @@
 
     It is expected that this XPCS data will be part of multi-modal data set that could involve e.f. NXcansas
     or 1D and/or 2D data.
-
-    see: https://docs.google.com/spreadsheets/d/1sZrhLlzER9nuEWmPSLbWcfsgH_0DlBI9QrGRBQdKRQg/edit#gid=0
   </doc>
   <group type="NXentry" name="entry">
     <field name="definition">
@@ -80,7 +78,6 @@
     </field>
 
     <group type="NXdata" name="data">
-      <!-- TODO: needs documentation -->
       <field name="frame_sum" type="NX_NUMBER" units="NX_COUNT" minOccurs="0" maxOccurs="1">
         <doc>
           Two-dimensional summation along the frames stack.
