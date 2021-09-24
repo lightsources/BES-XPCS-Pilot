@@ -34,12 +34,13 @@ class APSLoader():
             # TODO figure out how to access large amount of data
             twotime=self._get_c2t(),
             twotime_units='a.u.',
-            dqmap=self.data_file.get("/xpcs/dqmap"),
-            dqlist=self.data_file.get("/xpcs/dqlist"),
-            dphilist=self.data_file.get("/xpcs/dphilist"),
-            sqmap=self.data_file.get("/xpcs/sqmap"),
-            # sqlist=self.data_file.get("/xpcs/sqlist"),
-            sphilist=self.data_file.get("/xpcs/sphilist")
+            mask=self.data_file.get("/xpcs/mask"),
+            dynamic_roi_map=self.data_file.get("/xpcs/dqmap"),
+            dynamic_q_list=self.data_file.get("/xpcs/dqlist"),
+            dynamic_phi_list=self.data_file.get("/xpcs/dphilist"),
+            static_roi_map=self.data_file.get("/xpcs/sqmap"),
+            # static_q_list=self.data_file.get("/xpcs/sqlist"),
+            static_phi_list=self.data_file.get("/xpcs/sphilist")
         )
         return xpcs
 

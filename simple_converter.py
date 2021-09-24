@@ -58,7 +58,7 @@ def get_user_parameters():
     parser.add_argument(
         "--use_q_values",
         action="store_true",
-        help="Use this to use q values for dqlist instead of index values",
+        help="Use this to use q values for dynamic_q_list instead of index values",
     )
     return parser.parse_args()
 
@@ -105,10 +105,10 @@ creator.create_xpcs_group(
                           tau=md_xpcs.get('tau'),
                           tau_units=md_xpcs.get('tau_units'),
                           mask=md_xpcs.get('mask'),
-                          dqmap=md_xpcs.get('dqmap'),
-                          dqlist=md_xpcs.get('dqlist'),
-                          dphilist=md_xpcs.get('dphilist'),
-                          sqmap=md_xpcs.get('sqmap')
+                          dynamic_roi_map=md_xpcs.get('dynamic_roi_map'),
+                          dynamic_q_list=md_xpcs.get('dynamic_q_list'),
+                          dynamic_phi_list=md_xpcs.get('dynamic_phi_list'),
+                          static_roi_map=md_xpcs.get('static_roi_map')
                           )
 creator.create_saxs_1d_group(
                              I=md_saxs1d.get("I"),

@@ -173,9 +173,26 @@
           Objects can entered here directly or linked from other
           objects in the NeXus file (such as within ``/entry/instrument``).
       </doc>
-      <group type="NXmonochromator" name="monochromator">
-        <field name="energy" type="NX_FLOAT" units="NX_ENERGY">
+      <group type="NXbeam" name="incident_beam">
+        <field name="incident_energy" type="NX_FLOAT" units="NX_ENERGY">
           <doc>Incident beam line energy (either keV or eV).</doc>
+        </field>
+        <field name="incident_energy_spread" type="NX_FLOAT" units="NX_ENERGY">
+          <doc>
+            Spread of incident beam line energy (either keV or eV).
+          </doc>
+        </field>
+        <field name="incident_polarization_type">
+          <doc>
+            Terse description of the incident beam polarization.
+
+            The value can be plain text, such as ``vertical``, ``C+``,
+            ``circular left``.
+          </doc>
+        </field>
+        <field name="extent" type="NX_FLOAT" units="NX_LENGTH">
+          <doc>Size (2-D) of the beam at this position.</doc>
+          <!-- FIXME: (h, v) or (v, h)?  State this in the docs-->
         </field>
       </group>
 
@@ -225,39 +242,39 @@
               in the data by either a mask to select pixels or to associate
               a *map* of ROIs with a (one-dimensional) *list* of values.
           </doc>
-          <field name="dqmap" type="NX_DIMENSIONLESS">
+          <field name="dynamic_roi_map" type="NX_DIMENSIONLESS">
             <doc>
             ROI index array.
 
             The values of this mask index the $Q$ value from the
-            the ``dqlist`` field.
+            the ``dynamic_q_list`` field.
 
             The ``units`` attribute should be set to ``"au"``
             indicating arbitrary units.
             </doc>
           </field>
-          <field name="dqlist" type="NX_NUMBER" units="NX_PER_LENGTH" minOccurs="0">
+          <field name="dynamic_q_list" type="NX_NUMBER" units="NX_PER_LENGTH" minOccurs="0">
             <doc>
             1-D list of $Q$ values, 1 for each ROI.
             </doc>
           </field>
-          <field name="dphilist" type="NX_NUMBER" units="NX_PER_LENGTH" minOccurs="0">
+          <field name="dynamic_phi_list" type="NX_NUMBER" units="NX_PER_LENGTH" minOccurs="0">
             <doc>
             Array of $\varphi$ value for each pixel.
             </doc>
           </field>
-          <field name="sqmap" type="NX_DIMENSIONLESS" minOccurs="0">
+          <field name="static_roi_map" type="NX_DIMENSIONLESS" minOccurs="0">
             <doc>
             ROI index array.
 
             The values of this mask index the $|Q|$ value from the
-            the ``sqlist`` field.
+            the ``static_q_list`` field.
 
             The ``units`` attribute should be set to ``"au"``
             indicating arbitrary units.
             </doc>
           </field>
-          <field name="sqlist" type="NX_NUMBER" units="NX_PER_LENGTH">
+          <field name="static_q_list" type="NX_NUMBER" units="NX_PER_LENGTH">
             <doc>
             1-D list of $|Q|$ values, 1 for each ROI.
             </doc>
@@ -286,8 +303,8 @@
       <doc>
         Region(s) of interest.
 
-        NAME: The NeXus convention is to use all upper case
-        to indicate the name (here ``ROI``) is left to the file 
+        NAME: The NeXus convention, to use all upper case
+        to indicate the name (here ``ROI``), is left to the file 
         writer.  In our case, follow the suggested name
         pattern and sequence: roi_1, roi_2, roi_3, ...
         Start with ``roi_1`` if the first one, otherwise
@@ -299,8 +316,8 @@
       <doc>
         Any other notes.
 
-        NAME: The NeXus convention is to use all upper case
-        to indicate the name (here ``NOTE``) is left to the file 
+        NAME: The NeXus convention, to use all upper case
+        to indicate the name (here ``NOTE``), is left to the file 
         writer.  In our case, follow the suggested name
         pattern and sequence: note_1, note_2, note_3, ...
         Start with ``note_1`` if the first one, otherwise

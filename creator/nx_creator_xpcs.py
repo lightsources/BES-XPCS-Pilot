@@ -178,13 +178,12 @@ class NXCreator:
                           #TODO: define python object to check against
                           delay_difference_units = None,
                           frame_sum: np.ndarray = None,
-                          frame_average: np.ndarray = None,
-                          frame_units: str = 'counts',
-                          dqmap: np.ndarray = None,
-                          dqlist: np.ndarray = None,
-                          dphilist: np.ndarray = None,
-                          sqmap: np.ndarray = None,
-                          sqlist: np.ndarray = None,
+                          mask: np.ndarray = None,
+                          dynamic_roi_map: np.ndarray = None,
+                          dynamic_q_list: np.ndarray = None,
+                          dynamic_phi_list: np.ndarray = None,
+                          static_roi_map: np.ndarray = None,
+                          static_q_list: np.ndarray = None,
                           *args,
                           **kwargs):
         """
@@ -268,11 +267,12 @@ class NXCreator:
             # create instrument group and masks group, add datasets
             instrument_group = self._init_group(self.xpcs_group, "instrument", "NXdata")
             mask_group = self._init_group(instrument_group, "masks", "NXdata")
-            self._create_dataset(mask_group, "dqmap", dqmap)
-            self._create_dataset(mask_group, "dqlist", dqlist, units="1/Angstrom")
-            self._create_dataset(mask_group, "dphilist", dphilist, units="1/Angstrom")
-            self._create_dataset(mask_group, "sqmap", sqmap)
-            self._create_dataset(mask_group, "sqlist", sqlist, units="1/Angstrom")
+            self._create_dataset(mask_group, "mask", mask, units="au")
+            self._create_dataset(mask_group, "dynamic_roi_map", dynamic_roi_map)
+            self._create_dataset(mask_group, "dynamic_q_list", dynamic_q_list, units="1/Angstrom")
+            self._create_dataset(mask_group, "dynamic_phi_list", dynamic_phi_list, units="1/Angstrom")
+            self._create_dataset(mask_group, "static_roi_map", static_roi_map)
+            self._create_dataset(mask_group, "static_q_list", static_q_list, units="1/Angstrom")
             file.close()
 
 
