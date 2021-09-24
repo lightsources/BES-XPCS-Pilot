@@ -142,7 +142,7 @@
             Terse description of the incident beam polarization.
 
             The value can be plain text, such as ``vertical``, ``C+``,
-           ``circular left``.
+            ``circular left``.
           </doc>
         </field>
         <field name="extent" type="NX_FLOAT" units="NX_LENGTH">
