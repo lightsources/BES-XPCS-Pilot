@@ -166,15 +166,17 @@ class NXCreator:
                           g2: np.ndarray = None,
                           g2_units: str = 'a.u',
                           g2_stderr: np.ndarray = None,
-                          g2_partials_twotime: np.ndarray = None,
-                          g2_partials_twotime_units: str = 'a.u.',
-                          g2_twotime: np.ndarray = None,
-                          g2_twotime_units: str = 'a.u.',
-                          C2: np.ndarray = None,
-                          C2_units: str = 'a.u.',
-                          # TODO: decide on name for this time, see comment in xml file
-                          tau: np.ndarray = None,
-                          tau_units: str = 's',
+                          G2_unnormalized: np.ndarray = None,
+                          two_time_corr_func: np.ndarray = None,
+                          two_time_corr_units: str = 'a.u.',
+                          g2_from_two_time_corr_func: np.ndarray = None,
+                          g2_from_two_time_corr_func_partials: np.ndarray = None,
+                          g2_from_two_time_corr_units: str = 'a.u.',
+                          baseline_reference: int = None,
+
+                          delay_difference: np.ndarray = None,
+                          #TODO: define python object to check against
+                          delay_difference_units = None,
                           frame_sum: np.ndarray = None,
                           mask: np.ndarray = None,
                           dynamic_roi_map: np.ndarray = None,
@@ -187,18 +189,25 @@ class NXCreator:
         """
         See NXxpcs definition for details
 
-        :param : g2 are values for the one-dimensional correlation as function of delay time (tau)
-        :param : g2_units units for g2 is usually "a.u." (arbitrary units)
-        :param : g2_stderr are the standard deviation error values for the g2 correlation values
-        :param : g2_partials_twotime is the sum across the diagonals of C2
-        :param : g2_partials_twotime_units subsets of the sum across the diagonals of C2
-        :param : C2 is the two-dimensional Twotime correlation
-        :param : C2_units units for C2 is usually arbitrary units
-        :param : tau is the delay time corresponding to the g2 correlation values
-        :param : tau_units any time units
-        :param : frame_sum is the twodimensional average along the frames stack
-        :param : mask is a two-dimensional array of the same shape as the data frames that masks valid and invalid pixel
-                 such as broken pixels, beamstop etc
+        :param baseline_reference: expected value of a full decorrelation, usually at 0 or 1
+        :param frame_sum: the two-dimensional sum along the frames stack
+        :param frame_average: is the two-dimensional average along the frames stack
+        :param frame_units: units for the frame_sum and/or frame_average
+        :param g2: normalized intensity auto-correlation function
+        :param g2_units: units for g2 is usually "a.u." (arbitrary units)
+        :param g2_stderr: standard deviation error values for the g2 values
+        :param G2_unnormalized: unnormalized intensity auto-correlation function
+        :param two_time_corr_func: two-time intensity correlation function
+        :param two_time_corr_units: untis for two-time intensity correlation function, typically "a.u."
+        :param g2_from_two_time_corr_func: sum across diagonals in two_time_corr_func
+        :param g2_from_two_time_corr_func_partials: subset of sum across diagonals in two_time_corr_func
+        :param g2_partials_twotime_units: units for g2_from_two_time_corr_func, typically "a.u."
+
+        :param delay_difference: quantized difference so that the "step" between two consecutive frames is one frame
+                                 (or step = dt = 1 frame)
+                                 It's the delay time corresponding to the g2 correlation values.
+        :param delay_difference_units: NX_INT units of frames (i.e. integers) preferred, refer to NXdetector for
+                                       conversion to time units
         :param : dqmap is a two-dimensional map of q bins indexed from 0 to N (number of q bins)
         :param : dqlist is a list of the q values for the multiple g2 correlation curves
         :param : dphilist is a list of the phi values
@@ -214,7 +223,7 @@ class NXCreator:
                 warnings.warn(f'Did not receive expected {i.__name__} data - '
                               f'Cannot write complete XPCS groups')
             # here we check the plottable data
-            elif i in ("g2", "twotime", "tau"):
+            elif i in ("g2", "twotime", "delay_difference"):
                 signal_dataset = i
         with h5py.File(self._output_filename, "a") as file:
             self.xpcs_group = self._init_group(file[self.entry_group_name], "XPCS", "NXprocess")
@@ -228,19 +237,34 @@ class NXCreator:
             # create datagroup and add datasets
             data_group = self._init_group(self.xpcs_group, "data", "NXdata")
 
+            self.create_data_with_units(data_group, "frame_sum", frame_sum, 's', supplied=frame_units)
+            self.create_data_with_units(data_group, "frame_average", frame_average, 's', supplied=frame_units)
             self.create_data_with_units(data_group, "g2", g2, 'a.u.', supplied=g2_units)
             self.create_data_with_units(data_group, "g2_stderr", g2_stderr, 'a.u.', supplied=g2_units)
-            self.create_data_with_units(data_group, "tau", tau, 's', supplied=tau_units)
-            # add twotime group and dataset
-            twotime_group = self._init_group(self.xpcs_group, "twotime", "NXdata")
-            self.create_data_with_units(twotime_group, "g2_partials_twotime", g2_partials_twotime, 'a.u.',
-                                       supplied=g2_partials_twotime_units)
-            self.create_data_with_units(twotime_group, "g2_twotime", g2_twotime, 'a.u.', supplied=g2_twotime_units)
-            # TODO find a better name for this entry: e.g. twotime_corr, twotime, C2T_all...?
-            self.create_data_with_units(twotime_group, "C2", C2, 'a.u.', supplied=C2_units)
+            self.create_data_with_units(data_group, "G2_unnormalized", G2_unnormalized, 'a.u.', supplied=g2_units)
+            self.create_data_with_units(data_group, "delay_difference", delay_difference, 's', supplied=delay_difference_units)
 
-            # create instrument group and mask group, add datasets
-            # TODO do we really want an instrument group here or directly adding mask as a subentry?
+            twotime_group = self._init_group(self.xpcs_group, "twotime", "NXdata")
+            self.create_data_with_units(twotime_group,
+                                        "g2_from_two_time_corr_func",
+                                        g2_from_two_time_corr_func,
+                                        'a.u.',
+                                        supplied=g2_from_two_time_corr_units,
+                                        baseline_reference=baseline_reference)
+            self.create_data_with_units(twotime_group,
+                                        "g2_from_two_time_corr_func_partials",
+                                        g2_from_two_time_corr_func_partials,
+                                        'a.u.',
+                                        supplied=g2_from_two_time_corr_units,
+                                        baseline_reference=baseline_reference)
+            self.create_data_with_units(twotime_group,
+                                        "two_time_corr_func",
+                                        two_time_corr_func,
+                                        'a.u.',
+                                        supplied=two_time_corr_units,
+                                        baseline_reference=baseline_reference)
+
+            # create instrument group and masks group, add datasets
             instrument_group = self._init_group(self.xpcs_group, "instrument", "NXdata")
             mask_group = self._init_group(instrument_group, "masks", "NXdata")
             self._create_dataset(mask_group, "mask", mask, units="au")

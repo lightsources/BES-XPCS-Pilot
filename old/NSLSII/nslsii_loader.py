@@ -31,8 +31,8 @@ def get_xpcs_data(file, use_q_value=True):
         xpcs_data['tau@units'] = 's'
 
         # TODO: Does CHX data have these?
-        # xpcs_data['g2_partials_twotime'] = np.squeeze(f[''])[()]
-        # xpcs_data['g2_twotime'] = np.squeeze(f[''])[()]
+        # xpcs_data['g2_from_two_time_corr_func_partials'] = np.squeeze(f[''])[()]
+        # xpcs_data['g2_from_two_time_corr_func'] = np.squeeze(f[''])[()]
         # xpcs_data['C_0000X'] = np.squeeze(f[''])[()]
 
         # NOTE: Swapping 0s and 1s in mask here
@@ -172,8 +172,8 @@ def main():
             g2=xpcs_data["g2"],
             g2_stderr=xpcs_data["g2_stderr"],
             tau=xpcs_data["tau"],
-            g2_partials_twotime=xpcs_data["g2_partials_twotime"],
-            g2_twotime=xpcs_data["g2_twotime"],
+            g2_from_two_time_corr_func_partials=xpcs_data["g2_from_two_time_corr_func_partials"],
+            g2_from_two_time_corr_func=xpcs_data["g2_from_two_time_corr_func"],
             C_0000X=xpcs_data["C_0000X"],
             mask=xpcs_data["mask"],
             dqmap=xpcs_data["dqmap"],

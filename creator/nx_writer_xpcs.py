@@ -44,8 +44,8 @@ class Writer():
     # xpcs_md = {"g2": "g2_value",
     #            "g2_stderr": "g2_stderr_value",
     #            "tau": "tau_value",
-    #            "g2_partials_twotime": "g2_partials_twotime_values",
-    #            "g2_twotime": "g2_twotime_values",
+    #            "g2_from_two_time_corr_func_partials": "g2_partials_twotime_values",
+    #            "g2_from_two_time_corr_func": "g2_twotime_values",
     #            #TODO figure out how to access large amount of data
     #            # "C": "C_shaped_array"
     #            "mask": "mask_value",
