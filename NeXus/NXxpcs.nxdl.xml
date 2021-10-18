@@ -38,8 +38,14 @@
   <doc>
     X-ray Photon Correlation Spectroscopy data (results).
 
-    It is expected that this XPCS data will be part of multi-modal data set that could involve e.f. NXcansas
-    or 1D and/or 2D data.
+    The purpose of NXxpcs is to document and communicate an accepted vanacular for various XPCS data 
+    in order to suppport development of community software tools.  The definition presented here only
+    represents a starting point and contains fields that a common software tool should support for 
+    community acceptance.
+
+    Additional fields may be added to XPCS results file (forrmally or informally).  It is expected 
+    that this XPCS data will be part of multi-modal data set that could involve e.g. NXcansas or 
+    1D and/or 2D data.
   </doc>
   <group type="NXentry" name="entry">
     <field name="definition">
