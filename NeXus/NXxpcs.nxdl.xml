@@ -104,10 +104,10 @@
             
             ..  math:: g_2(Q,t) = \frac{ \langle I(Q,t\prime) I(Q,t|prime = t) \rangle }{ \langle I(Q,t\prime)\rangle^2 }; t > 0
 
-            Typically, $g_2$ is a quantity calculated for a group of pixels reprenting a specific region
-            of reciprocal space.  These groupings, or bins, are generically desribed as q. Some open-source XPCS
-            librarys refer to these bins as "rois", which are not to be confused with EPICS AreaDetector ROI.
-            See usage guidelines for q_lists and roi_maps within <a href="/NXxpcs/entry/instrument/masks-group">mask</a>.
+            Typically, $g_2$ is a quantity calculated for a group of pixels reprenting a specific 
+            region of reciprocal space.  These groupings, or bins, are generically desribed as q. Some 
+            open-source XPCS librarys refer to these bins as "rois", which are not to be confused with 
+            EPICS AreaDetector ROI. See usage guidelines for q_lists and roi_maps within <a href="/NXxpcs/entry/instrument/masks-group">mask</a>.
             <!-- TODO: ensure link to mask section on this page works -->
             In short, $g_2$ should be ordered according to the q or roi index. The data should be in one
             of the following two formats:
@@ -155,14 +155,34 @@
       <!-- TODO: needs documentation -->
       <field name="two_time_corr_func" type="NX_NUMBER" units="NX_ANY" minOccurs="0" maxOccurs="1">
         <doc>
-          two-time correlation see Fluerasu, Phys Rev E (2007), Eq 1 and Sutton, Optics Express (2003)
+          two-time correlation of speckle intensity for a given q-bin or roi
+          
+          See Fluerasu, Phys Rev E (2007), Eq 1 and Sutton, Optics Express (2003) for the most basic 
+          description:
 
           .. math:: C(q, t_1, t_2) = \frac{ \langle I(q, t_1)I(q, t_2)\rangle }{ \langle I(q,t_1)\rangle \langle I(q,t_2)\rangle }
+
+          in which time is quantized by frames. In short, this correlation function should be ordered 
+          according to the q or roi index with the origin of the 2D array at the lower left.  The data 
+          should be in one of the following two formats:
+            <list type="bullet">
+              <item>
+                <description>iterable list of linked files for each q-bin, which is a 2D array.  </description>
+              </item>
+              <item>
+                <description>3D array with shape (frames, frames, q) </description>
+              </item>
+
+          Other normalization methods may be applied, but the method will not be specfied in this defintion.
+          Some of these normalization methods result in a baseline value of 0, not 1.
+
+
         </doc>
         <attribute name="baseline_reference" type="NX_INT">
           <doc>
-            The baseline is the expected value of a full decorrelation.
-            Will be used as a constant value in fitting.
+            baseline is the expected value of a full decorrelation
+
+            The baseline is a constant value added to the functional form of the auto-correlatiton function.
             This value is required.
           </doc>
           <enumeration>
@@ -175,8 +195,9 @@
         <doc>sum across diagonals in two_time_corr_func</doc>
         <attribute name="baseline_reference" type="NX_INT">
           <doc>
-            The baseline is the expected value of a full decorrelation.
-            Will be used as a constant value in fitting.
+            baseline is the expected value of a full decorrelation
+
+            The baseline is a constant value added to the functional form of the auto-correlatiton function.
             This value is required.
           </doc>
           <enumeration>
@@ -189,8 +210,9 @@
         <doc>subset of sum across diagonals in two_time_corr_func</doc>
         <attribute name="baseline_reference" type="NX_INT">
           <doc>
-            The baseline is the expected value of a full decorrelation.
-            Will be used as a constant value in fitting.
+            baseline is the expected value of a full decorrelation
+
+            The baseline is a constant value added to the functional form of the auto-correlatiton function.
             This value is required.
           </doc>
           <enumeration>
@@ -214,7 +236,8 @@
         </field>
         <field name="incident_energy_spread" type="NX_FLOAT" units="NX_ENERGY">
           <doc>
-            Spread of incident beam line energy (either keV or eV).
+            Spread of incident beam line energy (either keV or eV). This quantity is otherwise known as the energy resolution, 
+            which is related to the longitudinal coherence length.
           </doc>
         </field>
         <field name="incident_polarization_type">
@@ -232,7 +255,7 @@
       </group>
 
       <group type="NXdetector" name="detector">
-        <!-- TODO: needs documentation -->
+        <!-- TODO: needs documentation -WHAT KIND OF INFORAMTION DO WE WANT FOR NXdetector -->
         <field name="description">
           <doc>Detector name.</doc>
         </field>
