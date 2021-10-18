@@ -88,14 +88,14 @@
         <doc>
           Two-dimensional summation along the frames stack.
 
-          sum of intensity v. time
+          sum of intensity v. time (in the units of "frames")
         </doc>
       </field>
       <field name="frame_average" type="NX_NUMBER" units="NX_COUNT" minOccurs="0" maxOccurs="1">
         <doc>
             Two-dimensional average along the frames stack.
 
-            average intensity v. time
+            average intensity v. time (in the units of "frames")
         </doc>
       </field>
       <field name="g2" type="NX_NUMBER" units="NX_ARBITRARY_UNITS" minOccurs="0" maxOccurs="1">
