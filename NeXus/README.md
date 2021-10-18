@@ -4,8 +4,8 @@
 describe XPCS results computed by software external (to the [Bluesky
 framework](https://blueskyproject.io/)) and to import those results into
 Bluesky for visualization and other activities. Additionally, any independant 
-project that wishes to support the XPCS community may use this definition a
-a guide to building a more universal tool.
+project that wishes to support the XPCS community may use this definition as
+a minimum requirements guide to building a more universal tool.
 
 In this repository, we prepare the `NXxpcs` application _before_ we
 submit it to the [NeXus definitions
