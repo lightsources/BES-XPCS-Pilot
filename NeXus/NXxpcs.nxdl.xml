@@ -122,17 +122,17 @@
       </field>
       <field name="g2_stderr" type="NX_NUMBER" units="NX_ARBITRARY_UNITS" minOccurs="0" maxOccurs="1">
         <doc>
-            error values for the g2 values. 
+            error values for the $g_2$ values. 
         
             The derivation of the error is left up to the implemented code. Symmetric error will be
-            expected ($/pm$ error).  The data should be in the same format as "g2".
+            expected ($/pm$ error).  The data should be in the same format as ``g2``.
         </doc>
       </field>
       <field name="G2_unnormalized" type="NX_NUMBER" units="NX_ARBITRARY_UNITS" minOccurs="0" maxOccurs="1">
         <doc>
             unnormalized intensity auto-correlation function.
 
-            Specifically "g2" without the denominator.  The data should be in the same format as "g2".
+            Specifically ``g2`` without the denominator.  The data should be in the same format as ``g2``.
             
         </doc>
       </field>
@@ -174,7 +174,7 @@
               </item>
 
           Other normalization methods may be applied, but the method will not be specfied in this 
-          defintion. Some of these normalization methods result in a baseline value of 0, not 1.
+          defintion. Some of these normalization methods result in a baseline value of ``0``, not ``1``.
 
 
         </doc>
@@ -236,8 +236,8 @@
         </field>
         <field name="incident_energy_spread" type="NX_FLOAT" units="NX_ENERGY">
           <doc>
-            Spread of incident beam line energy (either keV or eV). This quantity is otherwise known as the energy resolution, 
-            which is related to the longitudinal coherence length.
+            Spread of incident beam line energy (either keV or eV). This quantity is otherwise known 
+            as the energy resolution, which is related to the longitudinal coherence length.
           </doc>
         </field>
         <field name="incident_polarization_type">
