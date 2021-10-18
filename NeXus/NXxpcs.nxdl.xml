@@ -103,6 +103,21 @@
             normalized intensity auto-correlation function, see Lumma, Rev. Sci. Instr. (2000), Eq 1
             
             ..  math:: g_2(Q,t) = \frac{ \langle I(Q,t\prime) I(Q,t|prime = t) \rangle }{ \langle I(Q,t\prime)\rangle^2 }; t > 0
+
+            Typically, $g_2$ is a quantity calculated for a group of pixels reprenting a specific region
+            of reciprocal space.  These groupings, or bins, are generically desribed as q. Some open-source XPCS
+            librarys refer to these bins as "rois", which are not to be confused with EPICS AreaDetector ROI.
+            See usage guidelines for q_lists and roi_maps within <a href="/NXxpcs/entry/instrument/masks-group">mask</a>.
+
+            In short, $g_2$ should be ordered according to the q or roi index. The data should be in one
+            of the following two formats:
+            <list type="bullet">
+              <item>
+                <description>iterable list of linked files to each $g_2$ </description>
+              </item>
+              <item>
+                <description>2D array with shape ($g_2$, q) </description>
+              </item>
         </doc>
       </field>
       <field name="g2_stderr" type="NX_NUMBER" units="NX_ARBITRARY_UNITS" minOccurs="0" maxOccurs="1">
