@@ -36,7 +36,7 @@
     </symbol>
   </symbols>
   <doc>
-    X-ray Photon Correlation Spectroscopy data (results).
+    X-ray Photon Correlation Spectroscopy (XPCS) data (results).
 
     The purpose of NXxpcs is to document and communicate an accepted vanacular for various XPCS data 
     in order to suppport development of community software tools.  The definition presented here only
@@ -46,6 +46,8 @@
     Additional fields may be added to XPCS results file (forrmally or informally).  It is expected 
     that this XPCS data will be part of multi-modal data set that could involve e.g. NXcansas or 
     1D and/or 2D data.
+
+    **QUESTION** it seems we are missing the "average" image. was this intensional?  
   </doc>
   <group type="NXentry" name="entry">
     <field name="definition">
@@ -109,15 +111,22 @@
             open-source XPCS librarys refer to these bins as "rois", which are not to be confused with 
             EPICS AreaDetector ROI. See usage guidelines for q_lists and roi_maps within <a href="/NXxpcs/entry/instrument/masks-group">mask</a>.
             <!-- TODO: ensure link to mask section on this page works -->
-            In short, $g_2$ should be ordered according to the q or roi index. The data should be in one
+            In short, $g_2$ should be ordered according to the roi_map value. The data should be in one
             of the following two formats:
             <list type="bullet">
               <item>
-                <description>iterable list of linked files for each $g_2$ </description>
+                <description>iterable list of linked files for each $g_2$ with 1 file per q </description>
               </item>
               <item>
                 <description>2D array with shape ($g_2$, q) </description>
               </item>
+
+              **QUESTION** should we add a sketch of g2 plot with error bars and delay_difference as 
+              an illustratory example?
+
+              **QUESTION** should we talk more about expected length of data (we have not length 
+              consistency checks).  These checks are probably up to developers, but by docummenting
+              here, maybe this makes it easier?
         </doc>
       </field>
       <field name="g2_stderr" type="NX_NUMBER" units="NX_ARBITRARY_UNITS" minOccurs="0" maxOccurs="1">
@@ -143,7 +152,7 @@
           This is quantized difference so that the "step" between two consecutive
           frames is one frame (or step = dt = 1 frame)
 
-          It is the "quantized" delay time corresponding to the g2 correlation values.
+          It is the "quantized" delay time corresponding to the ``g2`` values.
 
           The unit of delay_differences is NX_INT for units of frames (i.e. integers) preferred,
           refer to NXdetector for conversion to time units. <!-- TODO make links for NX_INT and NXdetector -->
@@ -166,7 +175,7 @@
           .. math:: C(q, t_1, t_2) = \frac{ \langle I(q, t_1)I(q, t_2)\rangle }{ \langle I(q,t_1)\rangle \langle I(q,t_2)\rangle }
 
           in which time is quantized by frames. In short, this correlation function should be ordered 
-          according to the q or roi index with the origin of the 2D array at the lower left.  The data 
+          according to the q or roi index with the origin of the 2D array at the **lower left**.  The data 
           should be in one of the following two formats:
             <list type="bullet">
               <item>
@@ -178,6 +187,9 @@
 
           Other normalization methods may be applied, but the method will not be specfied in this 
           defintion. Some of these normalization methods result in a baseline value of ``0``, not ``1``.
+
+          **QUESTION** do we want to enforce lower left for origin? is this okay if the two-time 
+          origin is not consistent with the image origin?
 
 
         </doc>
@@ -195,13 +207,20 @@
         </attribute>
       </field>
       <field name="g2_from_two_time_corr_func" type="NX_NUMBER" units="NX_ARBITRARY_UNITS" minOccurs="0" maxOccurs="1">
-        <doc>sum across diagonals in two_time_corr_func</doc>
+        <doc>
+          weighted average along the diagonal direction in two_time_corr_func
+          
+          **QUESTION** How do we deal with diagonal? Require inclusion (and leave to "fitter"
+            to elminate it from exponential fit), require exclusion, allow for either with additional 
+            attribute?  We will appply this consistently to ``g2_from_two_time_corr_func_partials``
+        </doc>
         <attribute name="baseline_reference" type="NX_INT">
           <doc>
             baseline is the expected value of a full decorrelation
 
             The baseline is a constant value added to the functional form of the auto-correlatiton 
             function. This value is required.
+
           </doc>
           <enumeration>
           <item value="0"/>
