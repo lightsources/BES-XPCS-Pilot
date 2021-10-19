@@ -294,7 +294,7 @@
 
       <group type="NXnote" name="masks" minOccurs="0" maxOccurs="1">
           <doc>
-              Data masks or mappings to regions of interest.
+              Data masks or mappings to regions of interest (roi).
 
               Fields in this ``masks`` group describe regions of interest
               in the data by either a mask to select pixels or to associate
@@ -302,10 +302,11 @@
           </doc>
           <field name="dynamic_roi_map" type="NX_DIMENSIONLESS">
             <doc>
-            ROI index array.
+            ROI index array, or labeled array.
 
-            The values of this mask index the $Q$ value from the
-            the ``dynamic_q_list`` field.
+            The values of this mask index (or map to) the $Q$ value from the
+            the ``dynamic_q_list`` field. Not that the value of ``0`` represents in-action. XPCS compuatations 
+            are performed on all pixels with a value > 0.
 
             The ``units`` attribute should be set to ``"au"``
             indicating arbitrary units.
@@ -314,11 +315,15 @@
           <field name="dynamic_q_list" type="NX_NUMBER" units="NX_PER_LENGTH" minOccurs="0">
             <doc>
             1-D list of $Q$ values, 1 for each ROI.
+
+            List order is determined by the index value of the associated roi map starting at ``1``.
             </doc>
           </field>
           <field name="dynamic_phi_list" type="NX_NUMBER" units="NX_PER_LENGTH" minOccurs="0">
             <doc>
-            Array of $\varphi$ value for each pixel.
+            Array of $\varphi$ value for each pixel. 
+
+            List order is determined by the index value of the associated roi map starting at ``1``.
             </doc>
           </field>
           <field name="static_roi_map" type="NX_DIMENSIONLESS" minOccurs="0">
