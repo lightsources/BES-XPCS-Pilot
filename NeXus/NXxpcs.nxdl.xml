@@ -152,6 +152,10 @@
     </group>
 
     <group type="NXdata" name="twotime" minOccurs="0">
+    <doc>
+      The results in this section are higher order intensity correlations or are lower dimensional correlations
+      derived from the intensity time-time correlation function (aka the two-time correlation function).
+    </doc>
       <!-- TODO: needs documentation -->
       <field name="two_time_corr_func" type="NX_NUMBER" units="NX_ANY" minOccurs="0" maxOccurs="1">
         <doc>
@@ -250,12 +254,23 @@
         </field>
         <field name="extent" type="NX_FLOAT" units="NX_LENGTH">
           <doc>Size (2-D) of the beam at this position.</doc>
-          <!-- FIXME: (h, v) or (v, h)?  State this in the docs-->
+          <!-- FIXME: (h, v) or (v, h)?  State this in the docs FOR EPICS AD, likeky v, h.  But seems CSX is (h,v) if looking
+          from the source's perspective at the face of the detector - see fig 11 and fig 12 of cxidb documentation-->
         </field>
       </group>
 
       <group type="NXdetector" name="detector">
-        <!-- TODO: needs documentation -WHAT KIND OF INFORAMTION DO WE WANT FOR NXdetector -->
+        <doc>
+          XPCS data is typically produced by an areadetector as a stack of 2D images. Sometimes
+          this data is represented in different ways (sparse arrays or photon event list), but this detail
+          is left to the analysis software.  Therefore, we only include We note that the image origin
+          (pixel coordinates (0,0)) are found at the top left of a single 2D image array. This 
+          is the standard expected by  <a href="https://cxidb.org/cxi.html">Coherent X-ray Imaging Data Bank</a>. 
+          See CXI version 1.6 and Maia, Nature Methods (2012). 
+        
+          Additionally, all but ``frame_time`` are inhereited from NXdetector. ``frame_time`` is used to 
+          convert ``delay_difference`` to seconds.  
+        </doc>
         <field name="description">
           <doc>Detector name.</doc>
         </field>
