@@ -135,7 +135,7 @@
               here, maybe this makes it easier?
         </doc>
       </field>
-      <field name="g2_stderr" type="NX_NUMBER" units="NX_ARBITRARY_UNITS" minOccurs="0" maxOccurs="1">
+      <field name="g2_derr" type="NX_NUMBER" units="NX_ARBITRARY_UNITS" minOccurs="0" maxOccurs="1">
         <doc>
             error values for the $g_2$ values. 
         
@@ -249,6 +249,14 @@
         </enumeration>
         </attribute>
       </field>
+      <field name="g2_err_from_two_time_corr_func" type="NX_NUMBER" units="NX_ARBITRARY_UNITS" minOccurs="0" maxOccurs="1">
+        <doc>
+            error values for the $g_2$ values. 
+        
+            The derivation of the error is left up to the implemented code. Symmetric error will be
+            expected ($/pm$ error).  
+        </doc>
+      </field>
       <field name="g2_from_two_time_corr_func_partials" type="NX_NUMBER" units="NX_ARBITRARY_UNITS" minOccurs="0" maxOccurs="1">
         <doc>
           subset of frame weighted average along the diagonal direction in ``two_time_corr_func``
@@ -281,6 +289,14 @@
           <item value="1"/>
         </enumeration>
         </attribute>
+      </field>
+      <field name="g2_err_from_two_time_corr_func_partials" type="NX_NUMBER" units="NX_ARBITRARY_UNITS" minOccurs="0" maxOccurs="1">
+        <doc>
+            error values for the $g_2$ values. 
+        
+            The derivation of the error is left up to the implemented code. Symmetric error will be
+            expected ($/pm$ error).  
+        </doc>
       </field>
     </group>
 
