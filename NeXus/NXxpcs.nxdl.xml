@@ -217,7 +217,7 @@
       </field>
       <field name="g2_from_two_time_corr_func" type="NX_NUMBER" units="NX_ARBITRARY_UNITS" minOccurs="0" maxOccurs="1">
         <doc>
-          weighted average along the diagonal direction in ``two_time_corr_func``
+          frame weighted average along the diagonal direction in ``two_time_corr_func``
 
           The data should be in one of the following two formats:
             <list type="bullet">
@@ -227,6 +227,9 @@
               <item>
                 <description>2D array with shape ($g_2$, q) </description>
               </item>
+
+            Note that delay_difference is not included here because it is derived from the shape of
+            extrated $g_2$.
             
           **QUESTION** How do we deal with diagonal? Require inclusion (and leave to "fitter"
             to elminate it from exponential fit), require exclusion, allow for either with additional 
@@ -248,7 +251,7 @@
       </field>
       <field name="g2_from_two_time_corr_func_partials" type="NX_NUMBER" units="NX_ARBITRARY_UNITS" minOccurs="0" maxOccurs="1">
         <doc>
-          subset of weighted average along the diagonal direction in ``two_time_corr_func``
+          subset of frame weighted average along the diagonal direction in ``two_time_corr_func``
 
           Time slicing along the diagonal can be very sophisticated.  This entry currently assumes 
           equal frame-binning. The expected data formats are **VERY UNCERTAIN HERE AND NEED FEEDBACK**:
@@ -260,6 +263,9 @@
                 <description>3D array with shape ($g_2$, q, frame_binned_group) </description>
               </item>
 
+          Note that delay_difference is not included here because it is derived from the shape of
+          extrated $g_2$.
+            
           **QUESTION** Do we want a simple illustration of a two-time with markings showing bin boundaries?
         </doc>
         <attribute name="baseline_reference" type="NX_INT">
