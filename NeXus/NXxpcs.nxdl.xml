@@ -156,7 +156,6 @@
       The results in this section are higher order intensity correlations or are lower dimensional correlations
       derived from the intensity time-time correlation function (aka the two-time correlation function).
     </doc>
-      <!-- TODO: needs documentation -->
       <field name="two_time_corr_func" type="NX_NUMBER" units="NX_ANY" minOccurs="0" maxOccurs="1">
         <doc>
           two-time correlation of speckle intensity for a given q-bin or roi
@@ -385,7 +384,6 @@
     </group>
   
     <group type="NXsample" name="sample" minOccurs="0">
-      <!-- TODO: needs documentation -->
       Describes the minimum requirements regarding equilbrium sample conditions. NXsample
       permits other quantities (e.g., applied fields, crystallographic information, name, etc) that 
       may optionally be include for equilibrium conditions (which is not exclusively equilibrium
