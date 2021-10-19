@@ -386,6 +386,13 @@
   
     <group type="NXsample" name="sample" minOccurs="0">
       <!-- TODO: needs documentation -->
+      Describes the minimum requirements regarding equilbrium sample conditions. NXsample
+      permits other quantities (e.g., applied fields, crystallographic information, name, etc) that 
+      may optionally be include for equilibrium conditions (which is not exclusively equilibrium
+      dynamics from XPCS analysis).
+
+      For non-equilibrrium sample conditions (i.e., changing sample or process conditions 
+      during the XPCS measurement) will require either a new entry or an additional atttribute.
       <field name="temperature_set" type="NX_NUMBER" units="NX_TEMPERATURE" minOccurs="0">
         <doc>
           Sample temperature setpoint, (C or K).
@@ -406,7 +413,7 @@
         Region(s) of interest.
 
         NAME: The NeXus convention, to use all upper case
-        to indicate the name (here ``ROI``), is left to the file 
+        to indicate the name (here ``roi``), is left to the file 
         writer.  In our case, follow the suggested name
         pattern and sequence: roi_1, roi_2, roi_3, ...
         Start with ``roi_1`` if the first one, otherwise
