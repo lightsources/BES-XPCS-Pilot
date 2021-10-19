@@ -109,7 +109,8 @@
             Typically, $g_2$ is a quantity calculated for a group of pixels reprenting a specific 
             region of reciprocal space.  These groupings, or bins, are generically desribed as q. Some 
             open-source XPCS librarys refer to these bins as "rois", which are not to be confused with 
-            EPICS AreaDetector ROI. See usage guidelines for q_lists and roi_maps within <a href="/NXxpcs/entry/instrument/masks-group">mask</a>.
+            EPICS AreaDetector ROI. See usage guidelines for q_lists and roi_maps within 
+            <a href="/NXxpcs/entry/instrument/masks-group">mask</a>.
             <!-- TODO: ensure link to mask section on this page works -->
             In short, $g_2$ should be ordered according to the roi_map value. The data should be in one
             of the following two formats:
@@ -120,6 +121,11 @@
               <item>
                 <description>2D array with shape ($g_2$, q) </description>
               </item>
+
+              **QUESTION** enforcing array shape/order seems like a bad idea. NeXus has away to 
+              tag the positions. <a href="https://manual.nexusformat.org/classes/base_classes/NXdata.html#nxdata"> 2Ddata</a>
+            
+              **QUESTIION** should we add an attriibute for data method (list of file links versus arrays)?
 
               **QUESTION** should we add a sketch of g2 plot with error bars, delay_difference, and 
               baseline as an illustratory example?
@@ -208,8 +214,17 @@
       </field>
       <field name="g2_from_two_time_corr_func" type="NX_NUMBER" units="NX_ARBITRARY_UNITS" minOccurs="0" maxOccurs="1">
         <doc>
-          weighted average along the diagonal direction in two_time_corr_func
-          
+          weighted average along the diagonal direction in ``two_time_corr_func``
+
+          The data should be in one of the following two formats:
+            <list type="bullet">
+              <item>
+                <description>iterable list of linked files for each $g_2$ with 1 file per q </description>
+              </item>
+              <item>
+                <description>2D array with shape ($g_2$, q) </description>
+              </item>
+            
           **QUESTION** How do we deal with diagonal? Require inclusion (and leave to "fitter"
             to elminate it from exponential fit), require exclusion, allow for either with additional 
             attribute?  We will appply this consistently to ``g2_from_two_time_corr_func_partials``
@@ -229,7 +244,21 @@
         </attribute>
       </field>
       <field name="g2_from_two_time_corr_func_partials" type="NX_NUMBER" units="NX_ARBITRARY_UNITS" minOccurs="0" maxOccurs="1">
-        <doc>subset of sum across diagonals in two_time_corr_func</doc>
+        <doc>
+          subset of weighted average along the diagonal direction in ``two_time_corr_func``
+
+          Time slicing along the diagonal can be very sophisticated.  This entry currently assumes 
+          equal frame-binning. The expected data formats are **VERY UNCERTAIN HERE AND NEED FEEDBACK**:
+            <list type="bullet">
+              <item>
+                <description>iterable list of linked files for each parial $g_2$ with 1 file per q </description>
+              </item>
+              <item>
+                <description>3D array with shape ($g_2$, q, frame_binned_group) </description>
+              </item>
+
+          **QUESTION** Do we want a simple illustration of a two-time with markings showing bin boundaries?
+        </doc>
         <attribute name="baseline_reference" type="NX_INT">
           <doc>
             baseline is the expected value of a full decorrelation
