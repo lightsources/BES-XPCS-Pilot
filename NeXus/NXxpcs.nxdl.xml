@@ -195,7 +195,10 @@
           defintion. Some of these normalization methods result in a baseline value of ``0``, not ``1``.
 
           **QUESTION** do we want to enforce lower left for origin? is this okay if the two-time 
-          origin is not consistent with the image origin?
+          origin is not consistent with the image origin? We will add an example 2time
+
+          **QUESTION** 8ID data has only half populated 2time (to save on data).  Seems we need
+          an attribute for this as well.
 
 
         </doc>
@@ -317,6 +320,11 @@
         
           Additionally, all but ``frame_time`` are inhereited from NXdetector. ``frame_time`` is used to 
           convert ``delay_difference`` to seconds.  
+
+          **QUESTION** It seems this top-left is matplotlib default and informal convention of AreaDetector.
+          However, in reading the CXI documentation, top-left is the example in Fig 11. Fig 12 shows
+          it is perspective dependant. We need to make a decision here - do we always convert or do
+          we add attributes that allows someone to convert to CXI format (speckle oversampling for single frame CDI)
         </doc>
         <field name="description">
           <doc>Detector name.</doc>
