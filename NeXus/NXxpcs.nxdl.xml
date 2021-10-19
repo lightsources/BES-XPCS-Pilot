@@ -121,8 +121,8 @@
                 <description>2D array with shape ($g_2$, q) </description>
               </item>
 
-              **QUESTION** should we add a sketch of g2 plot with error bars and delay_difference as 
-              an illustratory example?
+              **QUESTION** should we add a sketch of g2 plot with error bars, delay_difference, and 
+              baseline as an illustratory example?
 
               **QUESTION** should we talk more about expected length of data (we have not length 
               consistency checks).  These checks are probably up to developers, but by docummenting
