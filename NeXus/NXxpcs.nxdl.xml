@@ -254,7 +254,8 @@
           subset of frame weighted average along the diagonal direction in ``two_time_corr_func``
 
           Time slicing along the diagonal can be very sophisticated.  This entry currently assumes 
-          equal frame-binning. The expected data formats are **VERY UNCERTAIN HERE AND NEED FEEDBACK**:
+          equal frame-binning. The expected data formats are **VERY UNCERTAIN HERE AND NEED FEEDBACK, but 
+          maybe this isnt a problem if we allow for customization (e.g., NXdata 2Ddata decorators)**:
             <list type="bullet">
               <item>
                 <description>iterable list of linked files for each parial $g_2$ with 1 file per q </description>
