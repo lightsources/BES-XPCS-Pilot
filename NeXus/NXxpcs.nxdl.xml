@@ -38,16 +38,16 @@
   <doc>
     X-ray Photon Correlation Spectroscopy (XPCS) data (results).
 
-    The purpose of NXxpcs is to document and communicate an accepted vanacular for various XPCS data 
+    The purpose of NXxpcs is to document and communicate an accepted vanacular for various XPCS data
     in order to suppport development of community software tools.  The definition presented here only
-    represents a starting point and contains fields that a common software tool should support for 
+    represents a starting point and contains fields that a common software tool should support for
     community acceptance.
 
-    Additional fields may be added to XPCS results file (forrmally or informally).  It is expected 
-    that this XPCS data will be part of multi-modal data set that could involve e.g. NXcansas or 
+    Additional fields may be added to XPCS results file (forrmally or informally).  It is expected
+    that this XPCS data will be part of multi-modal data set that could involve e.g. NXcansas or
     1D and/or 2D data.
 
-    **QUESTION** it seems we are missing the "average" image. was this intensional?  
+    **QUESTION** it seems we are missing the "average" image. was this intensional?
   </doc>
   <group type="NXentry" name="entry">
     <field name="definition">
@@ -103,44 +103,43 @@
       <field name="g2" type="NX_NUMBER" units="NX_ARBITRARY_UNITS" minOccurs="0" maxOccurs="1">
         <doc>
             normalized intensity auto-correlation function, see Lumma, Rev. Sci. Instr. (2000), Eq 1
-            
+
             ..  math:: g_2(Q,t) = \frac{ \langle I(Q,t\prime) I(Q,t|prime = t) \rangle }{ \langle I(Q,t\prime)\rangle^2 }; t > 0
 
-            Typically, $g_2$ is a quantity calculated for a group of pixels reprenting a specific 
-            region of reciprocal space.  These groupings, or bins, are generically desribed as q. Some 
-            open-source XPCS librarys refer to these bins as "rois", which are not to be confused with 
-            EPICS AreaDetector ROI. See usage guidelines for q_lists and roi_maps within 
-            <a href="/NXxpcs/entry/instrument/masks-group">mask</a>.
-            <!-- TODO: ensure link to mask section on this page works -->
-            In short, $g_2$ should be ordered according to the roi_map value. The data should be in one
+            Typically, :math:`g_2` is a quantity calculated for a group of pixels reprenting a specific
+            region of reciprocal space.  These groupings, or bins, are generically desribed as :math:`q`. Some
+            open-source XPCS librarys refer to these bins as "rois", which are not to be confused with
+            EPICS AreaDetector ROI. See usage guidelines for q_lists and roi_maps within a mask.  [#]_
+
+            In short, :math:`g_2` should be ordered according to the roi_map value. The data should be in one
             of the following two formats:
-            <list type="bullet">
-              <item>
-                <description>iterable list of linked files for each $g_2$ with 1 file per q </description>
-              </item>
-              <item>
-                <description>2D array with shape ($g_2$, q) </description>
-              </item>
 
-              **QUESTION** enforcing array shape/order seems like a bad idea. NeXus has away to 
-              tag the positions. <a href="https://manual.nexusformat.org/classes/base_classes/NXdata.html#nxdata"> 2Ddata</a>
-            
-              **QUESTIION** should we add an attriibute for data method (list of file links versus arrays)?
+            * iterable list of linked files for each :math:`g_2` with 1 file per :math:`q`
+            * 2D array with shape (:math:`g_2`, :math:`q`)
 
-              **QUESTION** should we add a sketch of g2 plot with error bars, delay_difference, and 
-              baseline as an illustratory example?
+            **QUESTION** enforcing array shape/order seems like a bad idea. NeXus has a way [#]_ to
+            tag the positions.
 
-              **QUESTION** should we talk more about expected length of data (we have not length 
-              consistency checks).  These checks are probably up to developers, but by docummenting
-              here, maybe this makes it easier?
+            **QUESTION** should we add an attribute for data method (list of file links versus arrays)?
+
+            **QUESTION** should we add a sketch of g2 plot with error bars, delay_difference, and
+            baseline as an illustratory example?
+
+            **QUESTION** should we talk more about expected length of data (we have not length
+            consistency checks).  These checks are probably up to developers, but by docummenting
+            here, maybe this makes it easier?
+
+            .. TODO the next line should cite an anchor on this page about "mask".
+            .. [#] mask: ``/NXxpcs/entry/instrument/masks-group``
+            .. [#] NeXus 2-D data: https://manual.nexusformat.org/classes/base_classes/NXdata.html#nxdata
         </doc>
       </field>
       <field name="g2_derr" type="NX_NUMBER" units="NX_ARBITRARY_UNITS" minOccurs="0" maxOccurs="1">
         <doc>
-            error values for the $g_2$ values. 
-        
+            error values for the :math:`g_2` values.
+
             The derivation of the error is left up to the implemented code. Symmetric error will be
-            expected ($/pm$ error).  The data should be in the same format as ``g2``.
+            expected (:math:`\pm` error).  The data should be in the same format as ``g2``.
         </doc>
       </field>
       <field name="G2_unnormalized" type="NX_NUMBER" units="NX_ARBITRARY_UNITS" minOccurs="0" maxOccurs="1">
@@ -148,13 +147,13 @@
             unnormalized intensity auto-correlation function.
 
             Specifically ``g2`` without the denominator.  The data should be in the same format as ``g2``.
-            
+
         </doc>
       </field>
       <field name="delay_difference" type="NX_INT" units="NX_INT" minOccurs="0" maxOccurs="1">
         <doc>
-          delay_difference (also known as delay or lag step) 
-          
+          delay_difference (also known as delay or lag step)
+
           This is quantized difference so that the "step" between two consecutive
           frames is one frame (or step = dt = 1 frame)
 
@@ -174,27 +173,23 @@
       <field name="two_time_corr_func" type="NX_NUMBER" units="NX_ANY" minOccurs="0" maxOccurs="1">
         <doc>
           two-time correlation of speckle intensity for a given q-bin or roi
-          
-          See Fluerasu, Phys Rev E (2007), Eq 1 and Sutton, Optics Express (2003) for the most basic 
+
+          See Fluerasu, Phys Rev E (2007), Eq 1 and Sutton, Optics Express (2003) for the most basic
           description:
 
           .. math:: C(q, t_1, t_2) = \frac{ \langle I(q, t_1)I(q, t_2)\rangle }{ \langle I(q,t_1)\rangle \langle I(q,t_2)\rangle }
 
-          in which time is quantized by frames. In short, this correlation function should be ordered 
-          according to the q or roi index with the origin of the 2D array at the **lower left**.  The data 
+          in which time is quantized by frames. In short, this correlation function should be ordered
+          according to the q or roi index with the origin of the 2D array at the **lower left**.  The data
           should be in one of the following two formats:
-            <list type="bullet">
-              <item>
-                <description>iterable list of linked files for each q-bin, which is a 2D array.  </description>
-              </item>
-              <item>
-                <description>3D array with shape (frames, frames, q) </description>
-              </item>
 
-          Other normalization methods may be applied, but the method will not be specfied in this 
+          * iterable list of linked files for each q-bin, which is a 2D array.
+          * 3D array with shape (frames, frames, q)
+
+          Other normalization methods may be applied, but the method will not be specfied in this
           defintion. Some of these normalization methods result in a baseline value of ``0``, not ``1``.
 
-          **QUESTION** do we want to enforce lower left for origin? is this okay if the two-time 
+          **QUESTION** do we want to enforce lower left for origin? is this okay if the two-time
           origin is not consistent with the image origin? We will add an example 2time
 
           **QUESTION** 8ID data has only half populated 2time (to save on data).  Seems we need
@@ -206,7 +201,7 @@
           <doc>
             baseline is the expected value of a full decorrelation
 
-            The baseline is a constant value added to the functional form of the auto-correlatiton 
+            The baseline is a constant value added to the functional form of the auto-correlatiton
             function. This value is required.
           </doc>
           <enumeration>
@@ -220,26 +215,22 @@
           frame weighted average along the diagonal direction in ``two_time_corr_func``
 
           The data should be in one of the following two formats:
-            <list type="bullet">
-              <item>
-                <description>iterable list of linked files for each $g_2$ with 1 file per q </description>
-              </item>
-              <item>
-                <description>2D array with shape ($g_2$, q) </description>
-              </item>
+
+          * iterable list of linked files for each :math:`g_2` with 1 file per :math:`q`
+          * 2D array with shape (:math:`g_2`, :math:`q`)
 
             Note that delay_difference is not included here because it is derived from the shape of
-            extrated $g_2$.
-            
+            extracted :math:`g_2`.
+
           **QUESTION** How do we deal with diagonal? Require inclusion (and leave to "fitter"
-            to elminate it from exponential fit), require exclusion, allow for either with additional 
+            to elminate it from exponential fit), require exclusion, allow for either with additional
             attribute?  We will appply this consistently to ``g2_from_two_time_corr_func_partials``
         </doc>
         <attribute name="baseline_reference" type="NX_INT">
           <doc>
             baseline is the expected value of a full decorrelation
 
-            The baseline is a constant value added to the functional form of the auto-correlatiton 
+            The baseline is a constant value added to the functional form of the auto-correlatiton
             function. This value is required.
 
           </doc>
@@ -251,37 +242,33 @@
       </field>
       <field name="g2_err_from_two_time_corr_func" type="NX_NUMBER" units="NX_ARBITRARY_UNITS" minOccurs="0" maxOccurs="1">
         <doc>
-            error values for the $g_2$ values. 
-        
+            error values for the :math:`g_2` values.
+
             The derivation of the error is left up to the implemented code. Symmetric error will be
-            expected ($/pm$ error).  
+            expected (:math:`\pm` error).
         </doc>
       </field>
       <field name="g2_from_two_time_corr_func_partials" type="NX_NUMBER" units="NX_ARBITRARY_UNITS" minOccurs="0" maxOccurs="1">
         <doc>
           subset of frame weighted average along the diagonal direction in ``two_time_corr_func``
 
-          Time slicing along the diagonal can be very sophisticated.  This entry currently assumes 
-          equal frame-binning. The expected data formats are **VERY UNCERTAIN HERE AND NEED FEEDBACK, but 
-          maybe this isnt a problem if we allow for customization (e.g., NXdata 2Ddata decorators)**:
-            <list type="bullet">
-              <item>
-                <description>iterable list of linked files for each parial $g_2$ with 1 file per q </description>
-              </item>
-              <item>
-                <description>3D array with shape ($g_2$, q, frame_binned_group) </description>
-              </item>
+          Time slicing along the diagonal can be very sophisticated.  This entry currently assumes
+          equal frame-binning. The expected data formats are **VERY UNCERTAIN HERE AND NEED FEEDBACK, but
+          maybe this isn't a problem if we allow for customization (e.g., NXdata 2Ddata attributes)**:
+
+          * iterable list of linked files for each parial :math:`g_2` with 1 file per :math:`q`
+          * 3D array with shape (:math:`g_2`, :math:`q`, frame_binned_group)
 
           Note that delay_difference is not included here because it is derived from the shape of
-          extrated $g_2$.
-            
+          extrated :math:`g_2`.
+
           **QUESTION** Do we want a simple illustration of a two-time with markings showing bin boundaries?
         </doc>
         <attribute name="baseline_reference" type="NX_INT">
           <doc>
             baseline is the expected value of a full decorrelation
 
-            The baseline is a constant value added to the functional form of the auto-correlatiton 
+            The baseline is a constant value added to the functional form of the auto-correlatiton
             function. This value is required.
           </doc>
           <enumeration>
@@ -292,10 +279,10 @@
       </field>
       <field name="g2_err_from_two_time_corr_func_partials" type="NX_NUMBER" units="NX_ARBITRARY_UNITS" minOccurs="0" maxOccurs="1">
         <doc>
-            error values for the $g_2$ values. 
-        
+            error values for the :math:`g_2` values.
+
             The derivation of the error is left up to the implemented code. Symmetric error will be
-            expected ($/pm$ error).  
+            expected (:math:`\pm` error).
         </doc>
       </field>
     </group>
@@ -313,7 +300,7 @@
         </field>
         <field name="incident_energy_spread" type="NX_FLOAT" units="NX_ENERGY">
           <doc>
-            Spread of incident beam line energy (either keV or eV). This quantity is otherwise known 
+            Spread of incident beam line energy (either keV or eV). This quantity is otherwise known
             as the energy resolution, which is related to the longitudinal coherence length.
           </doc>
         </field>
@@ -337,12 +324,12 @@
           XPCS data is typically produced by an areadetector as a stack of 2D images. Sometimes
           this data is represented in different ways (sparse arrays or photon event list), but this detail
           is left to the analysis software.  Therefore, we only include We note that the image origin
-          (pixel coordinates (0,0)) are found at the top left of a single 2D image array. This 
-          is the standard expected by  <a href="https://cxidb.org/cxi.html">Coherent X-ray Imaging Data Bank</a>. 
-          See CXI version 1.6 and Maia, Nature Methods (2012). 
-        
-          Additionally, all but ``frame_time`` are inhereited from NXdetector. ``frame_time`` is used to 
-          convert ``delay_difference`` to seconds.  
+          (pixel coordinates (0,0)) are found at the top left of a single 2D image array. This
+          is the standard expected by  <a href="https://cxidb.org/cxi.html">Coherent X-ray Imaging Data Bank</a>.
+          See CXI version 1.6 and Maia, Nature Methods (2012).
+
+          Additionally, all but ``frame_time`` are inhereited from NXdetector. ``frame_time`` is used to
+          convert ``delay_difference`` to seconds.
 
           **QUESTION** It seems this top-left is matplotlib default and informal convention of AreaDetector.
           However, in reading the CXI documentation, top-left is the example in Fig 11. Fig 12 shows
@@ -387,20 +374,20 @@
 
       <group type="NXnote" name="masks" minOccurs="0" maxOccurs="1">
           <doc>
-              Data masks or mappings to regions of interest (roi) for specific $Q$ values
+              Data masks or mappings to regions of interest (roi) for specific :math:`Q` values
 
               Fields in this ``masks`` group describe regions of interest
               in the data by either a mask to select pixels or to associate
               a *map* of ROIs with a (one-dimensional) *list* of values.
 
-              "roi_maps" provide for represention of pixel binning that are arbitrary and irregular, 
+              "roi_maps" provide for represention of pixel binning that are arbitrary and irregular,
               which is geometry scattering agnostic and most flexible.
 
-              "Dynamic" represents quantities directly related to XPCS and NXxcps/entry/data and 
-              NXxpcs/entry/two_time.  
-              
+              "Dynamic" represents quantities directly related to XPCS and NXxcps/entry/data and
+              NXxpcs/entry/two_time.
+
               "Static" refers to finerbinning used for computation not directly related to the final
-              XPCS results. Implementation of "static" binning is left for individual libraries to 
+              XPCS results. Implementation of "static" binning is left for individual libraries to
               document.  We encouurage usage of NXcansas to represent standard SAXS results or
               developmnet of new NeXus defintions for GI-SAXS or other reciprocal space
               intensity mapping.
@@ -409,8 +396,8 @@
             <doc>
             roi index array or labeled array
 
-            The values of this mask index (or map to) the $Q$ value from the
-            the ``dynamic_q_list`` field. Not that the value of ``0`` represents in-action. XPCS compuatations 
+            The values of this mask index (or map to) the :math:`Q` value from the
+            the ``dynamic_q_list`` field. Not that the value of ``0`` represents in-action. XPCS compuatations
             are performed on all pixels with a value > 0.
 
             The ``units`` attribute should be set to ``"au"``
@@ -419,26 +406,20 @@
           </field>
           <field name="dynamic_q_list" type="NX_NUMBER" units="NX_PER_LENGTH" minOccurs="0">
             <doc>
-            1-D list of $Q$ values, one for each roi index value.
+            1-D list of :math:`Q` values, one for each roi index value.
 
             List order is determined by the index value of the associated roi map starting at ``1``.
 
             The only requirement for the list is that it may be iterable. Some expected formats are:
-            <list type="bullet">
-              <item>
-                <description>iterable list of floats (i.e., $Q(r)$) </description>
-              </item>
-              <item>
-                <description>iterable list of tuples (e.g., (H, K, L); (qx, qy, qz); (horizontal_pixel, vertical_pixel)) </description>
-              </item>
-              <item>
-                <description>iterable list of integers or strings  </description>
-              </item>
+
+            * iterable list of floats (i.e., :math:`Q(r)`)
+            * iterable list of tuples (e.g., (H, K, L); (qx, qy, qz); (horizontal_pixel, vertical_pixel))
+            * iterable list of integers or strings
             </doc>
           </field>
           <field name="dynamic_phi_list" type="NX_NUMBER" units="NX_PER_LENGTH" minOccurs="0">
             <doc>
-            Array of $\varphi$ value for each pixel. 
+            Array of :math:`\varphi` value for each pixel.
 
             List order is determined by the index value of the associated roi map starting at ``1``.
             </doc>
@@ -447,7 +428,7 @@
             <doc>
             roi index array.
 
-            The values of this mask index the $|Q|$ value from the
+            The values of this mask index the :math:`|Q|` value from the
             the ``static_q_list`` field.
 
             The ``units`` attribute should be set to ``"au"``
@@ -456,19 +437,19 @@
           </field>
           <field name="static_q_list" type="NX_NUMBER" units="NX_PER_LENGTH">
             <doc>
-            1-D list of $|Q|$ values, 1 for each ROI.
+            1-D list of :math:`|Q|` values, 1 for each ROI.
             </doc>
           </field>
       </group>
     </group>
-  
+
     <group type="NXsample" name="sample" minOccurs="0">
       Describes the minimum requirements regarding equilbrium sample conditions. NXsample
-      permits other quantities (e.g., applied fields, crystallographic information, name, etc) that 
+      permits other quantities (e.g., applied fields, crystallographic information, name, etc) that
       may optionally be include for equilibrium conditions (which is not exclusively equilibrium
       dynamics from XPCS analysis).
 
-      For non-equilibrrium sample conditions (i.e., changing sample or process conditions 
+      For non-equilibrrium sample conditions (i.e., changing sample or process conditions
       during the XPCS measurement) will require either a new entry or an additional atttribute.
       <field name="temperature_set" type="NX_NUMBER" units="NX_TEMPERATURE" minOccurs="0">
         <doc>
@@ -490,7 +471,7 @@
         Region(s) of interest.
 
         NAME: The NeXus convention, to use all upper case
-        to indicate the name (here ``roi``), is left to the file 
+        to indicate the name (here ``roi``), is left to the file
         writer.  In our case, follow the suggested name
         pattern and sequence: roi_1, roi_2, roi_3, ...
         Start with ``roi_1`` if the first one, otherwise
@@ -503,7 +484,7 @@
         Any other notes.
 
         NAME: The NeXus convention, to use all upper case
-        to indicate the name (here ``NOTE``), is left to the file 
+        to indicate the name (here ``NOTE``), is left to the file
         writer.  In our case, follow the suggested name
         pattern and sequence: note_1, note_2, note_3, ...
         Start with ``note_1`` if the first one, otherwise
