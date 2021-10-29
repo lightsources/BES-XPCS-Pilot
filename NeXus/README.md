@@ -3,7 +3,7 @@
 `NXxpcs` describes the structure of a NeXus/HDF5 datafile used to
 describe XPCS results computed by software external (to the [Bluesky
 framework](https://blueskyproject.io/)) and to import those results into
-Bluesky for visualization and other activities. Additionally, any independant 
+Bluesky for visualization and other activities. Additionally, any independent 
 project that wishes to support the XPCS community may use this definition as
 a minimum requirements guide to building a more universal tool.
 

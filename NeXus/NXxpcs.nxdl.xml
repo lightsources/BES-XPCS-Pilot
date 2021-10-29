@@ -38,7 +38,7 @@
   <doc>
     X-ray Photon Correlation Spectroscopy (XPCS) data (results).
 
-    The purpose of NXxpcs is to document and communicate an accepted vanacular for various XPCS data
+    The purpose of NXxpcs is to document and communicate an accepted vernacular for various XPCS data
     in order to suppport development of community software tools.  The definition presented here only
     represents a starting point and contains fields that a common software tool should support for
     community acceptance.
@@ -47,7 +47,7 @@
     that this XPCS data will be part of multi-modal data set that could involve e.g. NXcansas or
     1D and/or 2D data.
 
-    **QUESTION** it seems we are missing the "average" image. was this intensional?
+    **QUESTION** it seems we are missing the "average" image. was this intentional?
   </doc>
   <group type="NXentry" name="entry">
     <field name="definition">
@@ -397,7 +397,7 @@
             roi index array or labeled array
 
             The values of this mask index (or map to) the :math:`Q` value from the
-            the ``dynamic_q_list`` field. Not that the value of ``0`` represents in-action. XPCS compuatations
+            the ``dynamic_q_list`` field. Not that the value of ``0`` represents in-action. XPCS computations
             are performed on all pixels with a value > 0.
 
             The ``units`` attribute should be set to ``"au"``
