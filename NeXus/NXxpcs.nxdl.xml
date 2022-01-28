@@ -38,16 +38,16 @@
   <doc>
     X-ray Photon Correlation Spectroscopy (XPCS) data (results).
 
-    The purpose of NXxpcs is to document and communicate an accepted vernacular for various XPCS data
+    The purpose of ``NXxpcs`` is to document and communicate an accepted vernacular for various XPCS data
     in order to suppport development of community software tools.  The definition presented here only
     represents a starting point and contains fields that a common software tool should support for
     community acceptance.
 
-    Additional fields may be added to XPCS results file (forrmally or informally).  It is expected
+    Additional fields may be added to XPCS results file (either formally or informally).  It is expected
     that this XPCS data will be part of multi-modal data set that could involve e.g. NXcansas or
     1D and/or 2D data.
 
-    **QUESTION** it seems we are missing the "average" image. was this intentional?
+    **QUESTION** it seems we are missing the "average" image. Was this intentional?
   </doc>
   <group type="NXentry" name="entry">
     <field name="definition">
@@ -223,7 +223,7 @@
             extracted :math:`g_2`.
 
           **QUESTION** How do we deal with diagonal? Require inclusion (and leave to "fitter"
-            to elminate it from exponential fit), require exclusion, allow for either with additional
+            to eliminate it from exponential fit), require exclusion, allow for either with additional
             attribute?  We will appply this consistently to ``g2_from_two_time_corr_func_partials``
         </doc>
         <attribute name="baseline_reference" type="NX_INT">
