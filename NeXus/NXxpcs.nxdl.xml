@@ -449,7 +449,10 @@
             Position of beam center, y axis, in detector's coordinates.
           </doc>
         </field>
-        <field name="x_pixel_size" type="NX_NUMBER" units="NX_LENGTH" minOccurs="0" maxOccurs="1"> #made this optional in case of single photon xy-time lists
+        <field name="x_pixel_size" type="NX_NUMBER" units="NX_LENGTH" minOccurs="0" maxOccurs="1">
+          <!--
+            made this optional in case of single photon xy-time lists
+          -->
           <doc>
             Length of pixel in x direction.
           </doc>
@@ -537,6 +540,7 @@
     </group>
 
     <group type="NXsample" name="sample" minOccurs="0">
+    <!--
       Describes the minimum requirements regarding equilibrium sample conditions. NXsample
       permits other quantities (e.g., applied fields, crystallographic information, name, etc) that
       may optionally be include for equilibrium conditions (which is not exclusively equilibrium
@@ -544,6 +548,7 @@
 
       For non-equilibrium sample conditions (i.e., changing sample or process conditions
       during the XPCS measurement) will require either a new entry or an additional atttribute.
+      -->
       <field name="temperature_set" type="NX_NUMBER" units="NX_TEMPERATURE" minOccurs="0">
         <doc>
           Sample temperature setpoint, (C or K).
