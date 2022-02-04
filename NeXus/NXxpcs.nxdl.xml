@@ -85,7 +85,7 @@
 
     <group type="NXdata" name="data">
       <doc>
-        The results data captured here are most commonly required for high throughput, equilibrium dynamics experiments. Data (results) 
+        The results data captured here are most commonly required for high throughput, equilibrium dynamics experiments. Data (results)
         describing on-equilibrium dynamics consume more memory resources so these data are separated.
       </doc>
       <field name="frame_sum" type="NX_NUMBER" units="NX_COUNT" minOccurs="0" maxOccurs="1">
@@ -113,15 +113,15 @@
             open-source XPCS libraries refer to these bins as "rois", which are not to be confused with
             EPICS AreaDetector ROI. See usage guidelines for q_lists and roi_maps within a mask.  [#]_
 
-            In short, :math:`g_2` should be ordered according to the roi_map value.  In principle, any format is acceptable if 
+            In short, :math:`g_2` should be ordered according to the roi_map value.  In principle, any format is acceptable if
             the data and its axes are self-describing as per NeXus recommendations. However, the data is preferred in one
             of the following two formats:
 
             * iterable list of linked files (or keys) for each :math:`g_2` with 1 file (key) per :math:`q`, where `q` is called by the nth roi_map value
             * 2D array [#]_ with shape (:math:`g_2`, :math:`q`), where `q` is represented by the nth roi_map value, not the value `q` value
 
-            Note it is expected that "g2" and all quantities following it will be of the same length. 
-            
+            Note it is expected that "g2" and all quantities following it will be of the same length.
+
             Other formats are acceptable with sufficient axes description.
 
             See references below for related implementation information:
@@ -138,7 +138,7 @@
             * data exchange format with each key representing one ``q`` by its corresponding roi_map value ("data_exchange_keys")
           </doc>
           <enumeration>
-            <item value="one_array"/> 
+            <item value="one_array"/>
             <item value="data_exchange_keys"/>
             <item value="other"/>
           </enumeration>
@@ -153,7 +153,7 @@
         </doc>
         <attribute name="storage_mode" type="NX_CHAR">
           <enumeration>
-            <item value="one_array"/> 
+            <item value="one_array"/>
             <item value="data_exchange_keys"/>
             <item value="other"/>
           </enumeration>
@@ -168,7 +168,7 @@
         </doc>
         <attribute name="storage_mode" type="NX_CHAR">
           <enumeration>
-            <item value="one_array"/> 
+            <item value="one_array"/>
             <item value="data_exchange_keys"/>
             <item value="other"/>
           </enumeration>
@@ -188,7 +188,7 @@
         </doc>
         <attribute name="storage_mode" type="NX_CHAR">
           <enumeration>
-            <item value="one_array"/> 
+            <item value="one_array"/>
             <item value="data_exchange_keys"/>
             <item value="other"/>
           </enumeration>
@@ -202,16 +202,16 @@
     </doc>
       <field name="two_time_corr_func" type="NX_NUMBER" units="NX_ANY" minOccurs="0" maxOccurs="1">
         <doc>
-          two-time correlation of speckle intensity for a given q-bin or roi (represented by the nth roi_map value) 
+          two-time correlation of speckle intensity for a given q-bin or roi (represented by the nth roi_map value)
 
           See Fluerasu, Phys Rev E (2007), Eq 1 and Sutton, Optics Express (2003) for an early
           description applied to X-ray scattering:
 
           .. math:: C(\boldsymbol Q, t_1, t_2) = \frac{ \langle I(\boldsymbol Q, t_1)I(\boldsymbol Q, t_2)\rangle }{ \langle I(\boldsymbol Q,t_1)\rangle \langle I(\boldsymbol Q,t_2)\rangle }
 
-          in which time is quantized by frames. In principle, any data format is acceptable if  
+          in which time is quantized by frames. In principle, any data format is acceptable if
           the data and its axes are self-describing as per NeXus recommendations. However, the data is preferred in one
-          of the following two formats: 
+          of the following two formats:
 
           * iterable list of linked files (or keys) for each q-bin called by the nth roi_map value. data for each bin is a 2D array
           * 3D array with shape (frames, frames, q) or (q, frames, frames), where :math:`q` is represented by the nth roi_map value, not the value `q` value
@@ -223,7 +223,7 @@
           * Other normalization methods may be applied, but the method will not be specified in this
           definition. Some of these normalization methods result in a baseline value of ``0``, not ``1``.
 
-          * The various software libraries use different programming languages.  Therefore, we need to 
+          * The various software libraries use different programming languages.  Therefore, we need to
           specify the ``time = 0`` origin location of the 2D array for each :math:`q`.
 
           * A method to reduce data storage needs is to only record half of the 2D array by populating
@@ -238,8 +238,8 @@
             We encourage the documention of other formats represented here.
           </doc>
           <enumeration>
-            <item value="one_array_q_first"/> 
-            <item value="one_array_q_last"/> 
+            <item value="one_array_q_first"/>
+            <item value="one_array_q_last"/>
             <item value="data_exchange_keys"/>
             <item value="other"/>
           </enumeration>
@@ -258,7 +258,7 @@
         </attribute>
         <attribute name="time_origin_location" type="NX_CHAR">
           <doc>
-            time_origin_location is the location of the origin 
+            time_origin_location is the location of the origin
           </doc>
           <enumeration>
             <item value="upper_left"/>
@@ -294,8 +294,8 @@
         </doc>
         <attribute name="storage_mode" type="NX_CHAR">
           <enumeration>
-            <item value="one_array_q_first"/> 
-            <item value="one_array_q_last"/> 
+            <item value="one_array_q_first"/>
+            <item value="one_array_q_last"/>
             <item value="data_exchange_keys"/>
             <item value="other"/>
           </enumeration>
@@ -308,7 +308,7 @@
         </attribute>
         <attribute name="first_point_for_fit" type="NX_INT">
           <doc>
-            first_point_for_fit describes if the first point should or should not be used in fitting the functional form of the dynamics to extract quantitative time-scale information.  
+            first_point_for_fit describes if the first point should or should not be used in fitting the functional form of the dynamics to extract quantitative time-scale information.
 
             The first_point_for_fit is True ("1") or False ("0"). This value is required.
           </doc>
@@ -327,8 +327,8 @@
         </doc>
         <attribute name="storage_mode" type="NX_CHAR">
           <enumeration>
-            <item value="one_array_q_first"/> 
-            <item value="one_array_q_last"/> 
+            <item value="one_array_q_first"/>
+            <item value="one_array_q_last"/>
             <item value="data_exchange_keys"/>
             <item value="other"/>
           </enumeration>
@@ -339,9 +339,9 @@
           subset of frame weighted average along the diagonal direction in ``two_time_corr_func``
 
           Time slicing along the diagonal can be very sophisticated.  This entry currently assumes
-          equal frame-binning. The data formats are highly dependent on the implantation of various analysis libraries.  
-          In principle, any data format is acceptable if the data and its axes are self describing as per NeXus 
-          recommendations. However, the data is preferred in one of the following two formats: 
+          equal frame-binning. The data formats are highly dependent on the implantation of various analysis libraries.
+          In principle, any data format is acceptable if the data and its axes are self describing as per NeXus
+          recommendations. However, the data is preferred in one of the following two formats:
 
           * iterable list of linked files (or keys) for each partial :math:`g_2` of each q-bin represented by the roi_map value
           * 3D array with shape (:math:`g_2`, :math:`q`, nth_partial)
@@ -352,7 +352,7 @@
         </doc>
         <attribute name="storage_mode" type="NX_CHAR">
           <enumeration>
-            <item value="one_array"/> 
+            <item value="one_array"/>
             <item value="data_exchange_keys"/>
             <item value="other"/>
           </enumeration>
@@ -411,16 +411,16 @@
         <doc>
           XPCS data is typically produced by area detector (likely EPICS AreaDetector) as a stack of 2D images. Sometimes
           this data is represented in different ways (sparse arrays or photon event list), but this detail
-          is left to the analysis software.  Therefore, we only include requirements based on full array data. 
-          
+          is left to the analysis software.  Therefore, we only include requirements based on full array data.
+
           We note that the image origin (pixel coordinates (0,0)) are found at the top left of a single 2D image array. This
           is the standard expected by Coherent X-ray Imaging Data Bank. [#]_
           See CXI version 1.6 and Maia, Nature Methods (2012).  This seems to be consistent with matplotlib and
-          the practiced implementation of EPICS AreaDetector.  However, some exceptions may exists in the CXI 
+          the practiced implementation of EPICS AreaDetector.  However, some exceptions may exists in the CXI
           documentation (See Fig 11 vs Fig 12).
 
           Additionally, not all NXdetector dependencies are inherited from AreaDetector or other control systems. ``frame_time`` is used to
-          convert ``delay_difference`` to seconds.  ``frame_time`` field could be missing from AreaDetector or may 
+          convert ``delay_difference`` to seconds.  ``frame_time`` field could be missing from AreaDetector or may
           either be `acquire_period` or `acquire_time`, depending on the detector model and the local implementation.
 
           .. [#] Coherent X-ray Imaging Data Bank: https://cxidb.org/cxi.html
@@ -466,7 +466,7 @@
 
       <group type="NXnote" name="masks" minOccurs="0" maxOccurs="1">
           <doc>
-              Data masks or mappings to regions of interest (roi) for specific :math:`Q` values 
+              Data masks or mappings to regions of interest (roi) for specific :math:`Q` values
 
               Fields in this ``masks`` group describe regions of interest
               in the data by either a mask to select pixels or to associate
@@ -509,7 +509,7 @@
             * iterable list of tuples (e.g., (H, K, L); (qx, qy, qz); (horizontal_pixel, vertical_pixel))
             * iterable list of integers (for Nth roi_map value) or strings
 
-            This format is chosen because results plotting packages are not common and simple I/O is required by end user.  
+            This format is chosen because results plotting packages are not common and simple I/O is required by end user.
             The lists can be accessed as lists, arrays or via keys
             </doc>
           </field>
@@ -533,7 +533,7 @@
           </field>
           <field name="static_q_list" type="NX_NUMBER" units="NX_PER_LENGTH" minOccurs="0">
             <doc>
-            1-D list of :math:`|Q|` values, 1 for each roi.  
+            1-D list of :math:`|Q|` values, 1 for each roi.
             </doc>
           </field>
       </group>
