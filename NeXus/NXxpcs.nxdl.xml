@@ -44,9 +44,8 @@
     community acceptance.
 
     Additional fields may be added to XPCS results file (either formally or informally).  It is expected
-    that this XPCS data will be part of multi-modal data set that could involve e.g., NXcansas or
+    that this XPCS data will be part of multi-modal data set that could involve e.g., :ref:`NXcanSAS` or
     1D and/or 2D data.
-
   </doc>
   <group type="NXentry" name="entry">
     <field name="definition">
@@ -73,12 +72,12 @@
         NOTE: Link to collection_identifier.
       </doc>
     </field>
-    <field name="start_time" type="NX_NUMBER" units="NX_DATE_TIME">
+    <field name="start_time" type="NX_DATE_TIME">
       <doc>
         Starting time of experiment, such as "2021-02-11 11:22:33.445566Z".
       </doc>
     </field>
-    <field name="end_time" type="NX_NUMBER" units="NX_DATE_TIME" minOccurs="0" maxOccurs="1">
+    <field name="end_time" type="NX_DATE_TIME" minOccurs="0" maxOccurs="1">
       <doc>
         Ending time of experiment, such as "2021-02-11 11:23:45Z".
       </doc>
@@ -87,7 +86,7 @@
     <group type="NXdata" name="data">
       <doc>
         The results data captured here are most commonly required for high throughput, equilibrium dynamics experiments. Data (results) 
-        describing on-equilibrium dynamics consume more memoery resources so these data are seperated.
+        describing on-equilibrium dynamics consume more memory resources so these data are separated.
       </doc>
       <field name="frame_sum" type="NX_NUMBER" units="NX_COUNT" minOccurs="0" maxOccurs="1">
         <doc>
@@ -119,14 +118,14 @@
             of the following two formats:
 
             * iterable list of linked files (or keys) for each :math:`g_2` with 1 file (key) per :math:`q`, where `q` is called by the nth roi_map value
-            * 2D array with shape (:math:`g_2`, :math:`q`), where `q` is represented by the nth roi_map value, not the value `q` value
+            * 2D array [#]_ with shape (:math:`g_2`, :math:`q`), where `q` is represented by the nth roi_map value, not the value `q` value
 
             Note it is expected that "g2" and all quantities following it will be of the same length. 
             
             Other formats are acceptable with sufficient axes description.
 
             See references below for related implementation information:
-            .. [#] mask: ``/NXxpcs/entry/instrument/masks-group``
+            .. [#] mask: ``NXxpcs:/entry/instrument/masks-group``
             .. [#] NeXus 2-D data and axes: https://manual.nexusformat.org/classes/base_classes/NXdata.html#nxdata
         </doc>
         <attribute name="storage_mode" type="NX_CHAR">
@@ -134,8 +133,9 @@
             storage_mode describes the format of the data to be loaded
 
             We encourage the documentation of other formats not represented here.
+
             * one array representing entire data set ("one_array")
-            * data exchange format with each key representing 1 `q` by its corresponding roi_map value ("data_exchange_keys")
+            * data exchange format with each key representing one ``q`` by its corresponding roi_map value ("data_exchange_keys")
           </doc>
           <enumeration>
             <item value="one_array"/> 
@@ -179,12 +179,12 @@
           delay_difference (also known as delay or lag step)
 
           This is quantized difference so that the "step" between two consecutive
-          frames is one frame (or step = dt = 1 frame)
+          frames is one frame (or step ``= dt = 1 frame``)
 
           It is the "quantized" delay time corresponding to the ``g2`` values.
 
-          The unit of delay_differences is NX_INT for units of frames (i.e., integers) preferred,
-          refer to NXdetector for conversion to time units. <!-- TODO make links for NX_INT and NXdetector -->
+          The unit of delay_differences is :ref:`NX_INT` for units of frames (i.e., integers) preferred,
+          refer to :ref:`NXdetector` for conversion to time units.
         </doc>
         <attribute name="storage_mode" type="NX_CHAR">
           <enumeration>
@@ -224,7 +224,7 @@
           definition. Some of these normalization methods result in a baseline value of ``0``, not ``1``.
 
           * The various software libraries use different programming languages.  Therefore, we need to 
-          specify the time = 0 origin location of the 2D array for each :math:`q`.
+          specify the ``time = 0`` origin location of the 2D array for each :math:`q`.
 
           * A method to reduce data storage needs is to only record half of the 2D array by populating
           array elements above or below the array diagonal.
@@ -413,9 +413,8 @@
           this data is represented in different ways (sparse arrays or photon event list), but this detail
           is left to the analysis software.  Therefore, we only include requirements based on full array data. 
           
-          <!-- #TODO pete, please check link rendering, i think i fixed it.  -->
           We note that the image origin (pixel coordinates (0,0)) are found at the top left of a single 2D image array. This
-          is the standard expected by  <a> href="https://cxidb.org/cxi.html" Coherent X-ray Imaging Data Bank</a>.
+          is the standard expected by Coherent X-ray Imaging Data Bank. [#]_
           See CXI version 1.6 and Maia, Nature Methods (2012).  This seems to be consistent with matplotlib and
           the practiced implementation of EPICS AreaDetector.  However, some exceptions may exists in the CXI 
           documentation (See Fig 11 vs Fig 12).
@@ -424,6 +423,7 @@
           convert ``delay_difference`` to seconds.  ``frame_time`` field could be missing from AreaDetector or may 
           either be `acquire_period` or `acquire_time`, depending on the detector model and the local implementation.
 
+          .. [#] Coherent X-ray Imaging Data Bank: https://cxidb.org/cxi.html
         </doc>
         <field name="description" minOccurs="0" maxOccurs="1">
           <doc>Detector name.</doc>
@@ -479,8 +479,8 @@
               NXxpcs/entry/two_time.
 
               "Static" refers to finer binning used for computation not strictly used for the final
-              XPCS results. Implementation of "static" binning is left for individual libraries to
-              document.  We encourage usage of NXcansas to represent standard SAXS results or
+              XPCS results. Implementation of _static_ binning is left for individual libraries to
+              document.  We encourage usage of :ref:`NXcanSAS` to represent standard SAXS results or
               development of new NeXus definitions for GI-SAXS or other reciprocal space
               intensity mapping.
           </doc>
