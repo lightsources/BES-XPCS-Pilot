@@ -125,6 +125,7 @@
             Other formats are acceptable with sufficient axes description.
 
             See references below for related implementation information:
+
             .. [#] mask: ``NXxpcs:/entry/instrument/masks-group``
             .. [#] NeXus 2-D data and axes: https://manual.nexusformat.org/classes/base_classes/NXdata.html#nxdata
         </doc>
@@ -183,7 +184,7 @@
 
           It is the "quantized" delay time corresponding to the ``g2`` values.
 
-          The unit of delay_differences is :ref:`NX_INT` for units of frames (i.e., integers) preferred,
+          The unit of delay_differences is ``NX_INT`` for units of frames (i.e., integers) preferred,
           refer to :ref:`NXdetector` for conversion to time units.
         </doc>
         <attribute name="storage_mode" type="NX_CHAR">
@@ -221,13 +222,13 @@
           following attributes will be used to manage the customization.
 
           * Other normalization methods may be applied, but the method will not be specified in this
-          definition. Some of these normalization methods result in a baseline value of ``0``, not ``1``.
+            definition. Some of these normalization methods result in a baseline value of ``0``, not ``1``.
 
           * The various software libraries use different programming languages.  Therefore, we need to
-          specify the ``time = 0`` origin location of the 2D array for each :math:`q`.
+            specify the ``time = 0`` origin location of the 2D array for each :math:`q`.
 
           * A method to reduce data storage needs is to only record half of the 2D array by populating
-          array elements above or below the array diagonal.
+            array elements above or below the array diagonal.
 
 
         </doc>
@@ -285,8 +286,8 @@
           * iterable list of linked files for each :math:`g_2` with 1 file per :math:`q`
           * 2D array with shape (:math:`g_2`, :math:`q`)
 
-            Note that delay_difference is not included here because it is derived from the shape of
-            extracted :math:`g_2` because all frames are considered, which is not necessarily the case for :math:``g_2`.
+          Note that delay_difference is not included here because it is derived from the shape of
+          extracted :math:`g_2` because all frames are considered, which is not necessarily the case for :math:`g_2`.
 
           The computation of this result can be customized.  The customization can affect the fitting required to extract quantitative results.  The
           following attributes will be used to manage the customization.
@@ -566,7 +567,7 @@
 
     <group type="NXnote" name="ROI" minOccurs="0" maxOccurs="unbounded">
       <doc>
-        **THIS FIELD IS SCHEDULED FOR DELETION on or about March 1, 2022. ** Contact abarbour@bnl.gov or jemian@anl.gov to object.
+        **THIS FIELD IS SCHEDULED FOR DELETION on or about March 1, 2022.** Contact abarbour@bnl.gov or jemian@anl.gov to object.
 
         Region(s) of interest.
 
